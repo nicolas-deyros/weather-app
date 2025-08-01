@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 
 describe('Frontend Integration Tests', () => {
-	const baseUrl = 'http://localhost:3001'
+	const baseUrl = 'http://localhost:3000'
 
 	beforeAll(async () => {
 		// Wait for server to be ready
@@ -152,8 +152,16 @@ describe('Frontend Integration Tests', () => {
 
 			// Check for current weather display
 			expect(html).toContain('°C') // Temperature display
-			expect(html).toContain('Overcast') // Weather description
 			expect(html).toContain('Weather Code:') // Debug info
+			// Check for some weather description text (flexible since weather changes)
+			const hasWeatherDescription = html.includes('Overcast') || 
+				html.includes('Clear') || 
+				html.includes('Cloudy') || 
+				html.includes('Rain') || 
+				html.includes('Sunny') ||
+				html.includes('Partly') ||
+				html.includes('Slight')
+			expect(hasWeatherDescription).toBe(true)
 		})
 
 		it('should display hourly forecast', async () => {

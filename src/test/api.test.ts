@@ -23,7 +23,7 @@ interface WeatherResponse {
 }
 
 describe('Weather API Tests', () => {
-	const baseUrl = 'http://localhost:3001'
+	const baseUrl = 'http://localhost:3000'
 
 	beforeAll(async () => {
 		// Wait a moment for server to be ready

@@ -1,0 +1,105 @@
+// This is a placeholder - you'll need to create the actual GIF // Here's a
+simple HTML file to generate frames for a GIF
+
+<!doctype html>
+<html>
+	<head>
+		<title>Favicon GIF Generator</title>
+		<style>
+			canvas {
+				border: 1px solid #ccc;
+				margin: 5px;
+				image-rendering: pixelated;
+			}
+			.frame-container {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px;
+				margin: 20px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<h3>🌤️ Weather Favicon Animation Frames</h3>
+		<p>
+			These frames can be combined into an animated GIF using online tools like
+			ezgif.com
+		</p>
+
+		<div class="frame-container" id="frames"></div>
+
+		<div>
+			<button onclick="downloadFrames()">Download All Frames</button>
+			<p>
+				<small>
+					Recommended: 32x32px, 8 frames, 500ms delay between frames
+				</small>
+			</p>
+		</div>
+
+		<script>
+			const frames = []
+			const weatherStates = [
+				{ emoji: '☀️', bg: '#FFB74D', desc: 'Sunny' },
+				{ emoji: '⛅', bg: '#81C784', desc: 'Partly Cloudy' },
+				{ emoji: '☁️', bg: '#90A4AE', desc: 'Cloudy' },
+				{ emoji: '🌧️', bg: '#4FC3F7', desc: 'Rainy' },
+				{ emoji: '⛈️', bg: '#7986CB', desc: 'Stormy' },
+				{ emoji: '🌤️', bg: '#FFD54F', desc: 'Sun behind clouds' },
+				{ emoji: '🌦️', bg: '#4DD0E1', desc: 'Sun behind rain' },
+				{ emoji: '❄️', bg: '#B0BEC5', desc: 'Snow' },
+			]
+
+			function createFrame(weather, index) {
+				const canvas = document.createElement('canvas')
+				canvas.width = 32
+				canvas.height = 32
+				const ctx = canvas.getContext('2d')
+
+				// Background
+				ctx.fillStyle = weather.bg
+				ctx.fillRect(0, 0, 32, 32)
+
+				// Border
+				ctx.strokeStyle = '#fff'
+				ctx.lineWidth = 1
+				ctx.strokeRect(1, 1, 30, 30)
+
+				// Weather emoji (simplified as text)
+				ctx.font = 'bold 14px Arial'
+				ctx.textAlign = 'center'
+				ctx.textBaseline = 'middle'
+				ctx.fillStyle = '#fff'
+				ctx.fillText(weather.emoji, 16, 16)
+
+				// Add label
+				const label = document.createElement('div')
+				label.textContent = `Frame ${index + 1}: ${weather.desc}`
+				label.style.textAlign = 'center'
+				label.style.fontSize = '12px'
+
+				const container = document.createElement('div')
+				container.appendChild(canvas)
+				container.appendChild(label)
+
+				document.getElementById('frames').appendChild(container)
+
+				return canvas
+			}
+
+			// Generate frames
+			weatherStates.forEach((weather, index) => {
+				frames.push(createFrame(weather, index))
+			})
+
+			function downloadFrames() {
+				frames.forEach((canvas, index) => {
+					const link = document.createElement('a')
+					link.download = `favicon-frame-${index + 1}.png`
+					link.href = canvas.toDataURL()
+					link.click()
+				})
+			}
+		</script>
+	</body>
+</html>
