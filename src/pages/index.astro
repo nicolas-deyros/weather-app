@@ -1,20 +1,523 @@
 ---
+import { Icon } from 'astro-icon/components'
 import '@styles/global.css'
+import LocationSearch from '@components/page/LocationSearch.astro'
+import Location from '@components/page/Location.astro'
+
+// Get parameters from the URL
+const lat = Astro.url.searchParams.get('lat')
+const lon = Astro.url.searchParams.get('lon')
+
+// Fetch weather data
+let weatherData = null
+let error = null
+
+try {
+	const apiUrl = new URL('/api/weather.json', Astro.url.origin)
+	if (lat && lon) {
+		apiUrl.searchParams.set('lat', lat)
+		apiUrl.searchParams.set('lon', lon)
+	}
+
+	const response = await fetch(apiUrl.href)
+	if (response.ok) {
+		weatherData = await response.json()
+	} else {
+		error = `Weather API Error: ${response.status}`
+	}
+} catch (e) {
+	error = `Network Error: ${e instanceof Error ? e.message : 'Connection failed'}`
+}
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Weather App</title>
 	</head>
-	<body>
-		<h1 class="font-bol text-4xl text-slate-600">Astro</h1>
-		<p class="text-slate-500">Welcome to Astro!</p>
-		<footer class="mt-8">
-			<p class="text-sm text-slate-400">© 2023 Astro. All rights reserved.</p>
-		</footer>
+	<body
+		class="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500">
+		<div class="container mx-auto px-4 py-8">
+			<!-- Header -->
+			<div class="mb-8 text-center">
+				<h1 class="mb-2 text-5xl font-bold text-white">🌤️ Weather App</h1>
+				<p class="text-white/80">Real-time weather data from Open-Meteo API</p>
+			</div>
+
+			<!-- Location Search Component -->
+			<div class="mx-auto mb-8 max-w-md">
+				<LocationSearch />
+			</div>
+
+			<Location />
+
+			<!-- Weather Display -->
+			<div class="weather-container">
+				{
+					error ? (
+						<div class="mx-auto mb-8 max-w-lg rounded-xl bg-red-500/20 p-6 text-center backdrop-blur-md">
+							<div class="mb-4 text-6xl">⚠️</div>
+							<h2 class="mb-2 text-xl font-bold text-white">
+								Error Loading Weather
+							</h2>
+							<p class="text-red-100">{error}</p>
+							<p class="mt-2 text-sm text-red-200">
+								Try refreshing the page or selecting a different location.
+							</p>
+						</div>
+					) : weatherData ? (
+						<div class="mx-auto mb-8 max-w-lg rounded-xl bg-white/20 p-8 shadow-xl backdrop-blur-md">
+							<div class="mb-6 text-center">
+								<h2 class="mb-2 text-3xl font-bold text-white">
+									📍 {weatherData.location.city}
+								</h2>
+								<p class="text-sm text-white/80">
+									{weatherData.location.latitude.toFixed(4)}°,{' '}
+									{weatherData.location.longitude.toFixed(4)}°
+								</p>
+							</div>
+
+							<div class="mb-6 flex justify-center">
+								<div class="flex rounded-lg bg-white/10 p-1">
+									<button
+										id="celsiusBtn"
+										onclick="switchToUnit('celsius')"
+										class="unit-btn active rounded-md px-3 py-1 font-medium text-white transition-all duration-200">
+										°C
+									</button>
+									<button
+										id="fahrenheitBtn"
+										onclick="switchToUnit('fahrenheit')"
+										class="unit-btn rounded-md px-3 py-1 font-medium text-white transition-all duration-200">
+										°F
+									</button>
+								</div>
+							</div>
+
+							<div class="mb-8 text-center">
+								<div class="mb-6 flex justify-center">
+									<Icon
+										name={weatherData.current.icon}
+										class="h-32 w-32 text-white drop-shadow-lg"
+									/>
+								</div>
+								<div
+									class="mb-2 text-7xl font-bold text-white drop-shadow-md"
+									id="currentTemp"
+									data-temp-c={weatherData.current.temperature}>
+									{weatherData.current.temperature}°C
+								</div>
+								<div class="text-2xl font-medium text-white/90">
+									{weatherData.current.description}
+								</div>
+								<div class="mt-3 text-sm text-white/70">
+									Updated: {new Date(weatherData.current.time).toLocaleString()}
+								</div>
+								<div class="mt-1 text-xs text-white/50">
+									Weather Code: {weatherData.current.weatherCode}
+								</div>
+							</div>
+
+							<div>
+								<h3 class="mb-6 text-center text-xl font-semibold text-white">
+									Next 6 Hours
+								</h3>
+								<div class="grid grid-cols-3 gap-3" id="hourlyForecast">
+									{/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+									{weatherData.hourly.slice(0, 6).map((hour: any) => (
+										<div class="rounded-lg bg-white/10 p-4 text-center">
+											<div class="mb-3 text-xs font-medium text-white/70">
+												{new Date(hour.time).toLocaleTimeString([], {
+													hour: '2-digit',
+													minute: '2-digit',
+												})}
+											</div>
+											<div class="mb-3 flex justify-center">
+												<Icon name={hour.icon} class="h-10 w-10 text-white" />
+											</div>
+											<div
+												class="hourly-temp text-lg font-bold text-white"
+												data-temp-c={hour.temperature}>
+												{hour.temperature}°C
+											</div>
+											<div class="mt-1 text-xs text-white/60">
+												{hour.description}
+											</div>
+										</div>
+									))}
+								</div>
+							</div>
+						</div>
+					) : (
+						<div class="mx-auto mb-8 max-w-lg rounded-xl bg-white/20 p-8 text-center backdrop-blur-md">
+							<div class="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-white border-t-transparent" />
+							<p class="text-lg text-white">Loading weather data...</p>
+							<p class="mt-2 text-sm text-white/70">
+								Fetching current conditions
+							</p>
+						</div>
+					)
+				}
+			</div>
+		</div>
+
+		<script>
+			// TypeScript interfaces
+			interface HourlyWeatherData {
+				time: string | number | Date
+				icon: string
+				temperature: number
+				description: string
+			}
+
+			interface WeatherLocation {
+				city: string
+				latitude: number
+				longitude: number
+			}
+
+			interface CurrentWeatherData {
+				icon: string
+				temperature: number
+				description: string
+				time: string | number | Date
+				weatherCode: number
+			}
+
+			interface WeatherData {
+				hourly: HourlyWeatherData[]
+				location: WeatherLocation
+				current: CurrentWeatherData
+			}
+
+			// TypeScript: declare AstroIcon on window
+			declare global {
+				interface Window {
+					AstroIcon?: { load: () => void }
+					loadWeather: (
+						lat: number,
+						lon: number,
+						cityName: string,
+					) => Promise<void>
+					loadWeatherFromInputs: () => void
+					switchToUnit: (unit: string) => void
+				}
+			}
+
+			// Global function to switch temperature units
+			window.switchToUnit = function (unit: string) {
+				try {
+					console.log(`Switching to ${unit} units`)
+
+					// Update active button state
+					const celsiusBtn = document.querySelector('.temp-toggle .celsius')
+					const fahrenheitBtn = document.querySelector(
+						'.temp-toggle .fahrenheit',
+					)
+
+					if (unit === 'celsius') {
+						celsiusBtn?.classList.remove('bg-white/20')
+						celsiusBtn?.classList.add('bg-white/40')
+						fahrenheitBtn?.classList.remove('bg-white/40')
+						fahrenheitBtn?.classList.add('bg-white/20')
+					} else {
+						fahrenheitBtn?.classList.remove('bg-white/20')
+						fahrenheitBtn?.classList.add('bg-white/40')
+						celsiusBtn?.classList.remove('bg-white/40')
+						celsiusBtn?.classList.add('bg-white/20')
+					}
+
+					// Convert current temperature
+					const currentTempElement = document.getElementById('currentTemp')
+					if (currentTempElement) {
+						const celsiusTemp = parseFloat(
+							currentTempElement.getAttribute('data-temp-c') || '0',
+						)
+						if (!isNaN(celsiusTemp)) {
+							if (unit === 'celsius') {
+								currentTempElement.textContent = `${celsiusTemp}°C`
+							} else {
+								const fahrenheitTemp = Math.round((celsiusTemp * 9) / 5 + 32)
+								currentTempElement.textContent = `${fahrenheitTemp}°F`
+							}
+						}
+					}
+
+					// Convert hourly forecast temperatures
+					const hourlyTemps = document.querySelectorAll('.hourly-temp')
+					hourlyTemps.forEach(tempElement => {
+						const celsiusTemp = parseFloat(
+							(tempElement as HTMLElement).getAttribute('data-temp-c') || '0',
+						)
+						if (!isNaN(celsiusTemp)) {
+							if (unit === 'celsius') {
+								tempElement.textContent = `${celsiusTemp}°C`
+							} else {
+								const fahrenheitTemp = Math.round((celsiusTemp * 9) / 5 + 32)
+								tempElement.textContent = `${fahrenheitTemp}°F`
+							}
+						}
+					})
+
+					// Store user preference
+					localStorage.setItem('temperatureUnit', unit)
+				} catch (error) {
+					console.error('Error switching temperature unit:', error)
+				}
+			}
+
+			// Add visual feedback for link clicks
+			document.addEventListener('DOMContentLoaded', function () {
+				// Initialize temperature unit based on user preference
+				const savedUnit = localStorage.getItem('temperatureUnit') || 'celsius'
+				if (window.switchToUnit) {
+					window.switchToUnit(savedUnit)
+				}
+
+				const links = document.querySelectorAll('a[href*="lat="]')
+				links.forEach(link => {
+					link.addEventListener('click', function (event) {
+						const target = event.currentTarget as HTMLElement
+						target.style.transform = 'scale(0.95)'
+						target.style.opacity = '0.7'
+
+						// Show loading indicator
+						const loading = document.createElement('div')
+						loading.style.cssText = `
+              position: fixed;
+              top: 20px;
+              right: 20px;
+              background: rgba(59, 130, 246, 0.9);
+              color: white;
+              padding: 12px 20px;
+              border-radius: 8px;
+              font-weight: bold;
+              z-index: 1000;
+              backdrop-filter: blur(10px);
+            `
+						loading.textContent = '🌍 Loading weather...'
+						document.body.appendChild(loading)
+					})
+				})
+			})
+
+			// Function to load weather data for a specific location (global)
+			window.loadWeather = async function (
+				lat: number,
+				lon: number,
+				cityName: string,
+			) {
+				try {
+					// Show loading state
+					const weatherContainer = document.querySelector('.weather-container')
+					if (weatherContainer) {
+						weatherContainer.innerHTML = `
+              <div class="max-w-lg mx-auto bg-white/20 backdrop-blur-md rounded-xl p-8 text-center mb-8">
+                <div class="animate-spin w-12 h-12 border-4 border-white border-t-transparent rounded-full mx-auto mb-4"></div>
+                <p class="text-white text-lg">Loading ${cityName} weather...</p>
+                <p class="text-white/70 text-sm mt-2">Fetching current conditions</p>
+              </div>
+            `
+					}
+
+					// Update current location display
+					const currentCityElem = document.getElementById('currentCity')
+					if (currentCityElem) {
+						currentCityElem.textContent = `Loading ${cityName}...`
+					}
+					const currentCoordsElem = document.getElementById('currentCoords')
+					if (currentCoordsElem) {
+						currentCoordsElem.textContent = `${lat}, ${lon}`
+					}
+
+					// Fetch weather data
+					const response = await fetch(
+						`/api/weather.json?lat=${lat}&lon=${lon}`,
+					)
+					const weatherData = await response.json()
+
+					if (response.ok) {
+						updateWeatherDisplay(weatherData)
+						const currentCityElem = document.getElementById('currentCity')
+						if (currentCityElem) {
+							currentCityElem.textContent = weatherData.location.city
+						}
+					} else {
+						showError(`Failed to load weather data: ${response.status}`)
+					}
+				} catch (error) {
+					showError(
+						`Network error: ${error instanceof Error ? error.message : String(error)}`,
+					)
+				}
+			}
+
+			// Function to load weather from manual inputs (global)
+			window.loadWeatherFromInputs = function () {
+				const latInput = document.getElementById(
+					'manualLat',
+				) as HTMLInputElement | null
+				const lonInput = document.getElementById(
+					'manualLon',
+				) as HTMLInputElement | null
+				const lat = latInput?.value
+				const lon = lonInput?.value
+
+				if (!lat || !lon) {
+					alert('Please enter both latitude and longitude')
+					return
+				}
+
+				window.loadWeather(parseFloat(lat), parseFloat(lon), 'Custom Location')
+			}
+
+			// Function to get weather emoji based on icon name
+			function getWeatherEmoji(iconName: string): string {
+				const iconMap: { [key: string]: string } = {
+					'meteocons:clear-day-fill': '☀️',
+					'meteocons:clear-night-fill': '🌙',
+					'meteocons:partly-cloudy-day-fill': '⛅',
+					'meteocons:partly-cloudy-night-fill': '☁️',
+					'meteocons:cloudy-fill': '☁️',
+					'meteocons:overcast-fill': '☁️',
+					'meteocons:fog-fill': '🌫️',
+					'meteocons:rain-fill': '🌧️',
+					'meteocons:drizzle-fill': '🌦️',
+					'meteocons:snow-fill': '❄️',
+					'meteocons:sleet-fill': '🌨️',
+					'meteocons:thunderstorms-fill': '⛈️',
+					'meteocons:thunderstorms-day-rain-fill': '⛈️',
+					'meteocons:thunderstorms-night-rain-fill': '⛈️',
+					'meteocons:hail-fill': '🌨️',
+					'meteocons:wind-fill': '💨',
+					'meteocons:tornado-fill': '🌪️',
+				}
+
+				return iconMap[iconName] || '🌤️'
+			}
+
+			// Function to create icon HTML that works with dynamic content
+			function createIconHTML(
+				iconName: string,
+				className: string = 'w-10 h-10 text-white',
+			): string {
+				const emoji = getWeatherEmoji(iconName)
+				// Determine emoji size based on container size
+				const isLarge = className.includes('w-32') || className.includes('h-32')
+				const fontSize = isLarge ? '4rem' : '2.5rem'
+
+				return `<div class="${className}" data-icon="${iconName}" style="display: flex; align-items: center; justify-content: center; font-size: ${fontSize};">
+          ${emoji}
+        </div>`
+			}
+
+			// Function to update the weather display
+			function updateWeatherDisplay(weatherData: WeatherData) {
+				const weatherContainer = document.querySelector('.weather-container')
+				if (!weatherContainer) return
+
+				const hourlyHtml = weatherData.hourly
+					.slice(0, 6)
+					.map(
+						(hour: HourlyWeatherData) => `
+          <div class="bg-white/10 rounded-lg p-4 text-center">
+            <div class="text-xs text-white/70 mb-3 font-medium">
+              ${new Date(hour.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </div>
+            <div class="flex justify-center mb-3">
+              ${createIconHTML(hour.icon, 'w-10 h-10 text-white')}
+            </div>
+            <div class="text-lg font-bold text-white hourly-temp" data-temp-c="${hour.temperature}">
+              ${hour.temperature}°C
+            </div>
+            <div class="text-xs text-white/60 mt-1">
+              ${hour.description}
+            </div>
+          </div>
+        `,
+					)
+					.join('')
+
+				weatherContainer.innerHTML = `
+          <div class="max-w-lg mx-auto bg-white/20 backdrop-blur-md rounded-xl p-8 shadow-xl mb-8">
+            
+            <div class="text-center mb-6">
+              <h2 class="text-3xl font-bold text-white mb-2">
+                📍 ${weatherData.location.city}
+              </h2>
+              <p class="text-white/80 text-sm">
+                ${weatherData.location.latitude.toFixed(4)}°, ${weatherData.location.longitude.toFixed(4)}°
+              </p>
+            </div>
+
+            
+            <div class="flex justify-center mb-6">
+              <div class="temp-toggle bg-white/10 rounded-lg p-1 flex space-x-1">
+                <button 
+                  class="celsius px-3 py-1 rounded-md bg-white/40 text-white text-sm font-medium transition-all"
+                  onclick="window.switchToUnit('celsius')">
+                  °C
+                </button>
+                <button 
+                  class="fahrenheit px-3 py-1 rounded-md bg-white/20 text-white text-sm font-medium transition-all"
+                  onclick="window.switchToUnit('fahrenheit')">
+                  °F
+                </button>
+              </div>
+            </div>
+
+            
+            <div class="text-center mb-8">
+              <div class="flex justify-center mb-6">
+                ${createIconHTML(weatherData.current.icon, 'w-32 h-32 text-white drop-shadow-lg')}
+              </div>
+              <div class="text-7xl font-bold text-white mb-2 drop-shadow-md" id="currentTemp" data-temp-c="${weatherData.current.temperature}">
+                ${weatherData.current.temperature}°C
+              </div>
+              <div class="text-2xl text-white/90 font-medium">
+                ${weatherData.current.description}
+              </div>
+              <div class="text-sm text-white/70 mt-3">
+                Updated: ${new Date(weatherData.current.time).toLocaleString()}
+              </div>
+              <div class="text-xs text-white/50 mt-1">
+                Weather Code: ${weatherData.current.weatherCode}
+              </div>
+            </div>
+
+            
+            <div>
+              <h3 class="text-xl font-semibold text-white mb-6 text-center">Next 6 Hours</h3>
+              <div class="grid grid-cols-3 gap-3" id="hourlyForecast">
+                ${hourlyHtml}
+              </div>
+            </div>
+          </div>
+        `
+
+				// Apply current temperature unit preference
+				const savedUnit = localStorage.getItem('temperatureUnit') || 'celsius'
+				if (window.switchToUnit) {
+					window.switchToUnit(savedUnit)
+				}
+			}
+
+			// Function to show error messages
+			function showError(message: string) {
+				const weatherContainer = document.querySelector('.weather-container')
+				if (!weatherContainer) return
+
+				weatherContainer.innerHTML = `
+          <div class="max-w-lg mx-auto bg-red-500/20 backdrop-blur-md rounded-xl p-6 text-center mb-8">
+            <div class="text-6xl mb-4">⚠️</div>
+            <h2 class="text-xl font-bold text-white mb-2">Error Loading Weather</h2>
+            <p class="text-red-100">${message}</p>
+            <p class="text-red-200 text-sm mt-2">Try selecting a different location.</p>
+          </div>
+        `
+			}
+		</script>
 	</body>
 </html>

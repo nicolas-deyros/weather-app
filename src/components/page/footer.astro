@@ -1,0 +1,11 @@
+---
+const today = new Date()
+import { Icon } from 'astro-icon/components'
+---
+
+<footer class="mt-8">
+	<p class="flex items-center-safe gap-2 text-sm text-slate-400">
+		© {today.getFullYear()}
+		<Icon name="devicon-plain:astro" /> Astro. All rights reserved.
+	</p>
+</footer>
