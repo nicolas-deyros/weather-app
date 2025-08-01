@@ -35,37 +35,37 @@ describe('Weather API Tests', () => {
 			const response = await fetch(`${baseUrl}/api/weather.json`)
 			expect(response.status).toBe(200)
 			expect(response.headers.get('content-type')).toContain('application/json')
-			
+
 			const data: WeatherResponse = await response.json()
-			
+
 			// Check structure
 			expect(data).toHaveProperty('location')
 			expect(data).toHaveProperty('current')
 			expect(data).toHaveProperty('hourly')
-			
+
 			// Check location
 			expect(data.location).toHaveProperty('latitude')
 			expect(data.location).toHaveProperty('longitude')
 			expect(data.location).toHaveProperty('city')
 			expect(typeof data.location.city).toBe('string')
 			expect(data.location.city.length).toBeGreaterThan(0)
-			
+
 			// Check current weather
 			expect(data.current).toHaveProperty('time')
 			expect(data.current).toHaveProperty('temperature')
 			expect(data.current).toHaveProperty('weatherCode')
 			expect(data.current).toHaveProperty('icon')
 			expect(data.current).toHaveProperty('description')
-			
+
 			expect(typeof data.current.temperature).toBe('number')
 			expect(typeof data.current.weatherCode).toBe('number')
 			expect(data.current.icon).toMatch(/^meteocons:/)
-			
+
 			// Check hourly data
 			expect(Array.isArray(data.hourly)).toBe(true)
 			expect(data.hourly.length).toBeGreaterThan(0)
-			
-			data.hourly.forEach((hour) => {
+
+			data.hourly.forEach(hour => {
 				expect(hour).toHaveProperty('time')
 				expect(hour).toHaveProperty('temperature')
 				expect(hour).toHaveProperty('weatherCode')
@@ -79,34 +79,40 @@ describe('Weather API Tests', () => {
 
 	describe('Custom Location Weather', () => {
 		it('should return weather data for New York', async () => {
-			const response = await fetch(`${baseUrl}/api/weather.json?lat=40.7128&lon=-74.0060`)
+			const response = await fetch(
+				`${baseUrl}/api/weather.json?lat=40.7128&lon=-74.0060`,
+			)
 			expect(response.status).toBe(200)
-			
+
 			const data: WeatherResponse = await response.json()
-			
+
 			expect(data.location.latitude).toBeCloseTo(40.7128, 1)
-			expect(data.location.longitude).toBeCloseTo(-74.0060, 1)
+			expect(data.location.longitude).toBeCloseTo(-74.006, 1)
 			expect(data.location.city).toBeTruthy()
 			expect(data.location.city.length).toBeGreaterThan(0)
 		})
 
 		it('should return weather data for Tokyo', async () => {
-			const response = await fetch(`${baseUrl}/api/weather.json?lat=35.6762&lon=139.6503`)
+			const response = await fetch(
+				`${baseUrl}/api/weather.json?lat=35.6762&lon=139.6503`,
+			)
 			expect(response.status).toBe(200)
-			
+
 			const data: WeatherResponse = await response.json()
-			
+
 			expect(data.location.latitude).toBeCloseTo(35.6762, 1)
 			expect(data.location.longitude).toBeCloseTo(139.6503, 1)
 			expect(data.location.city).toBeTruthy()
 		})
 
 		it('should return weather data for London', async () => {
-			const response = await fetch(`${baseUrl}/api/weather.json?lat=51.5074&lon=-0.1278`)
+			const response = await fetch(
+				`${baseUrl}/api/weather.json?lat=51.5074&lon=-0.1278`,
+			)
 			expect(response.status).toBe(200)
-			
+
 			const data: WeatherResponse = await response.json()
-			
+
 			expect(data.location.latitude).toBeCloseTo(51.5074, 1)
 			expect(data.location.longitude).toBeCloseTo(-0.1278, 1)
 			expect(data.location.city).toBeTruthy()
@@ -124,7 +130,7 @@ describe('Weather API Tests', () => {
 			expect(data.current.description.length).toBeGreaterThan(0)
 
 			// Check hourly icons
-			data.hourly.forEach((hour) => {
+			data.hourly.forEach(hour => {
 				expect(hour.icon).toMatch(/^meteocons:[\w-]+$/)
 				expect(hour.description).toBeTruthy()
 				expect(hour.description.length).toBeGreaterThan(0)
@@ -141,7 +147,7 @@ describe('Weather API Tests', () => {
 			expect(data.current.description.length).toBeGreaterThan(0)
 
 			// Hourly weather consistency
-			data.hourly.forEach((hour) => {
+			data.hourly.forEach(hour => {
 				expect(hour.weatherCode).toBeGreaterThanOrEqual(0)
 				expect(hour.weatherCode).toBeLessThanOrEqual(99)
 				expect(hour.description.length).toBeGreaterThan(0)
@@ -161,7 +167,9 @@ describe('Weather API Tests', () => {
 		})
 
 		it('should handle invalid coordinates', async () => {
-			const response = await fetch(`${baseUrl}/api/weather.json?lat=invalid&lon=invalid`)
+			const response = await fetch(
+				`${baseUrl}/api/weather.json?lat=invalid&lon=invalid`,
+			)
 			// Should either return error or default to London
 			if (response.status === 200) {
 				const data: WeatherResponse = await response.json()
@@ -173,7 +181,9 @@ describe('Weather API Tests', () => {
 		})
 
 		it('should handle extreme coordinates', async () => {
-			const response = await fetch(`${baseUrl}/api/weather.json?lat=1000&lon=1000`)
+			const response = await fetch(
+				`${baseUrl}/api/weather.json?lat=1000&lon=1000`,
+			)
 			// Should either return error or handle gracefully
 			if (response.status === 200) {
 				const data: WeatherResponse = await response.json()
@@ -189,19 +199,19 @@ describe('Weather API Tests', () => {
 			const startTime = Date.now()
 			const response = await fetch(`${baseUrl}/api/weather.json`)
 			const endTime = Date.now()
-			
+
 			expect(response.status).toBe(200)
 			expect(endTime - startTime).toBeLessThan(5000) // 5 seconds max
 		})
 
 		it('should handle concurrent requests', async () => {
 			const locations = [
-				{ lat: 40.7128, lon: -74.0060 }, // New York
-				{ lat: 51.5074, lon: -0.1278 },  // London
+				{ lat: 40.7128, lon: -74.006 }, // New York
+				{ lat: 51.5074, lon: -0.1278 }, // London
 			]
 
 			const requests = locations.map(({ lat, lon }) =>
-				fetch(`${baseUrl}/api/weather.json?lat=${lat}&lon=${lon}`)
+				fetch(`${baseUrl}/api/weather.json?lat=${lat}&lon=${lon}`),
 			)
 
 			const responses = await Promise.all(requests)
@@ -221,7 +231,7 @@ describe('Weather API Tests', () => {
 			expect(data.current.temperature).toBeGreaterThan(-60)
 			expect(data.current.temperature).toBeLessThan(60)
 
-			data.hourly.forEach((hour) => {
+			data.hourly.forEach(hour => {
 				expect(hour.temperature).toBeGreaterThan(-60)
 				expect(hour.temperature).toBeLessThan(60)
 			})
@@ -234,7 +244,7 @@ describe('Weather API Tests', () => {
 			const currentTime = new Date(data.current.time)
 			expect(currentTime.getTime()).not.toBeNaN()
 
-			data.hourly.forEach((hour) => {
+			data.hourly.forEach(hour => {
 				const hourTime = new Date(hour.time)
 				expect(hourTime.getTime()).not.toBeNaN()
 			})

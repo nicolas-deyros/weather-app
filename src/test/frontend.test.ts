@@ -53,8 +53,9 @@ describe('Frontend Integration Tests', () => {
 			const response = await fetch(baseUrl)
 			const html = await response.text()
 
-			// Check for LocationSearch component elements
-			expect(html).toContain('Use My Location')
+			// Check for LocationSearch component elements that are always present
+			expect(html).toContain('id="geolocationButton"')
+			expect(html).toContain('title="Use current location"')
 			expect(html).toContain('Search for a city')
 		})
 
@@ -172,7 +173,9 @@ describe('Frontend Integration Tests', () => {
 			const html = await response.text()
 
 			// Check for interactive elements
-			expect(html).toContain('onclick="loadWeather(40.7128, -74.0060, \'New York\')"')
+			expect(html).toContain(
+				'onclick="loadWeather(40.7128, -74.0060, \'New York\')"',
+			)
 			expect(html).toContain('onclick="switchToUnit(\'celsius\')"')
 			expect(html).toContain('onclick="switchToUnit(\'fahrenheit\')"')
 		})
