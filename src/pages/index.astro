@@ -653,8 +653,12 @@ try {
 						animationClass = 'animate-rain-drop'
 						break
 					case 'meteocons:thunderstorms-fill':
+						emoji = '⛈️'
+						animationClass = 'animate-thunder-pulse'
+						break
 					case 'meteocons:thunderstorms-day-rain-fill':
 					case 'meteocons:thunderstorms-night-rain-fill':
+						// These icons may not exist, fallback to regular thunderstorms
 						emoji = '⛈️'
 						animationClass = 'animate-thunder-pulse'
 						break

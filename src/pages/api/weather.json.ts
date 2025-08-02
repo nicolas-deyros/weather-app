@@ -66,7 +66,7 @@ interface WeatherApiResponse {
 
 export const GET: APIRoute = async ({ url }) => {
 	console.log('Weather API called with params:', url.searchParams.toString())
-	
+
 	try {
 		// Get coordinates from query parameters, default to London
 		const latParam = url.searchParams.get('lat') || '51.5074'
@@ -92,7 +92,12 @@ export const GET: APIRoute = async ({ url }) => {
 			)
 		}
 
-		if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+		if (
+			latitude < -90 ||
+			latitude > 90 ||
+			longitude < -180 ||
+			longitude > 180
+		) {
 			console.error('Coordinates out of range')
 			return new Response(
 				JSON.stringify({
@@ -110,7 +115,7 @@ export const GET: APIRoute = async ({ url }) => {
 
 		// Build the Open-Meteo API URL (simplified)
 		const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=4`
-		
+
 		console.log('Fetching weather data from:', weatherUrl)
 
 		// Fetch weather data with simpler error handling
@@ -184,7 +189,7 @@ export const GET: APIRoute = async ({ url }) => {
 
 		// Get city name - simplified approach
 		let cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`
-		
+
 		// Try to get a better city name, but don't fail if it doesn't work
 		try {
 			const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`
@@ -194,15 +199,15 @@ export const GET: APIRoute = async ({ url }) => {
 					Accept: 'application/json',
 				},
 			})
-			
+
 			if (geocodeResponse.ok) {
 				const geocodeData = await geocodeResponse.json()
-				const extractedCity = 
+				const extractedCity =
 					geocodeData.address?.city ||
 					geocodeData.address?.town ||
 					geocodeData.address?.village ||
 					geocodeData.display_name?.split(',')[0]?.trim()
-				
+
 				if (extractedCity) {
 					cityName = extractedCity
 				}
@@ -228,9 +233,11 @@ export const GET: APIRoute = async ({ url }) => {
 				for (let i = 1; i < Math.min(4, weatherData.daily.time.length); i++) {
 					const time = weatherData.daily.time[i]
 					const weatherCode = weatherData.daily.weather_code?.[i] ?? 0
-					const maxTemp = weatherData.daily.temperature_2m_max?.[i] ?? currentTemp
-					const minTemp = weatherData.daily.temperature_2m_min?.[i] ?? currentTemp
-					
+					const maxTemp =
+						weatherData.daily.temperature_2m_max?.[i] ?? currentTemp
+					const minTemp =
+						weatherData.daily.temperature_2m_min?.[i] ?? currentTemp
+
 					const weather = weatherCodeToIcon[weatherCode] || {
 						icon: 'meteocons:clear-day-fill',
 						description: 'Unknown',
@@ -260,7 +267,7 @@ export const GET: APIRoute = async ({ url }) => {
 		while (dailyForecast.length < 3) {
 			const futureDate = new Date()
 			futureDate.setDate(futureDate.getDate() + dailyForecast.length + 1)
-			
+
 			dailyForecast.push({
 				date: futureDate.toISOString().split('T')[0],
 				day: futureDate.toLocaleDateString('en-US', { weekday: 'short' }),
@@ -297,14 +304,14 @@ export const GET: APIRoute = async ({ url }) => {
 				'Cache-Control': 'public, max-age=300',
 			},
 		})
-
 	} catch (error) {
 		console.error('Unexpected error in weather API:', error)
-		
+
 		// Always return a valid JSON error response
 		const errorResponse = {
 			error: 'Server error',
-			message: error instanceof Error ? error.message : 'An unexpected error occurred',
+			message:
+				error instanceof Error ? error.message : 'An unexpected error occurred',
 			timestamp: new Date().toISOString(),
 		}
 

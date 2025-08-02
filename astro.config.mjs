@@ -4,14 +4,14 @@ import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
 import icon from 'astro-icon'
 
-import vercel from '@astrojs/vercel';
+import vercel from '@astrojs/vercel'
 
 // https://astro.build/config
 export default defineConfig({
-  vite: {
-      plugins: [tailwindcss()],
+	vite: {
+		plugins: [tailwindcss()],
 	},
 
-  integrations: [icon()],
-  adapter: vercel(),
+	integrations: [icon()],
+	adapter: vercel(),
 })
