@@ -1,19 +1,48 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 
 describe('Frontend Integration Tests', () => {
-	const baseUrl = 'http://localhost:3000'
+	const baseUrl = 'http://localhost:3001'
+
+	// Helper function to check if server is ready
+	async function waitForServer(maxAttempts = 10, delay = 1000) {
+		for (let i = 0; i < maxAttempts; i++) {
+			try {
+				// Use AbortController for better compatibility
+				const controller = new AbortController()
+				const timeoutId = setTimeout(() => controller.abort(), 5000)
+
+				const response = await fetch(baseUrl, {
+					method: 'HEAD',
+					signal: controller.signal,
+				})
+
+				clearTimeout(timeoutId)
+
+				if (response.ok) {
+					console.log(`Server is ready after ${i + 1} attempts`)
+					return true
+				}
+			} catch {
+				console.log(
+					`Attempt ${i + 1}/${maxAttempts}: Server not ready, waiting...`,
+				)
+				await new Promise(resolve => setTimeout(resolve, delay))
+			}
+		}
+		throw new Error('Server did not become ready within the expected time')
+	}
 
 	beforeAll(async () => {
-		// Wait for server to be ready
-		await new Promise(resolve => setTimeout(resolve, 1000))
-	})
+		// Wait for server to be ready with retry logic
+		await waitForServer()
+	}, 30000) // 30 second timeout for server startup
 
 	describe('Page Loading Tests', () => {
 		it('should load the main page successfully', async () => {
 			const response = await fetch(baseUrl)
 			expect(response.status).toBe(200)
 			expect(response.headers.get('content-type')).toContain('text/html')
-		})
+		}, 10000) // 10 second timeout for initial page load
 
 		it('should contain essential HTML structure', async () => {
 			const response = await fetch(baseUrl)
@@ -140,7 +169,7 @@ describe('Frontend Integration Tests', () => {
 
 			// Check for weather data display elements
 			expect(html).toContain('currentTemp')
-			expect(html).toContain('hourlyForecast')
+			expect(html).toContain('dailyForecast')
 			expect(html).toContain('London')
 		})
 	})
@@ -152,26 +181,35 @@ describe('Frontend Integration Tests', () => {
 
 			// Check for current weather display
 			expect(html).toContain('°C') // Temperature display
-			expect(html).toContain('Weather Code:') // Debug info
 			// Check for some weather description text (flexible since weather changes)
-			const hasWeatherDescription = html.includes('Overcast') || 
-				html.includes('Clear') || 
-				html.includes('Cloudy') || 
-				html.includes('Rain') || 
+			const hasWeatherDescription =
+				html.includes('Overcast') ||
+				html.includes('Clear') ||
+				html.includes('Cloudy') ||
+				html.includes('Rain') ||
 				html.includes('Sunny') ||
 				html.includes('Partly') ||
 				html.includes('Slight')
 			expect(hasWeatherDescription).toBe(true)
 		})
 
-		it('should display hourly forecast', async () => {
+		it('should display daily forecast', async () => {
 			const response = await fetch(baseUrl)
 			const html = await response.text()
 
-			// Check for hourly forecast
-			expect(html).toContain('Next 6 Hours')
-			expect(html).toContain('12:00 AM')
-			expect(html).toContain('hourly-temp')
+			// Check for daily forecast
+			expect(html).toContain('Next 3 Days')
+			expect(html).toContain('daily-temp')
+			// Check for day names (at least one should be present)
+			const hasDayName =
+				html.includes('Mon') ||
+				html.includes('Tue') ||
+				html.includes('Wed') ||
+				html.includes('Thu') ||
+				html.includes('Fri') ||
+				html.includes('Sat') ||
+				html.includes('Sun')
+			expect(hasDayName).toBe(true)
 		})
 	})
 

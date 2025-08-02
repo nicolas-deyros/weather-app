@@ -13,9 +13,11 @@ interface WeatherResponse {
 		icon: string
 		description: string
 	}
-	hourly: Array<{
+	daily: Array<{
 		time: string
-		temperature: number
+		day: string
+		maxTemp: number
+		minTemp: number
 		weatherCode: number
 		icon: string
 		description: string
@@ -23,12 +25,43 @@ interface WeatherResponse {
 }
 
 describe('Weather API Tests', () => {
-	const baseUrl = 'http://localhost:3000'
+	const baseUrl = 'http://localhost:3001'
+
+	// Helper function to check if server is ready
+	async function waitForServer(maxAttempts = 10, delay = 1000) {
+		for (let i = 0; i < maxAttempts; i++) {
+			try {
+				// Use AbortController for better compatibility
+				const controller = new AbortController()
+				const timeoutId = setTimeout(() => controller.abort(), 5000)
+
+				const response = await fetch(baseUrl, {
+					method: 'HEAD',
+					signal: controller.signal,
+				})
+
+				clearTimeout(timeoutId)
+
+				if (response.ok) {
+					console.log(`API test: Server is ready after ${i + 1} attempts`)
+					return true
+				}
+			} catch {
+				console.log(
+					`API test: Attempt ${i + 1}/${maxAttempts}: Server not ready, waiting...`,
+				)
+				await new Promise(resolve => setTimeout(resolve, delay))
+			}
+		}
+		throw new Error(
+			'Server did not become ready within the expected time for API tests',
+		)
+	}
 
 	beforeAll(async () => {
-		// Wait a moment for server to be ready
-		await new Promise(resolve => setTimeout(resolve, 1000))
-	})
+		// Wait for server to be ready with retry logic
+		await waitForServer()
+	}, 30000) // 30 second timeout for server startup
 
 	describe('Default Weather Endpoint', () => {
 		it('should return weather data for default location (London)', async () => {
@@ -41,7 +74,7 @@ describe('Weather API Tests', () => {
 			// Check structure
 			expect(data).toHaveProperty('location')
 			expect(data).toHaveProperty('current')
-			expect(data).toHaveProperty('hourly')
+			expect(data).toHaveProperty('daily')
 
 			// Check location
 			expect(data.location).toHaveProperty('latitude')
@@ -61,18 +94,24 @@ describe('Weather API Tests', () => {
 			expect(typeof data.current.weatherCode).toBe('number')
 			expect(data.current.icon).toMatch(/^meteocons:/)
 
-			// Check hourly data
-			expect(Array.isArray(data.hourly)).toBe(true)
-			expect(data.hourly.length).toBeGreaterThan(0)
+			// Check daily data
+			expect(Array.isArray(data.daily)).toBe(true)
+			expect(data.daily.length).toBeGreaterThan(0)
+			expect(data.daily.length).toBeLessThanOrEqual(3) // Max 3 days
 
-			data.hourly.forEach(hour => {
-				expect(hour).toHaveProperty('time')
-				expect(hour).toHaveProperty('temperature')
-				expect(hour).toHaveProperty('weatherCode')
-				expect(hour).toHaveProperty('icon')
-				expect(hour).toHaveProperty('description')
-				expect(typeof hour.temperature).toBe('number')
-				expect(hour.icon).toMatch(/^meteocons:/)
+			data.daily.forEach(day => {
+				expect(day).toHaveProperty('time')
+				expect(day).toHaveProperty('day')
+				expect(day).toHaveProperty('maxTemp')
+				expect(day).toHaveProperty('minTemp')
+				expect(day).toHaveProperty('weatherCode')
+				expect(day).toHaveProperty('icon')
+				expect(day).toHaveProperty('description')
+				expect(typeof day.maxTemp).toBe('number')
+				expect(typeof day.minTemp).toBe('number')
+				expect(day.maxTemp).toBeGreaterThanOrEqual(day.minTemp)
+				expect(day.icon).toMatch(/^meteocons:/)
+				expect(typeof day.day).toBe('string')
 			})
 		})
 	})
@@ -129,11 +168,11 @@ describe('Weather API Tests', () => {
 			expect(data.current.description).toBeTruthy()
 			expect(data.current.description.length).toBeGreaterThan(0)
 
-			// Check hourly icons
-			data.hourly.forEach(hour => {
-				expect(hour.icon).toMatch(/^meteocons:[\w-]+$/)
-				expect(hour.description).toBeTruthy()
-				expect(hour.description.length).toBeGreaterThan(0)
+			// Check daily icons
+			data.daily.forEach(day => {
+				expect(day.icon).toMatch(/^meteocons:[\w-]+$/)
+				expect(day.description).toBeTruthy()
+				expect(day.description.length).toBeGreaterThan(0)
 			})
 		})
 
@@ -146,11 +185,11 @@ describe('Weather API Tests', () => {
 			expect(data.current.weatherCode).toBeLessThanOrEqual(99)
 			expect(data.current.description.length).toBeGreaterThan(0)
 
-			// Hourly weather consistency
-			data.hourly.forEach(hour => {
-				expect(hour.weatherCode).toBeGreaterThanOrEqual(0)
-				expect(hour.weatherCode).toBeLessThanOrEqual(99)
-				expect(hour.description.length).toBeGreaterThan(0)
+			// Daily weather consistency
+			data.daily.forEach(day => {
+				expect(day.weatherCode).toBeGreaterThanOrEqual(0)
+				expect(day.weatherCode).toBeLessThanOrEqual(99)
+				expect(day.description.length).toBeGreaterThan(0)
 			})
 		})
 	})
@@ -162,7 +201,7 @@ describe('Weather API Tests', () => {
 			expect(response.status).toBe(200)
 			const data: WeatherResponse = await response.json()
 			expect(data).toHaveProperty('current')
-			expect(data).toHaveProperty('hourly')
+			expect(data).toHaveProperty('daily')
 			expect(data.location.city).toBeTruthy()
 		})
 
@@ -174,7 +213,7 @@ describe('Weather API Tests', () => {
 			if (response.status === 200) {
 				const data: WeatherResponse = await response.json()
 				expect(data).toHaveProperty('current')
-				expect(data).toHaveProperty('hourly')
+				expect(data).toHaveProperty('daily')
 			} else {
 				expect(response.status).toBeGreaterThanOrEqual(400)
 			}
@@ -231,9 +270,11 @@ describe('Weather API Tests', () => {
 			expect(data.current.temperature).toBeGreaterThan(-60)
 			expect(data.current.temperature).toBeLessThan(60)
 
-			data.hourly.forEach(hour => {
-				expect(hour.temperature).toBeGreaterThan(-60)
-				expect(hour.temperature).toBeLessThan(60)
+			data.daily.forEach(day => {
+				expect(day.maxTemp).toBeGreaterThan(-60)
+				expect(day.maxTemp).toBeLessThan(60)
+				expect(day.minTemp).toBeGreaterThan(-60)
+				expect(day.minTemp).toBeLessThan(60)
 			})
 		})
 
@@ -244,9 +285,9 @@ describe('Weather API Tests', () => {
 			const currentTime = new Date(data.current.time)
 			expect(currentTime.getTime()).not.toBeNaN()
 
-			data.hourly.forEach(hour => {
-				const hourTime = new Date(hour.time)
-				expect(hourTime.getTime()).not.toBeNaN()
+			data.daily.forEach(day => {
+				const dayTime = new Date(day.time)
+				expect(dayTime.getTime()).not.toBeNaN()
 			})
 		})
 

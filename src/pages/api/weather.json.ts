@@ -56,9 +56,10 @@ interface WeatherResponse {
 		temperature_2m: number
 		weather_code: number
 	}
-	hourly: {
+	daily: {
 		time: string[]
-		temperature_2m: number[]
+		temperature_2m_max: number[]
+		temperature_2m_min: number[]
 		weather_code: number[]
 	}
 }
@@ -111,9 +112,12 @@ export const GET: APIRoute = async ({ url }) => {
 		apiUrl.searchParams.set('latitude', latitude)
 		apiUrl.searchParams.set('longitude', longitude)
 		apiUrl.searchParams.set('current', 'temperature_2m,weather_code')
-		apiUrl.searchParams.set('hourly', 'temperature_2m,weather_code')
+		apiUrl.searchParams.set(
+			'daily',
+			'temperature_2m_max,temperature_2m_min,weather_code',
+		)
 		apiUrl.searchParams.set('timezone', 'auto')
-		apiUrl.searchParams.set('forecast_days', '1')
+		apiUrl.searchParams.set('forecast_days', '4')
 
 		// Fetch weather data from Open-Meteo
 		const response = await fetch(apiUrl.toString())
@@ -180,17 +184,25 @@ export const GET: APIRoute = async ({ url }) => {
 			description: 'Unknown',
 		}
 
-		// Get next few hours weather (next 6 hours)
-		const hourlyForecast = data.hourly.time.slice(0, 6).map((time, index) => {
-			const weatherCode = data.hourly.weather_code[index]
+		// Get next 3 days weather forecast (skip today, start from tomorrow)
+		const dailyForecast = data.daily.time.slice(1).map((time, index) => {
+			// index + 1 because we sliced to skip today
+			const dataIndex = index + 1
+			const weatherCode = data.daily.weather_code[dataIndex]
 			const weather = weatherCodeToIcon[weatherCode] || {
 				icon: 'meteocons:clear-day-fill',
 				description: 'Unknown',
 			}
 
+			// Format the date to show day name
+			const date = new Date(time)
+			const dayName = date.toLocaleDateString('en-US', { weekday: 'short' })
+
 			return {
 				time,
-				temperature: Math.round(data.hourly.temperature_2m[index]),
+				day: dayName,
+				maxTemp: Math.round(data.daily.temperature_2m_max[dataIndex]),
+				minTemp: Math.round(data.daily.temperature_2m_min[dataIndex]),
 				weatherCode,
 				icon: weather.icon,
 				description: weather.description,
@@ -211,7 +223,7 @@ export const GET: APIRoute = async ({ url }) => {
 				icon: currentWeather.icon,
 				description: currentWeather.description,
 			},
-			hourly: hourlyForecast,
+			daily: dailyForecast,
 		}
 
 		return new Response(JSON.stringify(weatherData), {

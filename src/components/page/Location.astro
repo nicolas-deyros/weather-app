@@ -37,5 +37,35 @@ import { Icon } from 'astro-icon/components'
 			<div class="text-2xl"><Icon name="twemoji:croissant" /></div>
 			<div class="font-semibold">Paris</div>
 		</button>
+
+		<button
+			onclick="loadWeather(﻿-34.5997, -58.4416, 'Buenos Aires')"
+			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
+			<div class="text-2xl"><Icon name="twemoji:mate" /></div>
+			<div class="font-semibold">Buenos Aires</div>
+		</button>
+
+		<button
+			onclick="loadWeather(-23.5475, -46.6361, 'Rio de Janeiro')"
+			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
+			<div class="text-2xl"><Icon name="twemoji:flag-brazil" /></div>
+			<div class="font-semibold">Brazil</div>
+		</button>
+
+		<button
+			onclick="loadWeather(-30.559482,  22.937, 'South Africa')"
+			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
+			<div class="text-2xl">
+				<Icon name="twemoji:globe-showing-europe-africa" />
+			</div>
+			<div class="font-semibold">South Africa</div>
+		</button>
+
+		<button
+			onclick="loadWeather(35.8617, 104.1954, 'Hong Kong')"
+			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
+			<div class="text-2xl"><Icon name="twemoji:panda" /></div>
+			<div class="font-semibold">Hong Kong</div>
+		</button>
 	</div>
 </div>
