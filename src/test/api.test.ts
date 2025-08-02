@@ -117,45 +117,28 @@ describe('Weather API Tests', () => {
 	})
 
 	describe('Custom Location Weather', () => {
-		it('should return weather data for New York', async () => {
-			const response = await fetch(
-				`${baseUrl}/api/weather.json?lat=40.7128&lon=-74.0060`,
-			)
-			expect(response.status).toBe(200)
+		const locations = [
+			{ name: 'New York', lat: 40.7128, lon: -74.006 },
+			{ name: 'Tokyo', lat: 35.6762, lon: 139.6503 },
+			{ name: 'London', lat: 51.5074, lon: -0.1278 },
+		]
 
-			const data: WeatherResponse = await response.json()
+		it.each(locations)(
+			'should return weather data for $name',
+			async ({ lat, lon }) => {
+				const response = await fetch(
+					`${baseUrl}/api/weather.json?lat=${lat}&lon=${lon}`,
+				)
+				expect(response.status).toBe(200)
 
-			expect(data.location.latitude).toBeCloseTo(40.7128, 1)
-			expect(data.location.longitude).toBeCloseTo(-74.006, 1)
-			expect(data.location.city).toBeTruthy()
-			expect(data.location.city.length).toBeGreaterThan(0)
-		})
+				const data: WeatherResponse = await response.json()
 
-		it('should return weather data for Tokyo', async () => {
-			const response = await fetch(
-				`${baseUrl}/api/weather.json?lat=35.6762&lon=139.6503`,
-			)
-			expect(response.status).toBe(200)
-
-			const data: WeatherResponse = await response.json()
-
-			expect(data.location.latitude).toBeCloseTo(35.6762, 1)
-			expect(data.location.longitude).toBeCloseTo(139.6503, 1)
-			expect(data.location.city).toBeTruthy()
-		})
-
-		it('should return weather data for London', async () => {
-			const response = await fetch(
-				`${baseUrl}/api/weather.json?lat=51.5074&lon=-0.1278`,
-			)
-			expect(response.status).toBe(200)
-
-			const data: WeatherResponse = await response.json()
-
-			expect(data.location.latitude).toBeCloseTo(51.5074, 1)
-			expect(data.location.longitude).toBeCloseTo(-0.1278, 1)
-			expect(data.location.city).toBeTruthy()
-		})
+				expect(data.location.latitude).toBeCloseTo(lat, 1)
+				expect(data.location.longitude).toBeCloseTo(lon, 1)
+				expect(data.location.city).toBeTruthy()
+				expect(data.location.city.length).toBeGreaterThan(0)
+			},
+		)
 	})
 
 	describe('Weather Code to Icon Mapping', () => {
@@ -205,31 +188,22 @@ describe('Weather API Tests', () => {
 			expect(data.location.city).toBeTruthy()
 		})
 
-		it('should handle invalid coordinates', async () => {
+		it('should return a 400 error for invalid coordinates', async () => {
 			const response = await fetch(
 				`${baseUrl}/api/weather.json?lat=invalid&lon=invalid`,
 			)
-			// Should either return error or default to London
-			if (response.status === 200) {
-				const data: WeatherResponse = await response.json()
-				expect(data).toHaveProperty('current')
-				expect(data).toHaveProperty('daily')
-			} else {
-				expect(response.status).toBeGreaterThanOrEqual(400)
-			}
+			expect(response.status).toBe(400)
+			const data = await response.json()
+			expect(data).toHaveProperty('error')
 		})
 
-		it('should handle extreme coordinates', async () => {
+		it('should return a 400 error for extreme coordinates', async () => {
 			const response = await fetch(
 				`${baseUrl}/api/weather.json?lat=1000&lon=1000`,
 			)
-			// Should either return error or handle gracefully
-			if (response.status === 200) {
-				const data: WeatherResponse = await response.json()
-				expect(data).toHaveProperty('current')
-			} else {
-				expect(response.status).toBeGreaterThanOrEqual(400)
-			}
+			expect(response.status).toBe(400)
+			const data = await response.json()
+			expect(data).toHaveProperty('error')
 		})
 	})
 

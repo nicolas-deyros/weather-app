@@ -99,30 +99,25 @@ describe('Frontend Integration Tests', () => {
 		})
 	})
 
-	describe('JavaScript Integration', () => {
-		it('should include location selection buttons with data attributes', async () => {
+	describe('Interactive Elements and Scripts', () => {
+		it('should include interactive buttons and scripts', async () => {
 			const response = await fetch(baseUrl)
 			const html = await response.text()
 
-			// Check for city buttons with data attributes
+			// Check for location buttons with data attributes
 			expect(html).toContain('id="loc-ny"')
 			expect(html).toContain('data-lat="40.7128"')
 			expect(html).toContain('data-lon="-74.0060"')
 			expect(html).toContain('data-city="New York"')
-		})
 
-		it('should include script modules for JavaScript functionality', async () => {
-			const response = await fetch(baseUrl)
-			const html = await response.text()
+			// Check for temperature toggle buttons
+			expect(html).toContain('id="celsiusBtn"')
+			expect(html).toContain('id="fahrenheitBtn"')
+			expect(html).toContain('switchToUnit')
 
 			// Check for script modules
 			expect(html).toContain('<script type="module"')
 			expect(html).toContain('/src/pages/index.astro?astro&type=script')
-		})
-
-		it('should include meteocons weather icons', async () => {
-			const response = await fetch(baseUrl)
-			const html = await response.text()
 
 			// Check for weather icons
 			expect(html).toContain('meteocons:')
@@ -174,31 +169,24 @@ describe('Frontend Integration Tests', () => {
 	})
 
 	describe('Weather Data Display', () => {
-		it('should show current weather information', async () => {
+		it('should show current weather information with correct data types', async () => {
 			const response = await fetch(baseUrl)
 			const html = await response.text()
 
 			// Check for current weather display
 			expect(html).toContain('°C') // Temperature display
-			// Check for some weather description text (flexible since weather changes)
-			const hasWeatherDescription =
-				html.includes('Overcast') ||
-				html.includes('Clear') ||
-				html.includes('Cloudy') ||
-				html.includes('Rain') ||
-				html.includes('Sunny') ||
-				html.includes('Partly') ||
-				html.includes('Slight')
-			expect(hasWeatherDescription).toBe(true)
+			expect(html).toMatch(/data-temp-c="\d+"/)
+			expect(html).toMatch(/<div class="text-2xl font-medium text-white\/90">[\w\s]+<\/div>/)
 		})
 
-		it('should display daily forecast', async () => {
+		it('should display daily forecast with correct data types', async () => {
 			const response = await fetch(baseUrl)
 			const html = await response.text()
 
 			// Check for daily forecast
 			expect(html).toContain('Next 3 Days')
 			expect(html).toContain('daily-temp')
+			expect(html).toMatch(/data-temp-c="\d+"/)
 			// Check for day names (at least one should be present)
 			const hasDayName =
 				html.includes('Mon') ||

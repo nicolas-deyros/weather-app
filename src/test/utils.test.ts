@@ -123,6 +123,8 @@ describe('Weather Code Mapping Tests', () => {
 			expect(isValidTemperature(50)).toBe(true)
 			expect(isValidTemperature(-150)).toBe(false)
 			expect(isValidTemperature(100)).toBe(false)
+			expect(isValidTemperature(NaN)).toBe(false)
+			expect(isValidTemperature(Infinity)).toBe(false)
 		})
 
 		it('should validate weather codes', () => {
@@ -135,6 +137,8 @@ describe('Weather Code Mapping Tests', () => {
 			expect(isValidWeatherCode(99)).toBe(true)
 			expect(isValidWeatherCode(-1)).toBe(false)
 			expect(isValidWeatherCode(100)).toBe(false)
+			expect(isValidWeatherCode(NaN)).toBe(false)
+			expect(isValidWeatherCode(Infinity)).toBe(false)
 		})
 
 		it('should validate coordinate values', () => {
@@ -143,11 +147,15 @@ describe('Weather Code Mapping Tests', () => {
 
 			expect(isValidLatitude(40.7128)).toBe(true)
 			expect(isValidLatitude(-33.8688)).toBe(true)
+			expect(isValidLatitude(90)).toBe(true)
+			expect(isValidLatitude(-90)).toBe(true)
 			expect(isValidLatitude(91)).toBe(false)
 			expect(isValidLatitude(-91)).toBe(false)
 
 			expect(isValidLongitude(-74.006)).toBe(true)
 			expect(isValidLongitude(139.6503)).toBe(true)
+			expect(isValidLongitude(180)).toBe(true)
+			expect(isValidLongitude(-180)).toBe(true)
 			expect(isValidLongitude(181)).toBe(false)
 			expect(isValidLongitude(-181)).toBe(false)
 		})
