@@ -411,7 +411,7 @@ try {
 
 					// Convert daily forecast temperatures
 					const dailyTemps = document.querySelectorAll(
-						'.daily-temp-max[data-temp-c], .daily-temp-min[data-temp-c]',
+						'.daily-temp [data-temp-c]',
 					)
 					dailyTemps.forEach(tempElement => {
 						const celsiusTemp = parseFloat(
@@ -699,78 +699,77 @@ try {
 				const dailyHtml = weatherData.daily
 					.slice(0, 3)
 					.map(
-						(day: DailyWeatherData, index: number) => `
-          <div class="bg-white/10 rounded-lg p-4 text-center opacity-0" 
-               style="animation: fadeIn 0.5s ease-out ${0.2 + index * 0.1}s forwards;">
-            <div class="text-xs text-white/70 mb-3 font-medium">
-              ${day.day}
+						(day: DailyWeatherData) => `
+            <div class="rounded-lg bg-white/10 p-4 text-center">
+              <div class="mb-3 text-xs font-medium text-white/70">
+                ${day.day}
+              </div>
+              <div class="mb-3 flex justify-center">
+                ${createWeatherIcon(day.icon)}
+              </div>
+              <div class="daily-temp text-lg font-bold text-white">
+                <div class="text-white" data-temp-c="${day.maxTemp}">
+                  ${day.maxTemp}°C
+                </div>
+                <div class="text-sm text-white/70" data-temp-c="${day.minTemp}">
+                  ${day.minTemp}°C
+                </div>
+              </div>
+              <div class="mt-1 text-xs text-white/60">
+                ${day.description}
+              </div>
             </div>
-            <div class="flex justify-center mb-3">
-              ${createWeatherIcon(day.icon)}
-            </div>
-            <div class="text-lg font-bold text-white daily-temp-max" data-temp-c="${day.maxTemp}">
-              ${day.maxTemp}°C
-            </div>
-            <div class="text-sm text-white/60 daily-temp-min" data-temp-c="${day.minTemp}">
-              ${day.minTemp}°C
-            </div>
-            <div class="text-xs text-white/60 mt-1">
-              ${day.description}
-            </div>
-          </div>
-        `,
+          `,
 					)
 					.join('')
 
 				weatherContainer.innerHTML = `
-          <div class="max-w-lg mx-auto bg-white/20 backdrop-blur-md rounded-xl p-8 shadow-xl mb-8 opacity-0 animate-fade-in"
-               style="animation: fadeIn 0.5s ease-out forwards;">
+          <div class="mx-auto mb-8 max-w-lg rounded-xl bg-white/20 p-8 shadow-xl backdrop-blur-md lg:mx-0 lg:max-w-none">
             
-            <div class="text-center mb-6">
-              <h2 class="text-3xl font-bold text-white mb-2">
+            <div class="mb-6 text-center">
+              <h2 class="mb-2 text-3xl font-bold text-white">
                 📍 ${weatherData.location.city}
               </h2>
-              <p class="text-white/80 text-sm">
+              <p class="text-sm text-white/80">
                 ${weatherData.location.latitude.toFixed(4)}°, ${weatherData.location.longitude.toFixed(4)}°
               </p>
             </div>
 
             
-            <div class="flex justify-center mb-6">
-              <div class="temp-toggle bg-white/10 rounded-lg p-1 flex space-x-1">
-                <button 
-                  class="celsius px-3 py-1 rounded-md bg-white/40 text-white text-sm font-medium transition-all hover:bg-white/50"
-                  onclick="window.switchToUnit('celsius')">
-                  °C
-                </button>
-                <button 
-                  class="fahrenheit px-3 py-1 rounded-md bg-white/20 text-white text-sm font-medium transition-all hover:bg-white/30"
-                  onclick="window.switchToUnit('fahrenheit')">
-                  °F
-                </button>
-              </div>
+            <div class="mb-6 flex justify-center">
+              <label
+                id="temp-toggle"
+                for="temp-toggle-checkbox"
+                class="relative inline-flex cursor-pointer items-center">
+                <input
+                  type="checkbox"
+                  value=""
+                  id="temp-toggle-checkbox"
+                  class="peer sr-only"
+                />
+                <div class="peer relative h-10 w-20 rounded-full border border-white/30 bg-white/20 backdrop-blur-sm peer-checked:bg-white/30 peer-focus:ring-4 peer-focus:ring-white/20 peer-focus:outline-none before:absolute before:top-[4px] before:left-[4px] before:flex before:h-8 before:w-8 before:items-center before:justify-center before:rounded-full before:border before:border-white/40 before:bg-white/90 before:text-sm before:font-semibold before:text-blue-600 before:shadow-lg before:transition-all before:duration-300 before:content-['°C'] peer-checked:before:translate-x-10 peer-checked:before:opacity-0 after:absolute after:top-[4px] after:left-[4px] after:flex after:h-8 after:w-8 after:items-center after:justify-center after:rounded-full after:border after:border-white/40 after:bg-white/90 after:text-sm after:font-semibold after:text-orange-600 after:opacity-0 after:shadow-lg after:transition-all after:duration-300 after:content-['°F'] peer-checked:after:translate-x-10 peer-checked:after:opacity-100"></div>
+              </label>
             </div>
 
             
-            <div class="text-center mb-8">
-              <div class="flex justify-center mb-6">
+            <div class="mb-8 text-center">
+              <div class="mb-6 flex justify-center">
                 ${createWeatherIcon(weatherData.current.icon, true)}
               </div>
-              <div class="text-7xl font-bold text-white mb-2 drop-shadow-md" id="currentTemp" data-temp-c="${weatherData.current.temperature}">
+              <div class="mb-2 text-7xl font-bold text-white drop-shadow-md" id="currentTemp" data-temp-c="${weatherData.current.temperature}">
                 ${weatherData.current.temperature}°C
               </div>
-              <div class="text-2xl text-white/90 font-medium">
+              <div class="text-2xl font-medium text-white/90">
                 ${weatherData.current.description}
               </div>
-              <div class="text-sm text-white/70 mt-3">
+              <div class="mt-3 text-sm text-white/70">
                 Updated: ${new Date(weatherData.current.time).toLocaleString()}
               </div>
-
             </div>
 
             
             <div>
-              <h3 class="text-xl font-semibold text-white mb-6 text-center">Next 3 Days</h3>
+              <h3 class="mb-6 text-center text-xl font-semibold text-white">Next 3 Days</h3>
               <div class="grid grid-cols-3 gap-3" id="dailyForecast">
                 ${dailyHtml}
               </div>
@@ -782,6 +781,19 @@ try {
 				const savedUnit = localStorage.getItem('temperatureUnit') || 'celsius'
 				if (window.switchToUnit) {
 					window.switchToUnit(savedUnit)
+				}
+
+				// Re-attach event listener for the new toggle
+				const tempToggle = document.getElementById(
+					'temp-toggle-checkbox',
+				) as HTMLInputElement
+				if (tempToggle) {
+					tempToggle.addEventListener('change', function () {
+						const unit = this.checked ? 'fahrenheit' : 'celsius'
+						if (window.switchToUnit) {
+							window.switchToUnit(unit)
+						}
+					})
 				}
 			}
 
