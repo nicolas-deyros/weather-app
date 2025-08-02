@@ -1,4 +1,7 @@
-# 🌤️ Weather App
+# 🌤️ Weather- 𝔁 **Location Search** - Search for cities worldwide
+- ⚡ **Fast & Lightweight** - Built with Astro for optimal performance
+- 🧪 **Comprehensive Testing** - 42 tests covering utils, API, and frontend
+- 🚀 **Vercel Ready** - One-click deployment with zero configurationp
 
 A modern, responsive weather application built with Astro, TypeScript, and Tailwind CSS. Features emoji-based weather icons, comprehensive testing suite, and reliable automatic test runners.
 
@@ -18,7 +21,8 @@ A modern, responsive weather application built with Astro, TypeScript, and Tailw
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Installation
@@ -42,17 +46,19 @@ Visit `http://localhost:3001` to see the app running.
 The app includes a comprehensive testing suite with automatic server management:
 
 ### Run All Tests (Recommended)
+
 ```bash
 # Automatically starts server and runs all tests
 npm run test:auto
 ```
 
 ### Individual Test Suites
+
 ```bash
 # API endpoint tests (requires server)
 npm run test:api
 
-# Frontend integration tests (requires server)  
+# Frontend integration tests (requires server)
 npm run test:frontend
 
 # Utility function tests (no server needed)
@@ -63,6 +69,7 @@ npm run test:watch
 ```
 
 ### Test Coverage
+
 - **42 Total Tests**: All passing ✅
 - **Utils Tests**: 11 tests for weather utilities and calculations
 - **API Tests**: 14 tests for weather API endpoints and error handling
@@ -93,29 +100,55 @@ weather-app/
 
 ## 🛠️ Available Commands
 
-| Command | Action |
-|---------|--------|
-| `npm run dev` | Start development server on port 3001 |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run test:auto` | **Run all tests with automatic server startup** |
-| `npm run test` | Run tests (requires server to be running) |
-| `npm run test:api` | Run API tests only |
-| `npm run test:frontend` | Run frontend tests only |
-| `npm run test:utils` | Run utility tests only |
-| `npm run lint` | Lint and fix code |
+| Command                 | Action                                          |
+| ----------------------- | ----------------------------------------------- |
+| `npm run dev`           | Start development server on port 3001           |
+| `npm run build`         | Build for production                            |
+| `npm run preview`       | Preview production build                        |
+| `npm run test:auto`     | **Run all tests with automatic server startup** |
+| `npm run test`          | Run tests (requires server to be running)       |
+| `npm run test:api`      | Run API tests only                              |
+| `npm run test:frontend` | Run frontend tests only                         |
+| `npm run test:utils`    | Run utility tests only                          |
+| `npm run lint`          | Lint and fix code                               |
 
-## 🔧 Development
+## � Deployment
+
+This app is configured for easy deployment on Vercel with zero configuration required.
+
+### Deploy to Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/nicolas-deyros/weather-app)
+
+Or deploy manually:
+
+1. **Fork this repository**
+2. **Connect to Vercel**: Import your GitHub repository in Vercel
+3. **Deploy**: Vercel will automatically detect Astro and deploy
+4. **Environment**: No environment variables needed - uses public APIs
+
+### Build Configuration
+
+The project includes the Vercel adapter (`@astrojs/vercel`) which:
+- Enables server-side rendering (SSR) for API routes
+- Optimizes builds for Vercel's serverless functions  
+- Handles static asset optimization automatically
+- Provides automatic preview deployments for PRs
+
+## �🔧 Development
 
 ### Architecture
+
 - **Frontend**: Astro + TypeScript + Tailwind CSS
 - **Weather API**: Open-Meteo API integration
 - **Testing**: Vitest with custom server health checks
 - **Icons**: Emoji-based weather representations with animations
-- **Styling**: Tailwind CSS with responsive design
+- **Styling**: Tailwind CSS with responsive design  
+- **Deployment**: Vercel adapter with SSR support
 
 ### Key Features Implementation
-- **Server Health Checks**: Tests wait for server startup before running  
+
+- **Server Health Checks**: Tests wait for server startup before running
 - **Error Handling**: Comprehensive error handling for API failures
 - **TypeScript**: Full type safety with custom interfaces
 - **Responsive**: Mobile-first design with Tailwind CSS
@@ -124,11 +157,14 @@ weather-app/
 ## 📦 Dependencies
 
 ### Runtime
+
 - `astro` - Static site generator with island architecture
+- `@astrojs/vercel` - Vercel adapter for SSR deployment
 - `astro-icon` - Icon components for Astro
 - `tailwindcss` - Utility-first CSS framework
 
-### Development  
+### Development
+
 - `vitest` - Fast unit testing framework
 - `typescript` - Static type checking
 - `eslint` - Code linting and formatting
