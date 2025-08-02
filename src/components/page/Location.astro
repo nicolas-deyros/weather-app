@@ -9,7 +9,10 @@ import { Icon } from 'astro-icon/components'
 	</h2>
 	<div class="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-2 xl:grid-cols-2">
 		<button
-			onclick="loadWeather(40.7128, -74.0060, 'New York')"
+			id="loc-ny"
+			data-lat="40.7128"
+			data-lon="-74.0060"
+			data-city="New York"
 			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
 			<div class="text-2xl">
 				<Icon name="twemoji:american-football" />
@@ -18,42 +21,60 @@ import { Icon } from 'astro-icon/components'
 		</button>
 
 		<button
-			onclick="loadWeather(35.6762, 139.6503, 'Tokyo')"
+			id="loc-tokyo"
+			data-lat="35.6762"
+			data-lon="139.6503"
+			data-city="Tokyo"
 			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
 			<div class="text-2xl"><Icon name="twemoji:sushi" /></div>
 			<div class="font-semibold">Tokyo</div>
 		</button>
 
 		<button
-			onclick="loadWeather(-33.8688, 151.2093, 'Sydney')"
+			id="loc-sydney"
+			data-lat="-33.8688"
+			data-lon="151.2093"
+			data-city="Sydney"
 			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
 			<div class="text-2xl"><Icon name="twemoji:boomerang" /></div>
 			<div class="font-semibold">Sydney</div>
 		</button>
 
 		<button
-			onclick="loadWeather(48.8566, 2.3522, 'Paris')"
+			id="loc-paris"
+			data-lat="48.8566"
+			data-lon="2.3522"
+			data-city="Paris"
 			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
 			<div class="text-2xl"><Icon name="twemoji:croissant" /></div>
 			<div class="font-semibold">Paris</div>
 		</button>
 
 		<button
-			onclick="loadWeather(﻿-34.5997, -58.4416, 'Buenos Aires')"
+			id="loc-ba"
+			data-lat="-34.5997"
+			data-lon="-58.4416"
+			data-city="Buenos Aires"
 			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
 			<div class="text-2xl"><Icon name="twemoji:mate" /></div>
 			<div class="font-semibold">Buenos Aires</div>
 		</button>
 
 		<button
-			onclick="loadWeather(-23.5475, -46.6361, 'Rio de Janeiro')"
+			id="loc-rio"
+			data-lat="-23.5475"
+			data-lon="-46.6361"
+			data-city="Rio de Janeiro"
 			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
 			<div class="text-2xl"><Icon name="twemoji:flag-brazil" /></div>
 			<div class="font-semibold">Brazil</div>
 		</button>
 
 		<button
-			onclick="loadWeather(-30.559482,  22.937, 'South Africa')"
+			id="loc-sa"
+			data-lat="-30.559482"
+			data-lon="22.937"
+			data-city="South Africa"
 			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
 			<div class="text-2xl">
 				<Icon name="twemoji:globe-showing-europe-africa" />
@@ -62,7 +83,10 @@ import { Icon } from 'astro-icon/components'
 		</button>
 
 		<button
-			onclick="loadWeather(35.8617, 104.1954, 'Hong Kong')"
+			id="loc-hk"
+			data-lat="35.8617"
+			data-lon="104.1954"
+			data-city="Hong Kong"
 			class="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-white/20 p-4 text-center text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">
 			<div class="text-2xl"><Icon name="twemoji:panda" /></div>
 			<div class="font-semibold">Hong Kong</div>

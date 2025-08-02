@@ -356,7 +356,6 @@ try {
 			// TypeScript: declare AstroIcon on window
 			declare global {
 				interface Window {
-					AstroIcon?: { load: () => void }
 					loadWeather: (
 						lat: number,
 						lon: number,
@@ -378,16 +377,18 @@ try {
 						'.temp-toggle .fahrenheit',
 					)
 
-					if (unit === 'celsius') {
-						celsiusBtn?.classList.remove('bg-white/20')
-						celsiusBtn?.classList.add('bg-white/40')
-						fahrenheitBtn?.classList.remove('bg-white/40')
-						fahrenheitBtn?.classList.add('bg-white/20')
-					} else {
-						fahrenheitBtn?.classList.remove('bg-white/20')
-						fahrenheitBtn?.classList.add('bg-white/40')
-						celsiusBtn?.classList.remove('bg-white/40')
-						celsiusBtn?.classList.add('bg-white/20')
+					if (celsiusBtn && fahrenheitBtn) {
+						if (unit === 'celsius') {
+							celsiusBtn.classList.remove('bg-white/20')
+							celsiusBtn.classList.add('bg-white/40')
+							fahrenheitBtn.classList.remove('bg-white/40')
+							fahrenheitBtn.classList.add('bg-white/20')
+						} else {
+							fahrenheitBtn.classList.remove('bg-white/20')
+							fahrenheitBtn.classList.add('bg-white/40')
+							celsiusBtn.classList.remove('bg-white/40')
+							celsiusBtn.classList.add('bg-white/20')
+						}
 					}
 
 					// Convert current temperature
@@ -438,6 +439,20 @@ try {
 				if (window.switchToUnit) {
 					window.switchToUnit(savedUnit)
 				}
+
+				const locationButtons = document.querySelectorAll('button[id^="loc-"]')
+				locationButtons.forEach(button => {
+					button.addEventListener('click', function (event) {
+						const target = event.currentTarget as HTMLElement
+						const lat = target.dataset.lat
+						const lon = target.dataset.lon
+						const city = target.dataset.city
+
+						if (lat && lon && city) {
+							window.loadWeather(parseFloat(lat), parseFloat(lon), city)
+						}
+					})
+				})
 
 				const links = document.querySelectorAll('a[href*="lat="]')
 				links.forEach(link => {
@@ -614,15 +629,6 @@ try {
 				return `<span class="${sizeClass} ${animationClass} inline-block hover:scale-110 transition-all duration-300 cursor-pointer" title="${iconName}">${emoji}</span>`
 			}
 
-			// Legacy function for compatibility - now uses emoji icons with Tailwind animations
-			function createIconHTML(
-				iconName: string,
-				className: string = 'w-10 h-10 text-white',
-			): string {
-				const isLarge = className.includes('w-32') || className.includes('h-32')
-				return createWeatherIcon(iconName, isLarge)
-			}
-
 			// Function to update the weather display
 			function updateWeatherDisplay(weatherData: WeatherData) {
 				const weatherContainer = document.querySelector('.weather-container')
@@ -638,7 +644,7 @@ try {
               ${day.day}
             </div>
             <div class="flex justify-center mb-3">
-              ${createIconHTML(day.icon, 'w-10 h-10 text-white')}
+              ${createWeatherIcon(day.icon)}
             </div>
             <div class="text-lg font-bold text-white daily-temp-max" data-temp-c="${day.maxTemp}">
               ${day.maxTemp}°C
@@ -686,7 +692,7 @@ try {
             
             <div class="text-center mb-8">
               <div class="flex justify-center mb-6">
-                ${createIconHTML(weatherData.current.icon, 'w-32 h-32 text-white drop-shadow-lg')}
+                ${createWeatherIcon(weatherData.current.icon, true)}
               </div>
               <div class="text-7xl font-bold text-white mb-2 drop-shadow-md" id="currentTemp" data-temp-c="${weatherData.current.temperature}">
                 ${weatherData.current.temperature}°C

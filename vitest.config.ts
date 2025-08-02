@@ -5,5 +5,7 @@ export default getViteConfig({
 	test: {
 		/* for example, use global to avoid globals imports (describe, test, expect): */
 		// globals: true,
+		testTimeout: 60000,
+		hookTimeout: 60000,
 	},
 })

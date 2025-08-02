@@ -100,16 +100,15 @@ describe('Frontend Integration Tests', () => {
 	})
 
 	describe('JavaScript Integration', () => {
-		it('should include location selection buttons with onclick handlers', async () => {
+		it('should include location selection buttons with data attributes', async () => {
 			const response = await fetch(baseUrl)
 			const html = await response.text()
 
-			// Check for city buttons with onclick handlers
-			expect(html).toContain('New York')
-			expect(html).toContain('Tokyo')
-			expect(html).toContain('Sydney')
-			expect(html).toContain('Paris')
-			expect(html).toContain('onclick="loadWeather')
+			// Check for city buttons with data attributes
+			expect(html).toContain('id="loc-ny"')
+			expect(html).toContain('data-lat="40.7128"')
+			expect(html).toContain('data-lon="-74.0060"')
+			expect(html).toContain('data-city="New York"')
 		})
 
 		it('should include script modules for JavaScript functionality', async () => {
@@ -214,16 +213,14 @@ describe('Frontend Integration Tests', () => {
 	})
 
 	describe('Interactive Elements', () => {
-		it('should include interactive buttons with proper handlers', async () => {
+		it('should include interactive buttons with proper attributes', async () => {
 			const response = await fetch(baseUrl)
 			const html = await response.text()
 
 			// Check for interactive elements
-			expect(html).toContain(
-				'onclick="loadWeather(40.7128, -74.0060, \'New York\')"',
-			)
-			expect(html).toContain('onclick="switchToUnit(\'celsius\')"')
-			expect(html).toContain('onclick="switchToUnit(\'fahrenheit\')"')
+			expect(html).toContain('id="loc-ny"')
+			expect(html).toContain('id="celsiusBtn"')
+			expect(html).toContain('id="fahrenheitBtn"')
 		})
 
 		it('should include form elements for search', async () => {
