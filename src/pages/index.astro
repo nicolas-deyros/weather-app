@@ -20,12 +20,27 @@ try {
 	}
 
 	const response = await fetch(apiUrl.href)
+
 	if (response.ok) {
-		weatherData = await response.json()
+		const responseText = await response.text()
+		try {
+			weatherData = JSON.parse(responseText)
+		} catch (parseError) {
+			console.error('Failed to parse weather response:', parseError)
+			console.error('Response text:', responseText)
+			error = `Invalid response format: ${parseError instanceof Error ? parseError.message : 'JSON parse error'}`
+		}
 	} else {
-		error = `Weather API Error: ${response.status}`
+		// Try to get error details from response
+		try {
+			const errorData = await response.json()
+			error = `API Error (${response.status}): ${errorData.message || errorData.error || 'Unknown error'}`
+		} catch {
+			error = `API Error: HTTP ${response.status} ${response.statusText}`
+		}
 	}
 } catch (e) {
+	console.error('Weather fetch error:', e)
 	error = `Network Error: ${e instanceof Error ? e.message : 'Connection failed'}`
 }
 ---
@@ -510,25 +525,72 @@ try {
 						currentCoordsElem.textContent = `${lat}, ${lon}`
 					}
 
-					// Fetch weather data
+					// Fetch weather data with timeout
+					const controller = new AbortController()
+					const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
+
 					const response = await fetch(
 						`/api/weather.json?lat=${lat}&lon=${lon}`,
+						{
+							signal: controller.signal,
+							headers: {
+								Accept: 'application/json',
+								'Content-Type': 'application/json',
+							},
+						},
 					)
-					const weatherData = await response.json()
+					clearTimeout(timeoutId)
 
-					if (response.ok) {
+					// Check if response is actually JSON
+					const contentType = response.headers.get('content-type')
+					if (!contentType || !contentType.includes('application/json')) {
+						const responseText = await response.text()
+						console.error('Non-JSON response:', responseText)
+						throw new Error(
+							`Server returned ${contentType || 'unknown content type'} instead of JSON`,
+						)
+					}
+
+					const responseText = await response.text()
+					let weatherData
+
+					try {
+						weatherData = JSON.parse(responseText)
+					} catch (parseError) {
+						console.error('JSON parse error:', parseError)
+						console.error('Response text:', responseText)
+						throw new Error(
+							`Invalid JSON response: ${parseError instanceof Error ? parseError.message : 'Parse error'}`,
+						)
+					}
+
+					if (response.ok && weatherData && !weatherData.error) {
 						updateWeatherDisplay(weatherData)
 						const currentCityElem = document.getElementById('currentCity')
 						if (currentCityElem) {
-							currentCityElem.textContent = weatherData.location.city
+							currentCityElem.textContent =
+								weatherData.location?.city || cityName
 						}
 					} else {
-						showError(`Failed to load weather data: ${response.status}`)
+						const errorMessage =
+							weatherData?.message ||
+							weatherData?.error ||
+							`HTTP ${response.status}`
+						console.error('API error:', errorMessage)
+						showError(`Failed to load weather data: ${errorMessage}`)
 					}
 				} catch (error) {
-					showError(
-						`Network error: ${error instanceof Error ? error.message : String(error)}`,
-					)
+					console.error('Weather load error:', error)
+
+					if (error instanceof Error) {
+						if (error.name === 'AbortError') {
+							showError('Request timeout - please try again')
+						} else {
+							showError(`Network error: ${error.message}`)
+						}
+					} else {
+						showError(`Unexpected error: ${String(error)}`)
+					}
 				}
 			}
 
