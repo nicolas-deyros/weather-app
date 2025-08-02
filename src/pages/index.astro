@@ -237,20 +237,18 @@ try {
 								</div>
 
 								<div class="mb-6 flex justify-center">
-									<div class="flex rounded-lg bg-white/10 p-1">
-										<button
-											id="celsiusBtn"
-											onclick="switchToUnit('celsius')"
-											class="unit-btn active rounded-md px-3 py-1 font-medium text-white transition-all duration-200">
-											°C
-										</button>
-										<button
-											id="fahrenheitBtn"
-											onclick="switchToUnit('fahrenheit')"
-											class="unit-btn rounded-md px-3 py-1 font-medium text-white transition-all duration-200">
-											°F
-										</button>
-									</div>
+									<label
+										id="temp-toggle"
+										for="temp-toggle-checkbox"
+										class="relative inline-flex cursor-pointer items-center">
+										<input
+											type="checkbox"
+											value=""
+											id="temp-toggle-checkbox"
+											class="peer sr-only"
+										/>
+										<div class="peer relative h-10 w-20 rounded-full border border-white/30 bg-white/20 backdrop-blur-sm peer-checked:bg-white/30 peer-focus:ring-4 peer-focus:ring-white/20 peer-focus:outline-none before:absolute before:top-[4px] before:left-[4px] before:flex before:h-8 before:w-8 before:items-center before:justify-center before:rounded-full before:border before:border-white/40 before:bg-white/90 before:text-sm before:font-semibold before:text-blue-600 before:shadow-lg before:transition-all before:duration-300 before:content-['°C'] peer-checked:before:translate-x-10 peer-checked:before:opacity-0 after:absolute after:top-[4px] after:left-[4px] after:flex after:h-8 after:w-8 after:items-center after:justify-center after:rounded-full after:border after:border-white/40 after:bg-white/90 after:text-sm after:font-semibold after:text-orange-600 after:opacity-0 after:shadow-lg after:transition-all after:duration-300 after:content-['°F'] peer-checked:after:translate-x-10 peer-checked:after:opacity-100" />
+									</label>
 								</div>
 
 								<div class="mb-8 text-center">
@@ -371,24 +369,13 @@ try {
 				try {
 					console.log(`Switching to ${unit} units`)
 
-					// Update active button state
-					const celsiusBtn = document.querySelector('.temp-toggle .celsius')
-					const fahrenheitBtn = document.querySelector(
-						'.temp-toggle .fahrenheit',
-					)
-
-					if (celsiusBtn && fahrenheitBtn) {
-						if (unit === 'celsius') {
-							celsiusBtn.classList.remove('bg-white/20')
-							celsiusBtn.classList.add('bg-white/40')
-							fahrenheitBtn.classList.remove('bg-white/40')
-							fahrenheitBtn.classList.add('bg-white/20')
-						} else {
-							fahrenheitBtn.classList.remove('bg-white/20')
-							fahrenheitBtn.classList.add('bg-white/40')
-							celsiusBtn.classList.remove('bg-white/40')
-							celsiusBtn.classList.add('bg-white/20')
-						}
+					// Update toggle state
+					const toggleCheckbox = document.getElementById(
+						'temp-toggle-checkbox',
+					) as HTMLInputElement
+					if (toggleCheckbox) {
+						// Celsius is unchecked (false), Fahrenheit is checked (true)
+						toggleCheckbox.checked = unit === 'fahrenheit'
 					}
 
 					// Convert current temperature
@@ -438,6 +425,19 @@ try {
 				const savedUnit = localStorage.getItem('temperatureUnit') || 'celsius'
 				if (window.switchToUnit) {
 					window.switchToUnit(savedUnit)
+				}
+
+				// Add event listener for temperature toggle
+				const tempToggle = document.getElementById(
+					'temp-toggle-checkbox',
+				) as HTMLInputElement
+				if (tempToggle) {
+					tempToggle.addEventListener('change', function () {
+						const unit = this.checked ? 'fahrenheit' : 'celsius'
+						if (window.switchToUnit) {
+							window.switchToUnit(unit)
+						}
+					})
 				}
 
 				const locationButtons = document.querySelectorAll('button[id^="loc-"]')

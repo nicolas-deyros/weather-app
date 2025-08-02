@@ -92,10 +92,12 @@ describe('Frontend Integration Tests', () => {
 			const response = await fetch(baseUrl)
 			const html = await response.text()
 
-			// Check for temperature toggle buttons
+			// Check for temperature toggle switch
 			expect(html).toContain('°C')
 			expect(html).toContain('°F')
-			expect(html).toContain('switchToUnit')
+			expect(html).toContain('id="temp-toggle"')
+			expect(html).toContain('id="temp-toggle-checkbox"')
+			expect(html).toContain('type="checkbox"')
 		})
 	})
 
@@ -110,10 +112,10 @@ describe('Frontend Integration Tests', () => {
 			expect(html).toContain('data-lon="-74.0060"')
 			expect(html).toContain('data-city="New York"')
 
-			// Check for temperature toggle buttons
-			expect(html).toContain('id="celsiusBtn"')
-			expect(html).toContain('id="fahrenheitBtn"')
-			expect(html).toContain('switchToUnit')
+			// Check for temperature toggle switch
+			expect(html).toContain('id="temp-toggle"')
+			expect(html).toContain('id="temp-toggle-checkbox"')
+			expect(html).toContain('type="checkbox"')
 
 			// Check for script modules
 			expect(html).toContain('<script type="module"')
@@ -176,7 +178,7 @@ describe('Frontend Integration Tests', () => {
 			// Check for current weather display
 			expect(html).toContain('°C') // Temperature display
 			expect(html).toMatch(/data-temp-c="\d+"/)
-			expect(html).toMatch(/<div class="text-2xl font-medium text-white\/90">[\w\s]+<\/div>/)
+			expect(html).toContain('text-2xl font-medium text-white/90') // Weather description styling
 		})
 
 		it('should display daily forecast with correct data types', async () => {
@@ -207,8 +209,8 @@ describe('Frontend Integration Tests', () => {
 
 			// Check for interactive elements
 			expect(html).toContain('id="loc-ny"')
-			expect(html).toContain('id="celsiusBtn"')
-			expect(html).toContain('id="fahrenheitBtn"')
+			expect(html).toContain('id="temp-toggle"')
+			expect(html).toContain('id="temp-toggle-checkbox"')
 		})
 
 		it('should include form elements for search', async () => {

@@ -1,4 +1,5 @@
 # 🌤️ Weather- 𝔁 **Location Search** - Search for cities worldwide
+
 - ⚡ **Fast & Lightweight** - Built with Astro for optimal performance
 - 🧪 **Comprehensive Testing** - 42 tests covering utils, API, and frontend
 - 🚀 **Vercel Ready** - One-click deployment with zero configurationp
@@ -130,8 +131,9 @@ Or deploy manually:
 ### Build Configuration
 
 The project includes the Vercel adapter (`@astrojs/vercel`) which:
+
 - Enables server-side rendering (SSR) for API routes
-- Optimizes builds for Vercel's serverless functions  
+- Optimizes builds for Vercel's serverless functions
 - Handles static asset optimization automatically
 - Provides automatic preview deployments for PRs
 
@@ -143,7 +145,7 @@ The project includes the Vercel adapter (`@astrojs/vercel`) which:
 - **Weather API**: Open-Meteo API integration
 - **Testing**: Vitest with custom server health checks
 - **Icons**: Emoji-based weather representations with animations
-- **Styling**: Tailwind CSS with responsive design  
+- **Styling**: Tailwind CSS with responsive design
 - **Deployment**: Vercel adapter with SSR support
 
 ### Key Features Implementation
