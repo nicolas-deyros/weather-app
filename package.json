@@ -17,7 +17,7 @@
 		"test:with-server": "node test-runner.js",
 		"test:check": "node run-test-check.js",
 		"test:auto": "node auto-test.js",
-		"prepare": "test -z \"$CI\" && husky"
+		"prepare": "test -z \"$CI\" && husky || true"
 	},
 	"dependencies": {
 		"@astrojs/vercel": "^8.2.5",
