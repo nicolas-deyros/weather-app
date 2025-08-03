@@ -71,8 +71,12 @@ export const GET: APIRoute = async ({ url }) => {
 		// Get coordinates from query parameters, default to London
 		const latParam = url.searchParams.get('lat') || '51.5074'
 		const lonParam = url.searchParams.get('lon') || '-0.1278'
+		const cityParam = url.searchParams.get('city') // Optional city name from frontend
 
 		console.log(`Parsing coordinates: lat=${latParam}, lon=${lonParam}`)
+		if (cityParam) {
+			console.log(`Using provided city name: ${cityParam}`)
+		}
 
 		// Validate coordinates
 		const latitude = parseFloat(latParam)
@@ -206,56 +210,89 @@ export const GET: APIRoute = async ({ url }) => {
 
 		console.log('Processing weather data...')
 
-		// Get city name - simplified approach (disable geocoding for now)
-		const cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`
+		// Get city name - use provided city name if available
+		let cityName =
+			cityParam || `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`
 
-		// TODO: Re-enable geocoding once main API is working
-		/*
-		// Try to get a better city name, but don't fail if it doesn't work
-		try {
-			console.log('Attempting to get city name via geocoding...')
-			const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`
-			console.log('Geocoding URL:', geocodeUrl)
+		// If no city name was provided, try to resolve it
+		if (!cityParam) {
+			// Simple city lookup for common locations
+			const commonCities = [
+				{ lat: 51.5074, lon: -0.1278, name: 'London' },
+				{ lat: 40.7128, lon: -74.006, name: 'New York' },
+				{ lat: 48.8566, lon: 2.3522, name: 'Paris' },
+				{ lat: 35.6762, lon: 139.6503, name: 'Tokyo' },
+				{ lat: -33.8688, lon: 151.2093, name: 'Sydney' },
+				{ lat: 37.7749, lon: -122.4194, name: 'San Francisco' },
+				{ lat: 34.0522, lon: -118.2437, name: 'Los Angeles' },
+				{ lat: 41.8781, lon: -87.6298, name: 'Chicago' },
+				{ lat: 52.52, lon: 13.405, name: 'Berlin' },
+				{ lat: 55.7558, lon: 37.6176, name: 'Moscow' },
+			]
 
-			const controller = new AbortController()
-			const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout for geocoding
-
-			const geocodeResponse = await fetch(geocodeUrl, {
-				headers: {
-					'User-Agent': 'WeatherApp/1.0',
-					Accept: 'application/json',
-				},
-				signal: controller.signal,
-			})
-
-			clearTimeout(timeoutId)
-
-			if (geocodeResponse.ok) {
-				const geocodeData = await geocodeResponse.json()
-				console.log('Geocoding response received:', geocodeData)
-
-				const extractedCity =
-					geocodeData.address?.city ||
-					geocodeData.address?.town ||
-					geocodeData.address?.village ||
-					geocodeData.display_name?.split(',')[0]?.trim()
-
-				if (extractedCity) {
-					cityName = extractedCity
-					console.log('Extracted city name:', cityName)
-				} else {
-					console.log(
-						'No city name found in geocoding response, using coordinates',
-					)
+			// Check if coordinates match a known city (within 0.1 degree tolerance)
+			for (const city of commonCities) {
+				if (
+					Math.abs(latitude - city.lat) < 0.1 &&
+					Math.abs(longitude - city.lon) < 0.1
+				) {
+					cityName = city.name
+					console.log(`Matched known city: ${cityName}`)
+					break
 				}
-			} else {
-				console.warn(`Geocoding API returned status ${geocodeResponse.status}`)
 			}
-		} catch (geocodeError) {
-			console.warn('Geocoding failed:', geocodeError)
-			// Keep the coordinate-based name - this is fine in production
+
+			// If no match found, try geocoding as fallback
+			if (cityName === `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`) {
+				try {
+					console.log('Attempting to get city name via geocoding...')
+					const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`
+					console.log('Geocoding URL:', geocodeUrl)
+
+					const controller = new AbortController()
+					const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout for geocoding
+
+					const geocodeResponse = await fetch(geocodeUrl, {
+						headers: {
+							'User-Agent': 'WeatherApp/1.0',
+							Accept: 'application/json',
+						},
+						signal: controller.signal,
+					})
+
+					clearTimeout(timeoutId)
+
+					if (geocodeResponse.ok) {
+						const geocodeData = await geocodeResponse.json()
+						console.log('Geocoding response received:', geocodeData)
+
+						const extractedCity =
+							geocodeData.address?.city ||
+							geocodeData.address?.town ||
+							geocodeData.address?.village ||
+							geocodeData.display_name?.split(',')[0]?.trim()
+
+						if (extractedCity) {
+							cityName = extractedCity
+							console.log('Extracted city name:', cityName)
+						} else {
+							console.log(
+								'No city name found in geocoding response, using coordinates',
+							)
+						}
+					} else {
+						console.warn(
+							`Geocoding API returned status ${geocodeResponse.status}`,
+						)
+					}
+				} catch (geocodeError) {
+					console.warn('Geocoding failed:', geocodeError)
+					// Keep the coordinate-based name - this is fine in production
+				}
+			}
+		} else {
+			console.log(`Using provided city name: ${cityName}`)
 		}
-		*/
 
 		// Process current weather
 		const currentWeatherCode = weatherData.current?.weather_code ?? 0

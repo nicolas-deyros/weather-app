@@ -87,13 +87,16 @@ window.loadWeather = async function (o, n, a) {
 		r && (r.textContent = `${o}, ${n}`)
 		const m = new AbortController(),
 			u = setTimeout(() => m.abort(), 15e3),
-			l = await fetch(`/api/weather.json?lat=${o}&lon=${n}`, {
-				signal: m.signal,
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
+			l = await fetch(
+				`/api/weather.json?lat=${o}&lon=${n}&city=${encodeURIComponent(a)}`,
+				{
+					signal: m.signal,
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
 				},
-			})
+			)
 		clearTimeout(u)
 		const c = l.headers.get('content-type')
 		if (!c || !c.includes('application/json')) {

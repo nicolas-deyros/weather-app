@@ -48,7 +48,11 @@ const GET = async ({ url }) => {
   try {
     const latParam = url.searchParams.get("lat") || "51.5074";
     const lonParam = url.searchParams.get("lon") || "-0.1278";
+    const cityParam = url.searchParams.get("city");
     console.log(`Parsing coordinates: lat=${latParam}, lon=${lonParam}`);
+    if (cityParam) {
+      console.log(`Using provided city name: ${cityParam}`);
+    }
     const latitude = parseFloat(latParam);
     const longitude = parseFloat(lonParam);
     if (isNaN(latitude) || isNaN(longitude)) {
@@ -159,7 +163,66 @@ const GET = async ({ url }) => {
       );
     }
     console.log("Processing weather data...");
-    const cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`;
+    let cityName = cityParam || `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`;
+    if (!cityParam) {
+      const commonCities = [
+        { lat: 51.5074, lon: -0.1278, name: "London" },
+        { lat: 40.7128, lon: -74.006, name: "New York" },
+        { lat: 48.8566, lon: 2.3522, name: "Paris" },
+        { lat: 35.6762, lon: 139.6503, name: "Tokyo" },
+        { lat: -33.8688, lon: 151.2093, name: "Sydney" },
+        { lat: 37.7749, lon: -122.4194, name: "San Francisco" },
+        { lat: 34.0522, lon: -118.2437, name: "Los Angeles" },
+        { lat: 41.8781, lon: -87.6298, name: "Chicago" },
+        { lat: 52.52, lon: 13.405, name: "Berlin" },
+        { lat: 55.7558, lon: 37.6176, name: "Moscow" }
+      ];
+      for (const city of commonCities) {
+        if (Math.abs(latitude - city.lat) < 0.1 && Math.abs(longitude - city.lon) < 0.1) {
+          cityName = city.name;
+          console.log(`Matched known city: ${cityName}`);
+          break;
+        }
+      }
+      if (cityName === `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`) {
+        try {
+          console.log("Attempting to get city name via geocoding...");
+          const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`;
+          console.log("Geocoding URL:", geocodeUrl);
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 5e3);
+          const geocodeResponse = await fetch(geocodeUrl, {
+            headers: {
+              "User-Agent": "WeatherApp/1.0",
+              Accept: "application/json"
+            },
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+          if (geocodeResponse.ok) {
+            const geocodeData = await geocodeResponse.json();
+            console.log("Geocoding response received:", geocodeData);
+            const extractedCity = geocodeData.address?.city || geocodeData.address?.town || geocodeData.address?.village || geocodeData.display_name?.split(",")[0]?.trim();
+            if (extractedCity) {
+              cityName = extractedCity;
+              console.log("Extracted city name:", cityName);
+            } else {
+              console.log(
+                "No city name found in geocoding response, using coordinates"
+              );
+            }
+          } else {
+            console.warn(
+              `Geocoding API returned status ${geocodeResponse.status}`
+            );
+          }
+        } catch (geocodeError) {
+          console.warn("Geocoding failed:", geocodeError);
+        }
+      }
+    } else {
+      console.log(`Using provided city name: ${cityName}`);
+    }
     const currentWeatherCode = weatherData.current?.weather_code ?? 0;
     const currentTemp = weatherData.current?.temperature_2m ?? 0;
     const currentWeather = weatherCodeToIcon[currentWeatherCode] || {
