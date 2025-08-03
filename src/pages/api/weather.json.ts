@@ -65,14 +65,14 @@ interface WeatherApiResponse {
 }
 
 export const GET: APIRoute = async ({ url }) => {
-	console.log('Weather API called with params:', url.searchParams.toString())
+	// console.log('Weather API called with params:', url.searchParams.toString())
 
 	try {
 		// Get coordinates from query parameters, default to London
 		const latParam = url.searchParams.get('lat') || '51.5074'
 		const lonParam = url.searchParams.get('lon') || '-0.1278'
 
-		console.log(`Parsing coordinates: lat=${latParam}, lon=${lonParam}`)
+		// console.log(`Parsing coordinates: lat=${latParam}, lon=${lonParam}`)
 
 		// Validate coordinates
 		const latitude = parseFloat(latParam)
@@ -111,12 +111,12 @@ export const GET: APIRoute = async ({ url }) => {
 			)
 		}
 
-		console.log(`Valid coordinates: ${latitude}, ${longitude}`)
+		// console.log(`Valid coordinates: ${latitude}, ${longitude}`)
 
 		// Build the Open-Meteo API URL (simplified)
 		const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=4`
 
-		console.log('Fetching weather data from:', weatherUrl)
+		// console.log('Fetching weather data from:', weatherUrl)
 
 		// Fetch weather data with simpler error handling
 		let weatherResponse: Response
@@ -155,7 +155,7 @@ export const GET: APIRoute = async ({ url }) => {
 		let weatherData: WeatherApiResponse
 		try {
 			weatherData = await weatherResponse.json()
-			console.log('Weather data received successfully')
+			// console.log('Weather data received successfully')
 		} catch (parseError) {
 			console.error('Failed to parse weather response:', parseError)
 			return new Response(
@@ -185,7 +185,7 @@ export const GET: APIRoute = async ({ url }) => {
 			)
 		}
 
-		console.log('Processing weather data...')
+		// console.log('Processing weather data...')
 
 		// Get city name - simplified approach
 		let cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`
@@ -296,7 +296,7 @@ export const GET: APIRoute = async ({ url }) => {
 			daily: dailyForecast,
 		}
 
-		console.log('Returning successful response')
+		// console.log('Returning successful response')
 		return new Response(JSON.stringify(finalResponse), {
 			status: 200,
 			headers: {

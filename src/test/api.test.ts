@@ -14,7 +14,7 @@ interface WeatherResponse {
 		description: string
 	}
 	daily: Array<{
-		time: string
+		date: string
 		day: string
 		maxTemp: number
 		minTemp: number
@@ -100,7 +100,7 @@ describe('Weather API Tests', () => {
 			expect(data.daily.length).toBeLessThanOrEqual(3) // Max 3 days
 
 			data.daily.forEach(day => {
-				expect(day).toHaveProperty('time')
+				expect(day).toHaveProperty('date')
 				expect(day).toHaveProperty('day')
 				expect(day).toHaveProperty('maxTemp')
 				expect(day).toHaveProperty('minTemp')
@@ -260,7 +260,7 @@ describe('Weather API Tests', () => {
 			expect(currentTime.getTime()).not.toBeNaN()
 
 			data.daily.forEach(day => {
-				const dayTime = new Date(day.time)
+				const dayTime = new Date(day.date)
 				expect(dayTime.getTime()).not.toBeNaN()
 			})
 		})

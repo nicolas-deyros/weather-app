@@ -36,6 +36,16 @@ export default [
 		...jsxA11y.flatConfigs.recommended,
 	},
 	{
-		ignores: ['.astro/', 'dist/', 'node_modules/', '.gitignore'],
+		ignores: [
+			'.astro/', 
+			'dist/', 
+			'node_modules/', 
+			'.gitignore',
+			'.vercel/**/*',
+			'**/*.mjs',
+			'**/chunks/**/*',
+			'**/_functions/**/*',
+			'**/static/_astro/**/*'
+		],
 	},
 ]

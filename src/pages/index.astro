@@ -382,7 +382,7 @@ try {
 			// Global function to switch temperature units
 			window.switchToUnit = function (unit: string) {
 				try {
-					console.log(`Switching to ${unit} units`)
+					// console.log(`Switching to ${unit} units`)
 
 					// Update toggle state
 					const toggleCheckbox = document.getElementById(
@@ -618,6 +618,9 @@ try {
 				iconName: string,
 				isLarge: boolean = false,
 			): string {
+				// Debug logging to see what icons we're getting
+				// console.log(`Creating weather icon for: ${iconName}`)
+
 				const sizeClass = isLarge ? 'text-8xl' : 'text-4xl'
 				let emoji = '☁️'
 				let animationClass = ''
@@ -656,6 +659,7 @@ try {
 						emoji = '⛈️'
 						animationClass = 'animate-thunder-pulse'
 						break
+					case 'meteocons:thunderstorms-rain-fill':
 					case 'meteocons:thunderstorms-day-rain-fill':
 					case 'meteocons:thunderstorms-night-rain-fill':
 						// These icons may not exist, fallback to regular thunderstorms
@@ -686,9 +690,133 @@ try {
 						emoji = '🌪️'
 						animationClass = 'animate-spin'
 						break
-					default:
+					// Additional meteocons icons that might be returned by the API
+					case 'meteocons:partly-cloudy-fill':
+						emoji = '⛅'
+						animationClass = 'animate-partly-cloudy'
+						break
+					case 'meteocons:overcast-day-fill':
+					case 'meteocons:overcast-night-fill':
 						emoji = '☁️'
 						animationClass = 'animate-pulse'
+						break
+					case 'meteocons:rain-heavy-fill':
+						emoji = '🌧️'
+						animationClass = 'animate-rain-drop'
+						break
+					case 'meteocons:thunderstorms-day-fill':
+					case 'meteocons:thunderstorms-night-fill':
+						emoji = '⛈️'
+						animationClass = 'animate-thunder-pulse'
+						break
+					case 'meteocons:snow-heavy-fill':
+						emoji = '🌨️'
+						animationClass = 'animate-snow-float'
+						break
+					case 'meteocons:fog-day-fill':
+					case 'meteocons:fog-night-fill':
+						emoji = '🌫️'
+						animationClass = 'animate-fog-swirl'
+						break
+					case 'meteocons:mist-fill':
+						emoji = '🌫️'
+						animationClass = 'animate-fog-swirl'
+						break
+					case 'meteocons:dust-fill':
+						emoji = '🌫️'
+						animationClass = 'animate-fog-swirl'
+						break
+					case 'meteocons:smoke-fill':
+						emoji = '🌫️'
+						animationClass = 'animate-fog-swirl'
+						break
+					case 'meteocons:haze-fill':
+						emoji = '🌫️'
+						animationClass = 'animate-fog-swirl'
+						break
+					case 'meteocons:extreme-fill':
+						emoji = '🌪️'
+						animationClass = 'animate-spin'
+						break
+					case 'meteocons:hurricane-fill':
+						emoji = '🌀'
+						animationClass = 'animate-spin'
+						break
+					case 'meteocons:windy-fill':
+					case 'meteocons:wind-strong-fill':
+						emoji = '💨'
+						animationClass = 'animate-wind-sway'
+						break
+					// Handle any icon name that contains common weather patterns
+					default:
+						// Smart fallback based on icon name patterns
+						if (iconName.includes('clear') && iconName.includes('day')) {
+							emoji = '☀️'
+							animationClass = 'animate-bounce'
+						} else if (
+							iconName.includes('clear') &&
+							iconName.includes('night')
+						) {
+							emoji = '🌙'
+							animationClass = 'animate-pulse'
+						} else if (
+							iconName.includes('partly-cloudy') ||
+							iconName.includes('partial')
+						) {
+							emoji = '⛅'
+							animationClass = 'animate-partly-cloudy'
+						} else if (
+							iconName.includes('rain') ||
+							iconName.includes('drizzle')
+						) {
+							emoji = '🌧️'
+							animationClass = 'animate-rain-drop'
+						} else if (
+							iconName.includes('thunder') ||
+							iconName.includes('storm')
+						) {
+							emoji = '⛈️'
+							animationClass = 'animate-thunder-pulse'
+						} else if (iconName.includes('snow')) {
+							emoji = '🌨️'
+							animationClass = 'animate-snow-float'
+						} else if (
+							iconName.includes('sleet') ||
+							iconName.includes('hail')
+						) {
+							emoji = '🌨️'
+							animationClass = 'animate-hail-bounce'
+						} else if (
+							iconName.includes('fog') ||
+							iconName.includes('mist') ||
+							iconName.includes('haze')
+						) {
+							emoji = '🌫️'
+							animationClass = 'animate-fog-swirl'
+						} else if (iconName.includes('wind')) {
+							emoji = '💨'
+							animationClass = 'animate-wind-sway'
+						} else if (
+							iconName.includes('tornado') ||
+							iconName.includes('hurricane') ||
+							iconName.includes('extreme')
+						) {
+							emoji = '🌪️'
+							animationClass = 'animate-spin'
+						} else if (
+							iconName.includes('cloudy') ||
+							iconName.includes('overcast')
+						) {
+							emoji = '☁️'
+							animationClass = 'animate-pulse'
+						} else {
+							// Ultimate fallback
+							emoji = '☁️'
+							animationClass = 'animate-pulse'
+							console.warn(
+								`Unknown weather icon: ${iconName}, using default fallback`,
+							)
+						}
 						break
 				}
 
