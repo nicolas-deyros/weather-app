@@ -37,15 +37,15 @@ export default [
 	},
 	{
 		ignores: [
-			'.astro/', 
-			'dist/', 
-			'node_modules/', 
+			'.astro/',
+			'dist/',
+			'node_modules/',
 			'.gitignore',
 			'.vercel/**/*',
 			'**/*.mjs',
 			'**/chunks/**/*',
 			'**/_functions/**/*',
-			'**/static/_astro/**/*'
+			'**/static/_astro/**/*',
 		],
 	},
 ]
