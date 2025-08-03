@@ -21,6 +21,7 @@
 	},
 	"ignoreFiles": [
 		"dist/**/*",
+		"src/styles/*",
 		".vercel/**/*",
 		".astro/**/*",
 		"node_modules/**/*"
