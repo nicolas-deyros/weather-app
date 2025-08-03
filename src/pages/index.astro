@@ -572,11 +572,23 @@ try {
 								weatherData.location?.city || cityName
 						}
 					} else {
-						const errorMessage =
-							weatherData?.message ||
-							weatherData?.error ||
-							`HTTP ${response.status}`
+						// Handle error response - ensure we get a readable message
+						let errorMessage = 'Unknown error'
+						
+						if (weatherData?.message) {
+							errorMessage = typeof weatherData.message === 'string' 
+								? weatherData.message 
+								: JSON.stringify(weatherData.message)
+						} else if (weatherData?.error) {
+							errorMessage = typeof weatherData.error === 'string' 
+								? weatherData.error 
+								: JSON.stringify(weatherData.error)
+						} else {
+							errorMessage = `HTTP ${response.status} - ${response.statusText}`
+						}
+						
 						console.error('API error:', errorMessage)
+						console.error('Full error response:', weatherData)
 						showError(`Failed to load weather data: ${errorMessage}`)
 					}
 				} catch (error) {

@@ -39,11 +39,11 @@ const weatherCodeToIcon: Record<number, { icon: string; description: string }> =
 		86: { icon: 'meteocons:snow-fill', description: 'Heavy snow showers' },
 		95: { icon: 'meteocons:thunderstorms-fill', description: 'Thunderstorm' },
 		96: {
-			icon: 'meteocons:thunderstorms-rain-fill',
+			icon: 'meteocons:thunderstorms-fill',
 			description: 'Thunderstorm with slight hail',
 		},
 		99: {
-			icon: 'meteocons:thunderstorms-rain-fill',
+			icon: 'meteocons:thunderstorms-fill',
 			description: 'Thunderstorm with heavy hail',
 		},
 	}
@@ -65,14 +65,14 @@ interface WeatherApiResponse {
 }
 
 export const GET: APIRoute = async ({ url }) => {
-	// console.log('Weather API called with params:', url.searchParams.toString())
+	console.log('Weather API called with params:', url.searchParams.toString())
 
 	try {
 		// Get coordinates from query parameters, default to London
 		const latParam = url.searchParams.get('lat') || '51.5074'
 		const lonParam = url.searchParams.get('lon') || '-0.1278'
 
-		// console.log(`Parsing coordinates: lat=${latParam}, lon=${lonParam}`)
+		console.log(`Parsing coordinates: lat=${latParam}, lon=${lonParam}`)
 
 		// Validate coordinates
 		const latitude = parseFloat(latParam)
@@ -84,6 +84,7 @@ export const GET: APIRoute = async ({ url }) => {
 				JSON.stringify({
 					error: 'Invalid coordinates',
 					message: 'Latitude and longitude must be valid numbers',
+					code: '400'
 				}),
 				{
 					status: 400,
@@ -103,6 +104,7 @@ export const GET: APIRoute = async ({ url }) => {
 				JSON.stringify({
 					error: 'Invalid coordinate range',
 					message: 'Coordinates out of valid range',
+					code: '400'
 				}),
 				{
 					status: 400,
@@ -111,12 +113,12 @@ export const GET: APIRoute = async ({ url }) => {
 			)
 		}
 
-		// console.log(`Valid coordinates: ${latitude}, ${longitude}`)
+		console.log(`Valid coordinates: ${latitude}, ${longitude}`)
 
 		// Build the Open-Meteo API URL (simplified)
 		const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=4`
 
-		// console.log('Fetching weather data from:', weatherUrl)
+		console.log('Fetching weather data from:', weatherUrl)
 
 		// Fetch weather data with simpler error handling
 		let weatherResponse: Response
@@ -129,7 +131,8 @@ export const GET: APIRoute = async ({ url }) => {
 			return new Response(
 				JSON.stringify({
 					error: 'Network error',
-					message: 'Failed to fetch weather data',
+					message: 'Failed to fetch weather data from Open-Meteo API',
+					code: '502'
 				}),
 				{
 					status: 502,
@@ -143,7 +146,8 @@ export const GET: APIRoute = async ({ url }) => {
 			return new Response(
 				JSON.stringify({
 					error: 'Weather service error',
-					message: `Weather API returned ${weatherResponse.status}`,
+					message: `Open-Meteo API returned status ${weatherResponse.status}`,
+					code: '502'
 				}),
 				{
 					status: 502,
@@ -155,13 +159,14 @@ export const GET: APIRoute = async ({ url }) => {
 		let weatherData: WeatherApiResponse
 		try {
 			weatherData = await weatherResponse.json()
-			// console.log('Weather data received successfully')
+			console.log('Weather data received successfully')
 		} catch (parseError) {
 			console.error('Failed to parse weather response:', parseError)
 			return new Response(
 				JSON.stringify({
 					error: 'Invalid response',
-					message: 'Weather API returned invalid data',
+					message: 'Open-Meteo API returned invalid JSON data',
+					code: '502'
 				}),
 				{
 					status: 502,
@@ -172,11 +177,16 @@ export const GET: APIRoute = async ({ url }) => {
 
 		// Validate essential data
 		if (!weatherData?.current || !weatherData?.daily) {
-			console.error('Missing essential weather data')
+			console.error('Missing essential weather data:', {
+				hasCurrentData: !!weatherData?.current,
+				hasDailyData: !!weatherData?.daily,
+				receivedData: weatherData
+			})
 			return new Response(
 				JSON.stringify({
 					error: 'Incomplete data',
-					message: 'Weather API returned incomplete data',
+					message: 'Open-Meteo API returned incomplete weather data',
+					code: '502'
 				}),
 				{
 					status: 502,
@@ -185,14 +195,17 @@ export const GET: APIRoute = async ({ url }) => {
 			)
 		}
 
-		// console.log('Processing weather data...')
+		console.log('Processing weather data...')
 
 		// Get city name - simplified approach
 		let cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`
 
 		// Try to get a better city name, but don't fail if it doesn't work
 		try {
+			console.log('Attempting to get city name via geocoding...')
 			const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`
+			console.log('Geocoding URL:', geocodeUrl)
+			
 			const geocodeResponse = await fetch(geocodeUrl, {
 				headers: {
 					'User-Agent': 'WeatherApp/1.0',
@@ -202,6 +215,8 @@ export const GET: APIRoute = async ({ url }) => {
 
 			if (geocodeResponse.ok) {
 				const geocodeData = await geocodeResponse.json()
+				console.log('Geocoding response received:', geocodeData)
+				
 				const extractedCity =
 					geocodeData.address?.city ||
 					geocodeData.address?.town ||
@@ -210,10 +225,15 @@ export const GET: APIRoute = async ({ url }) => {
 
 				if (extractedCity) {
 					cityName = extractedCity
+					console.log('Extracted city name:', cityName)
+				} else {
+					console.log('No city name found in geocoding response, using coordinates')
 				}
+			} else {
+				console.warn(`Geocoding API returned status ${geocodeResponse.status}`)
 			}
-		} catch {
-			console.warn('Geocoding failed, using coordinates as city name')
+		} catch (geocodeError) {
+			console.warn('Geocoding failed:', geocodeError)
 			// Keep the coordinate-based name
 		}
 
@@ -297,6 +317,7 @@ export const GET: APIRoute = async ({ url }) => {
 		}
 
 		// console.log('Returning successful response')
+		console.log('Returning successful response for city:', cityName)
 		return new Response(JSON.stringify(finalResponse), {
 			status: 200,
 			headers: {
@@ -312,6 +333,7 @@ export const GET: APIRoute = async ({ url }) => {
 			error: 'Server error',
 			message:
 				error instanceof Error ? error.message : 'An unexpected error occurred',
+			code: '500',
 			timestamp: new Date().toISOString(),
 		}
 
