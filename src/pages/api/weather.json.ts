@@ -84,7 +84,7 @@ export const GET: APIRoute = async ({ url }) => {
 				JSON.stringify({
 					error: 'Invalid coordinates',
 					message: 'Latitude and longitude must be valid numbers',
-					code: '400'
+					code: '400',
 				}),
 				{
 					status: 400,
@@ -104,7 +104,7 @@ export const GET: APIRoute = async ({ url }) => {
 				JSON.stringify({
 					error: 'Invalid coordinate range',
 					message: 'Coordinates out of valid range',
-					code: '400'
+					code: '400',
 				}),
 				{
 					status: 400,
@@ -132,7 +132,7 @@ export const GET: APIRoute = async ({ url }) => {
 				JSON.stringify({
 					error: 'Network error',
 					message: 'Failed to fetch weather data from Open-Meteo API',
-					code: '502'
+					code: '502',
 				}),
 				{
 					status: 502,
@@ -147,7 +147,7 @@ export const GET: APIRoute = async ({ url }) => {
 				JSON.stringify({
 					error: 'Weather service error',
 					message: `Open-Meteo API returned status ${weatherResponse.status}`,
-					code: '502'
+					code: '502',
 				}),
 				{
 					status: 502,
@@ -166,7 +166,7 @@ export const GET: APIRoute = async ({ url }) => {
 				JSON.stringify({
 					error: 'Invalid response',
 					message: 'Open-Meteo API returned invalid JSON data',
-					code: '502'
+					code: '502',
 				}),
 				{
 					status: 502,
@@ -180,13 +180,13 @@ export const GET: APIRoute = async ({ url }) => {
 			console.error('Missing essential weather data:', {
 				hasCurrentData: !!weatherData?.current,
 				hasDailyData: !!weatherData?.daily,
-				receivedData: weatherData
+				receivedData: weatherData,
 			})
 			return new Response(
 				JSON.stringify({
 					error: 'Incomplete data',
 					message: 'Open-Meteo API returned incomplete weather data',
-					code: '502'
+					code: '502',
 				}),
 				{
 					status: 502,
@@ -205,7 +205,7 @@ export const GET: APIRoute = async ({ url }) => {
 			console.log('Attempting to get city name via geocoding...')
 			const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`
 			console.log('Geocoding URL:', geocodeUrl)
-			
+
 			const geocodeResponse = await fetch(geocodeUrl, {
 				headers: {
 					'User-Agent': 'WeatherApp/1.0',
@@ -216,7 +216,7 @@ export const GET: APIRoute = async ({ url }) => {
 			if (geocodeResponse.ok) {
 				const geocodeData = await geocodeResponse.json()
 				console.log('Geocoding response received:', geocodeData)
-				
+
 				const extractedCity =
 					geocodeData.address?.city ||
 					geocodeData.address?.town ||
@@ -227,7 +227,9 @@ export const GET: APIRoute = async ({ url }) => {
 					cityName = extractedCity
 					console.log('Extracted city name:', cityName)
 				} else {
-					console.log('No city name found in geocoding response, using coordinates')
+					console.log(
+						'No city name found in geocoding response, using coordinates',
+					)
 				}
 			} else {
 				console.warn(`Geocoding API returned status ${geocodeResponse.status}`)
