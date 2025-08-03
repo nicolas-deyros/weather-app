@@ -44,15 +44,12 @@ const weatherCodeToIcon = {
   }
 };
 const GET = async ({ url }) => {
-  console.log("Weather API called with params:", url.searchParams.toString());
   try {
     const latParam = url.searchParams.get("lat") || "51.5074";
     const lonParam = url.searchParams.get("lon") || "-0.1278";
-    console.log(`Parsing coordinates: lat=${latParam}, lon=${lonParam}`);
     const latitude = parseFloat(latParam);
     const longitude = parseFloat(lonParam);
     if (isNaN(latitude) || isNaN(longitude)) {
-      console.error("Invalid coordinates received");
       return new Response(
         JSON.stringify({
           error: "Invalid coordinates",
@@ -66,7 +63,6 @@ const GET = async ({ url }) => {
       );
     }
     if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
-      console.error("Coordinates out of range");
       return new Response(
         JSON.stringify({
           error: "Invalid coordinate range",
@@ -79,20 +75,26 @@ const GET = async ({ url }) => {
         }
       );
     }
-    console.log(`Valid coordinates: ${latitude}, ${longitude}`);
     const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=4`;
-    console.log("Fetching weather data from:", weatherUrl);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8e3);
     let weatherResponse;
     try {
       weatherResponse = await fetch(weatherUrl, {
-        headers: { "User-Agent": "WeatherApp/1.0" }
+        signal: controller.signal,
+        headers: {
+          "User-Agent": "WeatherApp/1.0",
+          "Accept": "application/json"
+        }
       });
+      clearTimeout(timeoutId);
     } catch (fetchError) {
-      console.error("Weather fetch failed:", fetchError);
+      clearTimeout(timeoutId);
+      const errorMessage = fetchError instanceof Error ? fetchError.message : "Unknown fetch error";
       return new Response(
         JSON.stringify({
           error: "Network error",
-          message: "Failed to fetch weather data from Open-Meteo API",
+          message: `Failed to fetch weather data - ${errorMessage}`,
           code: "502"
         }),
         {
@@ -102,11 +104,10 @@ const GET = async ({ url }) => {
       );
     }
     if (!weatherResponse.ok) {
-      console.error(`Weather API error: ${weatherResponse.status}`);
       return new Response(
         JSON.stringify({
           error: "Weather service error",
-          message: `Open-Meteo API returned status ${weatherResponse.status}`,
+          message: `Weather API returned status ${weatherResponse.status}`,
           code: "502"
         }),
         {
@@ -118,13 +119,12 @@ const GET = async ({ url }) => {
     let weatherData;
     try {
       weatherData = await weatherResponse.json();
-      console.log("Weather data received successfully");
     } catch (parseError) {
-      console.error("Failed to parse weather response:", parseError);
+      const errorMessage = parseError instanceof Error ? parseError.message : "Parse error";
       return new Response(
         JSON.stringify({
           error: "Invalid response",
-          message: "Open-Meteo API returned invalid JSON data",
+          message: `Weather API returned invalid JSON data: ${errorMessage}`,
           code: "502"
         }),
         {
@@ -134,15 +134,10 @@ const GET = async ({ url }) => {
       );
     }
     if (!weatherData?.current || !weatherData?.daily) {
-      console.error("Missing essential weather data:", {
-        hasCurrentData: !!weatherData?.current,
-        hasDailyData: !!weatherData?.daily,
-        receivedData: weatherData
-      });
       return new Response(
         JSON.stringify({
           error: "Incomplete data",
-          message: "Open-Meteo API returned incomplete weather data",
+          message: "Weather API returned incomplete data",
           code: "502"
         }),
         {
@@ -151,40 +146,11 @@ const GET = async ({ url }) => {
         }
       );
     }
-    console.log("Processing weather data...");
-    let cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`;
-    try {
-      console.log("Attempting to get city name via geocoding...");
-      const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`;
-      console.log("Geocoding URL:", geocodeUrl);
-      const geocodeResponse = await fetch(geocodeUrl, {
-        headers: {
-          "User-Agent": "WeatherApp/1.0",
-          Accept: "application/json"
-        }
-      });
-      if (geocodeResponse.ok) {
-        const geocodeData = await geocodeResponse.json();
-        console.log("Geocoding response received:", geocodeData);
-        const extractedCity = geocodeData.address?.city || geocodeData.address?.town || geocodeData.address?.village || geocodeData.display_name?.split(",")[0]?.trim();
-        if (extractedCity) {
-          cityName = extractedCity;
-          console.log("Extracted city name:", cityName);
-        } else {
-          console.log(
-            "No city name found in geocoding response, using coordinates"
-          );
-        }
-      } else {
-        console.warn(`Geocoding API returned status ${geocodeResponse.status}`);
-      }
-    } catch (geocodeError) {
-      console.warn("Geocoding failed:", geocodeError);
-    }
+    const cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`;
     const currentWeatherCode = weatherData.current?.weather_code ?? 0;
     const currentTemp = weatherData.current?.temperature_2m ?? 0;
     const currentWeather = weatherCodeToIcon[currentWeatherCode] || {
-      icon: "meteocons:clear-day-fill",
+      icon: "meteocons:overcast-fill",
       description: "Unknown"
     };
     const dailyForecast = [];
@@ -196,7 +162,7 @@ const GET = async ({ url }) => {
           const maxTemp = weatherData.daily.temperature_2m_max?.[i] ?? currentTemp;
           const minTemp = weatherData.daily.temperature_2m_min?.[i] ?? currentTemp;
           const weather = weatherCodeToIcon[weatherCode] || {
-            icon: "meteocons:clear-day-fill",
+            icon: "meteocons:overcast-fill",
             description: "Unknown"
           };
           const date = new Date(time);
@@ -212,8 +178,7 @@ const GET = async ({ url }) => {
           });
         }
       }
-    } catch (dailyError) {
-      console.error("Error processing daily forecast:", dailyError);
+    } catch {
     }
     while (dailyForecast.length < 3) {
       const futureDate = /* @__PURE__ */ new Date();
@@ -243,19 +208,21 @@ const GET = async ({ url }) => {
       },
       daily: dailyForecast
     };
-    console.log("Returning successful response for city:", cityName);
     return new Response(JSON.stringify(finalResponse), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "public, max-age=300"
+        "Cache-Control": "public, max-age=300",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type"
       }
     });
   } catch (error) {
-    console.error("Unexpected error in weather API:", error);
+    const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
     const errorResponse = {
       error: "Server error",
-      message: error instanceof Error ? error.message : "An unexpected error occurred",
+      message: errorMessage,
       code: "500",
       timestamp: (/* @__PURE__ */ new Date()).toISOString()
     };
