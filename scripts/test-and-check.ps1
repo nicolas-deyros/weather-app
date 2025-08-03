@@ -2,6 +2,9 @@
 Write-Host "🧪 Running Tests with Error Checking" -ForegroundColor Cyan
 Write-Host "=====================================" -ForegroundColor Cyan
 
+# Change to project root directory
+Set-Location ..
+
 # Function to check if port is in use
 function Test-Port {
     param([int]$Port)

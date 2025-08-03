@@ -65,16 +65,21 @@ interface WeatherApiResponse {
 }
 
 export const GET: APIRoute = async ({ url }) => {
+	console.log('Weather API called with params:', url.searchParams.toString())
+
 	try {
-		// Get coordinates from query parameters with defaults
+		// Get coordinates from query parameters, default to London
 		const latParam = url.searchParams.get('lat') || '51.5074'
 		const lonParam = url.searchParams.get('lon') || '-0.1278'
 
-		// Parse and validate coordinates
+		console.log(`Parsing coordinates: lat=${latParam}, lon=${lonParam}`)
+
+		// Validate coordinates
 		const latitude = parseFloat(latParam)
 		const longitude = parseFloat(lonParam)
 
 		if (isNaN(latitude) || isNaN(longitude)) {
+			console.error('Invalid coordinates received')
 			return new Response(
 				JSON.stringify({
 					error: 'Invalid coordinates',
@@ -94,6 +99,7 @@ export const GET: APIRoute = async ({ url }) => {
 			longitude < -180 ||
 			longitude > 180
 		) {
+			console.error('Coordinates out of range')
 			return new Response(
 				JSON.stringify({
 					error: 'Invalid coordinate range',
@@ -107,31 +113,25 @@ export const GET: APIRoute = async ({ url }) => {
 			)
 		}
 
-		// Simplified weather API URL
+		console.log(`Valid coordinates: ${latitude}, ${longitude}`)
+
+		// Build the Open-Meteo API URL (simplified)
 		const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=4`
 
-		// Fetch weather data with timeout
-		const controller = new AbortController()
-		const timeoutId = setTimeout(() => controller.abort(), 8000) // 8 second timeout
+		console.log('Fetching weather data from:', weatherUrl)
 
+		// Fetch weather data with simpler error handling
 		let weatherResponse: Response
 		try {
 			weatherResponse = await fetch(weatherUrl, {
-				signal: controller.signal,
-				headers: {
-					'User-Agent': 'WeatherApp/1.0',
-					Accept: 'application/json',
-				},
+				headers: { 'User-Agent': 'WeatherApp/1.0' },
 			})
-			clearTimeout(timeoutId)
-		} catch (fetchError: unknown) {
-			clearTimeout(timeoutId)
-			const errorMessage =
-				fetchError instanceof Error ? fetchError.message : 'Unknown fetch error'
+		} catch (fetchError) {
+			console.error('Weather fetch failed:', fetchError)
 			return new Response(
 				JSON.stringify({
 					error: 'Network error',
-					message: `Failed to fetch weather data - ${errorMessage}`,
+					message: 'Failed to fetch weather data from Open-Meteo API',
 					code: '502',
 				}),
 				{
@@ -142,10 +142,11 @@ export const GET: APIRoute = async ({ url }) => {
 		}
 
 		if (!weatherResponse.ok) {
+			console.error(`Weather API error: ${weatherResponse.status}`)
 			return new Response(
 				JSON.stringify({
 					error: 'Weather service error',
-					message: `Weather API returned status ${weatherResponse.status}`,
+					message: `Open-Meteo API returned status ${weatherResponse.status}`,
 					code: '502',
 				}),
 				{
@@ -158,13 +159,13 @@ export const GET: APIRoute = async ({ url }) => {
 		let weatherData: WeatherApiResponse
 		try {
 			weatherData = await weatherResponse.json()
-		} catch (parseError: unknown) {
-			const errorMessage =
-				parseError instanceof Error ? parseError.message : 'Parse error'
+			console.log('Weather data received successfully')
+		} catch (parseError) {
+			console.error('Failed to parse weather response:', parseError)
 			return new Response(
 				JSON.stringify({
 					error: 'Invalid response',
-					message: `Weather API returned invalid JSON data: ${errorMessage}`,
+					message: 'Open-Meteo API returned invalid JSON data',
 					code: '502',
 				}),
 				{
@@ -176,10 +177,15 @@ export const GET: APIRoute = async ({ url }) => {
 
 		// Validate essential data
 		if (!weatherData?.current || !weatherData?.daily) {
+			console.error('Missing essential weather data:', {
+				hasCurrentData: !!weatherData?.current,
+				hasDailyData: !!weatherData?.daily,
+				receivedData: weatherData,
+			})
 			return new Response(
 				JSON.stringify({
 					error: 'Incomplete data',
-					message: 'Weather API returned incomplete data',
+					message: 'Open-Meteo API returned incomplete weather data',
 					code: '502',
 				}),
 				{
@@ -189,18 +195,59 @@ export const GET: APIRoute = async ({ url }) => {
 			)
 		}
 
-		// Simplified city name - just use coordinates to avoid geocoding timeout
-		const cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`
+		console.log('Processing weather data...')
+
+		// Get city name - simplified approach
+		let cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`
+
+		// Try to get a better city name, but don't fail if it doesn't work
+		try {
+			console.log('Attempting to get city name via geocoding...')
+			const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`
+			console.log('Geocoding URL:', geocodeUrl)
+
+			const geocodeResponse = await fetch(geocodeUrl, {
+				headers: {
+					'User-Agent': 'WeatherApp/1.0',
+					Accept: 'application/json',
+				},
+			})
+
+			if (geocodeResponse.ok) {
+				const geocodeData = await geocodeResponse.json()
+				console.log('Geocoding response received:', geocodeData)
+
+				const extractedCity =
+					geocodeData.address?.city ||
+					geocodeData.address?.town ||
+					geocodeData.address?.village ||
+					geocodeData.display_name?.split(',')[0]?.trim()
+
+				if (extractedCity) {
+					cityName = extractedCity
+					console.log('Extracted city name:', cityName)
+				} else {
+					console.log(
+						'No city name found in geocoding response, using coordinates',
+					)
+				}
+			} else {
+				console.warn(`Geocoding API returned status ${geocodeResponse.status}`)
+			}
+		} catch (geocodeError) {
+			console.warn('Geocoding failed:', geocodeError)
+			// Keep the coordinate-based name
+		}
 
 		// Process current weather
 		const currentWeatherCode = weatherData.current?.weather_code ?? 0
 		const currentTemp = weatherData.current?.temperature_2m ?? 0
 		const currentWeather = weatherCodeToIcon[currentWeatherCode] || {
-			icon: 'meteocons:overcast-fill',
+			icon: 'meteocons:clear-day-fill',
 			description: 'Unknown',
 		}
 
-		// Process daily forecast - simplified and safe
+		// Process daily forecast - simplified
 		const dailyForecast = []
 		try {
 			if (weatherData.daily?.time && Array.isArray(weatherData.daily.time)) {
@@ -214,7 +261,7 @@ export const GET: APIRoute = async ({ url }) => {
 						weatherData.daily.temperature_2m_min?.[i] ?? currentTemp
 
 					const weather = weatherCodeToIcon[weatherCode] || {
-						icon: 'meteocons:overcast-fill',
+						icon: 'meteocons:clear-day-fill',
 						description: 'Unknown',
 					}
 
@@ -233,8 +280,9 @@ export const GET: APIRoute = async ({ url }) => {
 					})
 				}
 			}
-		} catch {
-			// Continue without daily forecast - we'll create fallback data
+		} catch (dailyError) {
+			console.error('Error processing daily forecast:', dailyError)
+			// Continue without daily forecast
 		}
 
 		// Ensure we have at least some forecast data
@@ -270,23 +318,23 @@ export const GET: APIRoute = async ({ url }) => {
 			daily: dailyForecast,
 		}
 
+		// console.log('Returning successful response')
+		console.log('Returning successful response for city:', cityName)
 		return new Response(JSON.stringify(finalResponse), {
 			status: 200,
 			headers: {
 				'Content-Type': 'application/json',
 				'Cache-Control': 'public, max-age=300',
-				'Access-Control-Allow-Origin': '*',
-				'Access-Control-Allow-Methods': 'GET',
-				'Access-Control-Allow-Headers': 'Content-Type',
 			},
 		})
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error('Unexpected error in weather API:', error)
+
 		// Always return a valid JSON error response
-		const errorMessage =
-			error instanceof Error ? error.message : 'An unexpected error occurred'
 		const errorResponse = {
 			error: 'Server error',
-			message: errorMessage,
+			message:
+				error instanceof Error ? error.message : 'An unexpected error occurred',
 			code: '500',
 			timestamp: new Date().toISOString(),
 		}

@@ -3,7 +3,13 @@
 import { spawn } from 'child_process'
 import fs from 'fs'
 import http from 'http'
+import path from 'path'
 import process from 'process'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const projectRoot = path.resolve(__dirname, '..')
 
 console.log('🧪 Running comprehensive test check...')
 console.log('=====================================\n')
@@ -23,7 +29,8 @@ try {
 
 	let allFilesExist = true
 	requiredFiles.forEach(file => {
-		const exists = fs.existsSync(file)
+		const fullPath = path.resolve(projectRoot, file)
+		const exists = fs.existsSync(fullPath)
 		console.log(`  ${exists ? '✅' : '❌'} ${file}`)
 		if (!exists) allFilesExist = false
 	})
@@ -79,6 +86,7 @@ console.log('===========================================\n')
 const testProcess = spawn('npm', ['test'], {
 	stdio: 'inherit',
 	shell: true,
+	cwd: projectRoot,
 })
 
 testProcess.on('close', code => {

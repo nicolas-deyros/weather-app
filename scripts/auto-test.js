@@ -2,9 +2,14 @@
 
 import { spawn } from 'child_process'
 import http from 'http'
+import path from 'path'
 import process from 'process'
+import { fileURLToPath } from 'url'
 import { promisify } from 'util'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const projectRoot = path.resolve(__dirname, '..')
 const sleep = promisify(setTimeout)
 
 console.log('🌤️  Weather App Automatic Test Runner')
@@ -65,6 +70,7 @@ async function main() {
 				stdio: ['pipe', 'pipe', 'pipe'],
 				shell: true,
 				detached: false,
+				cwd: projectRoot,
 			})
 
 			// Log server output for debugging
@@ -97,6 +103,7 @@ async function main() {
 		const testProcess = spawn('npm', ['test'], {
 			stdio: 'inherit',
 			shell: true,
+			cwd: projectRoot,
 		})
 
 		testProcess.on('close', code => {

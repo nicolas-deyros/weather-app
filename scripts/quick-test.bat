@@ -2,6 +2,9 @@
 echo Testing Weather App...
 echo.
 
+REM Change to project root directory
+cd ..
+
 REM Check if node_modules exists
 if not exist "node_modules" (
     echo Installing dependencies...

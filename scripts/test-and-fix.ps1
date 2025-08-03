@@ -4,6 +4,9 @@
 Write-Host "🌤️ Weather App Test Runner & Bug Fixer" -ForegroundColor Cyan
 Write-Host "=======================================" -ForegroundColor Cyan
 
+# Change to project root directory
+Set-Location ..
+
 # Function to test if server is responding
 function Test-ServerHealth {
     try {
