@@ -440,13 +440,15 @@ if (lat && lon) {
 				// Load default London weather if no coordinates are in URL and no weather data from SSR
 				const urlParams = new URLSearchParams(window.location.search)
 				const hasCoords = urlParams.has('lat') && urlParams.has('lon')
-				const hasWeatherData = document.querySelector('.weather-container')?.innerHTML.includes('📍')
-				
+				const hasWeatherData = document
+					.querySelector('.weather-container')
+					?.innerHTML.includes('📍')
+
 				if (!hasCoords && !hasWeatherData) {
 					// Load default London weather
 					window.loadWeather(51.5074, -0.1278, 'London')
 				}
-				
+
 				// Initialize temperature unit based on user preference
 				const savedUnit = localStorage.getItem('temperatureUnit') || 'celsius'
 				if (window.switchToUnit) {

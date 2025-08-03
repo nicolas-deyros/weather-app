@@ -1,0 +1,2637 @@
+<!doctype html>
+<html lang="en" data-astro-cid-u2gxjkmk>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon-animated.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Weather Icons & Animations Test Page</title>
+		<link rel="stylesheet" href="/_astro/icons.Dv8dZwlk.css" />
+		<style>
+			@keyframes rainDrop {
+				0%,
+				to {
+					transform: translateY(0);
+				}
+				50% {
+					transform: translateY(-10px);
+				}
+			}
+			@keyframes snowFloat {
+				0%,
+				to {
+					transform: translateY(0) rotate(0);
+				}
+				33% {
+					transform: translateY(-8px) rotate(120deg);
+				}
+				66% {
+					transform: translateY(-4px) rotate(240deg);
+				}
+			}
+			@keyframes thunderPulse {
+				0%,
+				to {
+					transform: scale(1);
+					opacity: 1;
+				}
+				25% {
+					transform: scale(1.1);
+					opacity: 0.8;
+				}
+				50% {
+					transform: scale(1.05);
+					opacity: 1;
+				}
+				75% {
+					transform: scale(1.15);
+					opacity: 0.7;
+				}
+			}
+			@keyframes partlyCloudyDrift {
+				0%,
+				to {
+					transform: translate(0) translateY(0);
+				}
+				33% {
+					transform: translate(-3px) translateY(-2px);
+				}
+				66% {
+					transform: translate(3px) translateY(-1px);
+				}
+			}
+			@keyframes fogSwirl {
+				0%,
+				to {
+					transform: translate(0);
+					opacity: 0.8;
+				}
+				50% {
+					transform: translate(-5px);
+					opacity: 1;
+				}
+			}
+			@keyframes windSway {
+				0%,
+				to {
+					transform: translate(0) rotate(0);
+				}
+				25% {
+					transform: translate(-8px) rotate(-5deg);
+				}
+				50% {
+					transform: translate(8px) rotate(5deg);
+				}
+				75% {
+					transform: translate(-4px) rotate(-2deg);
+				}
+			}
+			@keyframes hailBounce {
+				0%,
+				to {
+					transform: translateY(0);
+				}
+				25% {
+					transform: translateY(-8px);
+				}
+				50% {
+					transform: translateY(-4px);
+				}
+				75% {
+					transform: translateY(-12px);
+				}
+			}
+			.animate-rain-drop[data-astro-cid-u2gxjkmk] {
+				animation: rainDrop 1.5s ease-in-out infinite;
+			}
+			.animate-snow-float[data-astro-cid-u2gxjkmk] {
+				animation: snowFloat 3s ease-in-out infinite;
+			}
+			.animate-snow-fast[data-astro-cid-u2gxjkmk] {
+				animation: snowFloat 2s ease-in-out infinite;
+			}
+			.animate-thunder-pulse[data-astro-cid-u2gxjkmk] {
+				animation: thunderPulse 1s ease-in-out infinite;
+			}
+			.animate-partly-cloudy[data-astro-cid-u2gxjkmk] {
+				animation: partlyCloudyDrift 2.5s ease-in-out infinite;
+			}
+			.animate-partly-cloudy-slow[data-astro-cid-u2gxjkmk] {
+				animation: partlyCloudyDrift 3s ease-in-out infinite;
+			}
+			.animate-fog-swirl[data-astro-cid-u2gxjkmk] {
+				animation: fogSwirl 4s ease-in-out infinite;
+			}
+			.animate-wind-sway[data-astro-cid-u2gxjkmk] {
+				animation: windSway 2s ease-in-out infinite;
+			}
+			.animate-hail-bounce[data-astro-cid-u2gxjkmk] {
+				animation: hailBounce 1.2s ease-in-out infinite;
+			}
+		</style>
+	</head>
+	<body
+		class="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500"
+		data-astro-cid-u2gxjkmk>
+		<div class="container mx-auto px-4 py-8" data-astro-cid-u2gxjkmk>
+			<!-- Header -->
+			<div class="mb-8 text-center" data-astro-cid-u2gxjkmk>
+				<h1 class="mb-2 text-5xl font-bold text-white" data-astro-cid-u2gxjkmk>
+					🎨 Weather Icons & Animations Gallery
+				</h1>
+				<p class="text-white/80" data-astro-cid-u2gxjkmk>
+					Testing all weather icons and emoji animations
+				</p>
+				<a
+					href="/"
+					class="mt-4 inline-block rounded-lg bg-white/20 px-4 py-2 text-white backdrop-blur-md transition-all hover:bg-white/30"
+					data-astro-cid-u2gxjkmk>
+					← Back to Weather App
+				</a>
+			</div>
+			<!-- Meteocons Icons Section -->
+			<div class="mb-8" data-astro-cid-u2gxjkmk>
+				<div class="mb-6 text-center" data-astro-cid-u2gxjkmk>
+					<h2
+						class="mb-2 text-3xl font-bold text-white"
+						data-astro-cid-u2gxjkmk>
+						🎯 Meteocons SVG Icons
+					</h2>
+					<p class="text-white/70" data-astro-cid-u2gxjkmk>
+						Direct icon component usage with custom animations
+					</p>
+				</div>
+			</div>
+			<!-- Icons Grid -->
+			<div
+				class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+				data-astro-cid-u2gxjkmk>
+				<!-- Clear Day -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="h-20 w-20 animate-bounce cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:clear-day-fill">
+							<symbol id="ai:meteocons:clear-day-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsClearDayFill0"
+										x1="150"
+										x2="234"
+										y1="119.2"
+										y2="264.8"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#fbbf24" />
+										<stop offset=".5" stop-color="#fbbf24" />
+										<stop offset="1" stop-color="#f59e0b" />
+									</linearGradient>
+									<symbol id="meteoconsClearDayFill1" viewBox="0 0 384 384">
+										<circle
+											cx="192"
+											cy="192"
+											r="84"
+											fill="url(#meteoconsClearDayFill0)"
+											stroke="#f8af18"
+											stroke-miterlimit="10"
+											stroke-width="6" />
+										<path
+											fill="none"
+											stroke="#fbbf24"
+											stroke-linecap="round"
+											stroke-miterlimit="10"
+											stroke-width="24"
+											d="M192 61.7V12m0 360v-49.7m92.2-222.5l35-35M64.8 319.2l35.1-35.1m0-184.4l-35-35m254.5 254.5l-35.1-35.1M61.7 192H12m360 0h-49.7">
+											<animateTransform
+												additive="sum"
+												attributeName="transform"
+												dur="6s"
+												repeatCount="indefinite"
+												type="rotate"
+												values="0 192 192; 45 192 192" />
+										</path>
+									</symbol>
+								</defs>
+								<use
+									width="384"
+									height="384"
+									href="#meteoconsClearDayFill1"
+									transform="translate(64 64)" />
+							</symbol>
+							<use href="#ai:meteocons:clear-day-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Clear Day
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:clear-day-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-bounce
+					</p>
+				</div>
+				<!-- Clear Night -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="h-20 w-20 animate-pulse cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:clear-night-fill">
+							<symbol id="ai:meteocons:clear-night-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsClearNightFill0"
+										x1="54.3"
+										x2="187.2"
+										y1="29"
+										y2="259.1"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#86c3db" />
+										<stop offset=".5" stop-color="#86c3db" />
+										<stop offset="1" stop-color="#5eafcf" />
+									</linearGradient>
+									<symbol id="meteoconsClearNightFill1" viewBox="0 0 270 270">
+										<path
+											fill="url(#meteoconsClearNightFill0)"
+											stroke="#72b9d5"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="6"
+											d="M252.3 168.6A133.4 133.4 0 0 1 118 36.2A130.5 130.5 0 0 1 122.5 3A133 133 0 0 0 3 134.6C3 207.7 63 267 137.2 267c62.5 0 114.8-42.2 129.8-99.2a135.6 135.6 0 0 1-14.8.8Z">
+											<animateTransform
+												additive="sum"
+												attributeName="transform"
+												dur="6s"
+												repeatCount="indefinite"
+												type="rotate"
+												values="-15 135 135; 9 135 135; -15 135 135" />
+										</path>
+									</symbol>
+								</defs>
+								<use
+									width="270"
+									height="270"
+									href="#meteoconsClearNightFill1"
+									transform="translate(121 121)" />
+							</symbol>
+							<use href="#ai:meteocons:clear-night-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Clear Night
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:clear-night-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-pulse
+					</p>
+				</div>
+				<!-- Partly Cloudy Day -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-partly-cloudy h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:partly-cloudy-day-fill">
+							<symbol
+								id="ai:meteocons:partly-cloudy-day-fill"
+								viewBox="0 0 512 512">
+								<defs>
+									<symbol
+										id="meteoconsPartlyCloudyDayFill0"
+										viewBox="0 0 196 196">
+										<circle
+											cx="98"
+											cy="98"
+											r="40"
+											fill="url(#meteoconsPartlyCloudyDayFill4)"
+											stroke="#f8af18"
+											stroke-miterlimit="10"
+											stroke-width="4" />
+										<path
+											fill="none"
+											stroke="#fbbf24"
+											stroke-linecap="round"
+											stroke-miterlimit="10"
+											stroke-width="12"
+											d="M98 31.4V6m0 184v-25.4M145.1 51l18-17.9M33 163l18-17.9M51 51L33 33m130.1 130.1l-18-18M6 98h25.4M190 98h-25.4">
+											<animateTransform
+												additive="sum"
+												attributeName="transform"
+												dur="6s"
+												repeatCount="indefinite"
+												type="rotate"
+												values="0 98 98; 45 98 98" />
+										</path>
+									</symbol>
+									<symbol
+										id="meteoconsPartlyCloudyDayFill1"
+										viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsPartlyCloudyDayFill3)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+									<symbol
+										id="meteoconsPartlyCloudyDayFill2"
+										viewBox="0 0 363 258">
+										<use
+											width="196"
+											height="196"
+											href="#meteoconsPartlyCloudyDayFill0" />
+										<use
+											width="350"
+											height="222"
+											href="#meteoconsPartlyCloudyDayFill1"
+											transform="translate(13 36)" />
+									</symbol>
+									<linearGradient
+										id="meteoconsPartlyCloudyDayFill3"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsPartlyCloudyDayFill4"
+										x1="78"
+										x2="118"
+										y1="63.4"
+										y2="132.7"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#fbbf24" />
+										<stop offset=".5" stop-color="#fbbf24" />
+										<stop offset="1" stop-color="#f59e0b" />
+									</linearGradient>
+								</defs>
+								<use
+									width="363"
+									height="258"
+									href="#meteoconsPartlyCloudyDayFill2"
+									transform="translate(68 109)" />
+							</symbol>
+							<use href="#ai:meteocons:partly-cloudy-day-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Partly Cloudy Day
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:partly-cloudy-day-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-partly-cloudy
+					</p>
+				</div>
+				<!-- Partly Cloudy Night -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-partly-cloudy-slow h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:partly-cloudy-night-fill">
+							<symbol
+								id="ai:meteocons:partly-cloudy-night-fill"
+								viewBox="0 0 512 512">
+								<defs>
+									<symbol
+										id="meteoconsPartlyCloudyNightFill0"
+										viewBox="0 0 172 172">
+										<path
+											fill="url(#meteoconsPartlyCloudyNightFill4)"
+											stroke="#72b9d5"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="4"
+											d="M160.6 107.4a84.8 84.8 0 0 1-85.4-84.3A83.3 83.3 0 0 1 78 2A84.7 84.7 0 0 0 2 85.7A84.8 84.8 0 0 0 87.4 170a85.2 85.2 0 0 0 82.6-63.1a88 88 0 0 1-9.4.5Z">
+											<animateTransform
+												additive="sum"
+												attributeName="transform"
+												dur="6s"
+												repeatCount="indefinite"
+												type="rotate"
+												values="-15 86 86; 9 86 86; -15 86 86" />
+										</path>
+									</symbol>
+									<symbol
+										id="meteoconsPartlyCloudyNightFill1"
+										viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsPartlyCloudyNightFill3)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+									<symbol
+										id="meteoconsPartlyCloudyNightFill2"
+										viewBox="0 0 351 246">
+										<use
+											width="172"
+											height="172"
+											href="#meteoconsPartlyCloudyNightFill0" />
+										<use
+											width="350"
+											height="222"
+											href="#meteoconsPartlyCloudyNightFill1"
+											transform="translate(1 24)" />
+									</symbol>
+									<linearGradient
+										id="meteoconsPartlyCloudyNightFill3"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsPartlyCloudyNightFill4"
+										x1="34.7"
+										x2="119.2"
+										y1="18.6"
+										y2="165"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#86c3db" />
+										<stop offset=".5" stop-color="#86c3db" />
+										<stop offset="1" stop-color="#5eafcf" />
+									</linearGradient>
+								</defs>
+								<use
+									width="351"
+									height="246"
+									href="#meteoconsPartlyCloudyNightFill2"
+									transform="translate(80 121)" />
+							</symbol>
+							<use href="#ai:meteocons:partly-cloudy-night-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Partly Cloudy Night
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:partly-cloudy-night-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-partly-cloudy-slow
+					</p>
+				</div>
+				<!-- Cloudy -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="h-20 w-20 animate-pulse cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:cloudy-fill">
+							<symbol id="ai:meteocons:cloudy-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsCloudyFill0"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<symbol id="meteoconsCloudyFill1" viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsCloudyFill0)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+								</defs>
+								<use
+									width="350"
+									height="222"
+									href="#meteoconsCloudyFill1"
+									transform="translate(81 145)">
+									<animateTransform
+										additive="sum"
+										attributeName="transform"
+										dur="6s"
+										repeatCount="indefinite"
+										type="translate"
+										values="-18 0; 18 0; -18 0" />
+								</use>
+							</symbol>
+							<use href="#ai:meteocons:cloudy-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Cloudy
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:cloudy-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-pulse
+					</p>
+				</div>
+				<!-- Overcast -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="h-20 w-20 animate-pulse cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:overcast-fill">
+							<symbol id="ai:meteocons:overcast-fill" viewBox="0 0 512 512">
+								<defs>
+									<symbol id="meteoconsOvercastFill0" viewBox="0 0 200.3 126.1">
+										<path
+											fill="url(#meteoconsOvercastFill4)"
+											stroke="#848b98"
+											stroke-miterlimit="10"
+											d="M.5 93.2a32.4 32.4 0 0 0 32.4 32.4h129.8v-.1l2.3.1a34.8 34.8 0 0 0 6.5-68.9a32.4 32.4 0 0 0-48.5-33a48.6 48.6 0 0 0-88.6 37.1h-1.5A32.4 32.4 0 0 0 .5 93.1Z" />
+									</symbol>
+									<symbol id="meteoconsOvercastFill1" viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsOvercastFill3)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+									<symbol id="meteoconsOvercastFill2" viewBox="0 0 398 222">
+										<use
+											width="200.3"
+											height="126.1"
+											href="#meteoconsOvercastFill0"
+											transform="translate(198 27)">
+											<animateTransform
+												additive="sum"
+												attributeName="transform"
+												dur="6s"
+												repeatCount="indefinite"
+												type="translate"
+												values="-9 0; 9 0; -9 0" />
+										</use>
+										<use
+											width="350"
+											height="222"
+											href="#meteoconsOvercastFill1">
+											<animateTransform
+												additive="sum"
+												attributeName="transform"
+												dur="6s"
+												repeatCount="indefinite"
+												type="translate"
+												values="-18 0; 18 0; -18 0" />
+										</use>
+									</symbol>
+									<linearGradient
+										id="meteoconsOvercastFill3"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsOvercastFill4"
+										x1="52.7"
+										x2="133.4"
+										y1="9.6"
+										y2="149.3"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#9ca3af" />
+										<stop offset=".5" stop-color="#9ca3af" />
+										<stop offset="1" stop-color="#6b7280" />
+									</linearGradient>
+								</defs>
+								<use
+									width="398"
+									height="222"
+									href="#meteoconsOvercastFill2"
+									transform="translate(68.84 145)" />
+							</symbol>
+							<use href="#ai:meteocons:overcast-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Overcast
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:overcast-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-pulse
+					</p>
+				</div>
+				<!-- Rain -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-rain-drop h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:rain-fill">
+							<symbol id="ai:meteocons:rain-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsRainFill0"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsRainFill1"
+										x1="1381.3"
+										x2="1399.5"
+										y1="-1144.7"
+										y2="-1097.4"
+										gradientTransform="rotate(-9 8002.567 8233.063)"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#0b65ed" />
+										<stop offset=".5" stop-color="#0a5ad4" />
+										<stop offset="1" stop-color="#0950bc" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsRainFill2"
+										x1="1436.7"
+										x2="1454.9"
+										y1="-1137"
+										y2="-1089.7"
+										gradientTransform="rotate(-9 8009.537 8233.037)"
+										href="#meteoconsRainFill1" />
+									<linearGradient
+										id="meteoconsRainFill3"
+										x1="1492.1"
+										x2="1510.3"
+										y1="-1129.3"
+										y2="-1082.1"
+										gradientTransform="rotate(-9 8016.566 8233.078)"
+										href="#meteoconsRainFill1" />
+									<symbol id="meteoconsRainFill4" viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsRainFill0)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+									<symbol id="meteoconsRainFill5" viewBox="0 0 129 57">
+										<path
+											fill="url(#meteoconsRainFill1)"
+											stroke="#0a5ad4"
+											stroke-miterlimit="10"
+											d="M8.5 56.5a8 8 0 0 1-8-8v-40a8 8 0 0 1 16 0v40a8 8 0 0 1-8 8Z"
+											opacity="0">
+											<animateTransform
+												id="meteoconsRainFill6"
+												additive="sum"
+												attributeName="transform"
+												begin="0s; x1.end+.33s"
+												dur=".67s"
+												type="translate"
+												values="0 -60; 0 60" />
+											<animate
+												id="meteoconsRainFill7"
+												attributeName="opacity"
+												begin="0s; y1.end+.33s"
+												dur=".67s"
+												keyTimes="0; .25; 1"
+												values="0; 1; 0" />
+										</path>
+										<path
+											fill="url(#meteoconsRainFill2)"
+											stroke="#0a5ad4"
+											stroke-miterlimit="10"
+											d="M64.5 56.5a8 8 0 0 1-8-8v-40a8 8 0 0 1 16 0v40a8 8 0 0 1-8 8Z"
+											opacity="0">
+											<animateTransform
+												id="meteoconsRainFill8"
+												additive="sum"
+												attributeName="transform"
+												begin=".33s; x2.end+.33s"
+												dur=".67s"
+												type="translate"
+												values="0 -60; 0 60" />
+											<animate
+												id="meteoconsRainFill9"
+												attributeName="opacity"
+												begin=".33s; y2.end+.33s"
+												dur=".67s"
+												keyTimes="0; .25; 1"
+												values="0; 1; 0" />
+										</path>
+										<path
+											fill="url(#meteoconsRainFill3)"
+											stroke="#0a5ad4"
+											stroke-miterlimit="10"
+											d="M120.5 56.5a8 8 0 0 1-8-8v-40a8 8 0 0 1 16 0v40a8 8 0 0 1-8 8Z"
+											opacity="0">
+											<animateTransform
+												id="meteoconsRainFilla"
+												additive="sum"
+												attributeName="transform"
+												begin="-.33s; x3.end+.33s"
+												dur=".67s"
+												type="translate"
+												values="0 -60; 0 60" />
+											<animate
+												id="meteoconsRainFillb"
+												attributeName="opacity"
+												begin="-.33s; y3.end+.33s"
+												dur=".67s"
+												keyTimes="0; .25; 1"
+												values="0; 1; 0" />
+										</path>
+									</symbol>
+								</defs>
+								<use
+									width="350"
+									height="222"
+									href="#meteoconsRainFill4"
+									transform="translate(81 145)" />
+								<use
+									width="129"
+									height="57"
+									href="#meteoconsRainFill5"
+									transform="translate(191.5 343.5)" />
+							</symbol>
+							<use href="#ai:meteocons:rain-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Rain
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:rain-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-rain-drop
+					</p>
+				</div>
+				<!-- Drizzle -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-rain-drop h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:drizzle-fill">
+							<symbol id="ai:meteocons:drizzle-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsDrizzleFill0"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsDrizzleFill1"
+										x1="1314.8"
+										x2="1324.2"
+										y1="-739.9"
+										y2="-715.3"
+										gradientTransform="rotate(-9 7682.04 6929.539)"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#0b65ed" />
+										<stop offset=".5" stop-color="#0a5ad4" />
+										<stop offset="1" stop-color="#0950bc" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsDrizzleFill2"
+										x1="1370.1"
+										x2="1379.5"
+										y1="-731.1"
+										y2="-706.5"
+										href="#meteoconsDrizzleFill1" />
+									<linearGradient
+										id="meteoconsDrizzleFill3"
+										x1="1425.4"
+										x2="1434.9"
+										y1="-722.4"
+										y2="-697.8"
+										href="#meteoconsDrizzleFill1" />
+									<symbol id="meteoconsDrizzleFill4" viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsDrizzleFill0)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+								</defs>
+								<use
+									width="350"
+									height="222"
+									href="#meteoconsDrizzleFill4"
+									transform="translate(81 145)" />
+								<path
+									fill="url(#meteoconsDrizzleFill1)"
+									stroke="#0a5ad4"
+									stroke-miterlimit="10"
+									d="M200 376a8 8 0 0 1-8-8v-12a8 8 0 0 1 16 0v12a8 8 0 0 1-8 8Z"
+									opacity="0">
+									<animateTransform
+										id="meteoconsDrizzleFill5"
+										additive="sum"
+										attributeName="transform"
+										begin="0s; x1.end+1s"
+										dur="1s"
+										keyTimes="0; .25; 1"
+										type="translate"
+										values="0 -32; 0 -32; 0 120;" />
+									<animate
+										id="meteoconsDrizzleFill6"
+										attributeName="opacity"
+										begin="0s; y1.end+1s"
+										dur="1s"
+										keyTimes="0; .25; 1"
+										values="0; 1; 0" />
+								</path>
+								<path
+									fill="url(#meteoconsDrizzleFill2)"
+									stroke="#0a5ad4"
+									stroke-miterlimit="10"
+									d="M256 376a8 8 0 0 1-8-8v-12a8 8 0 0 1 16 0v12a8 8 0 0 1-8 8Z"
+									opacity="0">
+									<animateTransform
+										id="meteoconsDrizzleFill7"
+										additive="sum"
+										attributeName="transform"
+										begin="1.34s; x2.end+1s"
+										dur="1s"
+										keyTimes="0; .25; 1"
+										type="translate"
+										values="0 -32; 0 -32; 0 120;" />
+									<animate
+										id="meteoconsDrizzleFill8"
+										attributeName="opacity"
+										begin="1.34s; y2.end+1s"
+										dur="1s"
+										keyTimes="0; .25; 1"
+										values="0; 1; 0" />
+								</path>
+								<path
+									fill="url(#meteoconsDrizzleFill3)"
+									stroke="#0a5ad4"
+									stroke-miterlimit="10"
+									d="M312 376a8 8 0 0 1-8-8v-12a8 8 0 0 1 16 0v12a8 8 0 0 1-8 8Z"
+									opacity="0">
+									<animateTransform
+										id="meteoconsDrizzleFill9"
+										additive="sum"
+										attributeName="transform"
+										begin=".67s; x3.end+1s"
+										dur="1s"
+										keyTimes="0; .25; 1"
+										type="translate"
+										values="0 -32; 0 -32; 0 120;" />
+									<animate
+										id="meteoconsDrizzleFilla"
+										attributeName="opacity"
+										begin=".67s; y3.end+1s"
+										dur="1s"
+										keyTimes="0; .25; 1"
+										values="0; 1; 0" />
+								</path>
+							</symbol>
+							<use href="#ai:meteocons:drizzle-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Drizzle
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:drizzle-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-rain-drop
+					</p>
+				</div>
+				<!-- Thunderstorms -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-thunder-pulse h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:thunderstorms-fill">
+							<symbol
+								id="ai:meteocons:thunderstorms-fill"
+								viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsThunderstormsFill0"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsThunderstormsFill1"
+										x1="8.7"
+										x2="80.9"
+										y1="17.1"
+										y2="142.1"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f7b23b" />
+										<stop offset=".5" stop-color="#f7b23b" />
+										<stop offset="1" stop-color="#f59e0b" />
+									</linearGradient>
+									<symbol
+										id="meteoconsThunderstormsFill2"
+										viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsThunderstormsFill0)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+									<symbol
+										id="meteoconsThunderstormsFill3"
+										viewBox="0 0 102.7 186.8">
+										<path
+											fill="url(#meteoconsThunderstormsFill1)"
+											stroke="#f6a823"
+											stroke-miterlimit="10"
+											stroke-width="4"
+											d="m34.8 2l-32 96h32l-16 80l80-112h-48l32-64h-48z">
+											<animate
+												id="meteoconsThunderstormsFill4"
+												attributeName="opacity"
+												begin="0s; x1.end+.67s"
+												dur="1.33s"
+												keyTimes="0; .38; .5; .63; .75; .86; .94; 1"
+												values="1; 1; 0; 1; 0; 1; 0; 1" />
+										</path>
+									</symbol>
+								</defs>
+								<use
+									width="350"
+									height="222"
+									href="#meteoconsThunderstormsFill2"
+									transform="translate(81 145)" />
+								<use
+									width="102.7"
+									height="186.7"
+									href="#meteoconsThunderstormsFill3"
+									transform="translate(205.23 291)" />
+							</symbol>
+							<use href="#ai:meteocons:thunderstorms-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Thunderstorms
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:thunderstorms-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-thunder-pulse
+					</p>
+				</div>
+				<!-- Thunderstorms Alternative -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							viewBox="0 0 512 512"
+							class="animate-thunder-pulse h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:thunderstorms-fill">
+							<use href="#ai:meteocons:thunderstorms-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Thunderstorms (Alternative)
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:thunderstorms-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-thunder-pulse
+					</p>
+				</div>
+				<!-- Alternative Thunder Pattern -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-partly-cloudy h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:horizon-fill">
+							<symbol id="ai:meteocons:horizon-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsHorizonFill0"
+										x1="150"
+										x2="234"
+										y1="119.2"
+										y2="264.8"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#fbbf24" />
+										<stop offset=".5" stop-color="#fbbf24" />
+										<stop offset="1" stop-color="#f59e0b" />
+									</linearGradient>
+									<clipPath id="meteoconsHorizonFill1">
+										<path fill="none" d="M0 0h512v306H0z" />
+									</clipPath>
+									<symbol id="meteoconsHorizonFill2" viewBox="0 0 384 384">
+										<circle
+											cx="192"
+											cy="192"
+											r="84"
+											fill="url(#meteoconsHorizonFill0)"
+											stroke="#f8af18"
+											stroke-miterlimit="10"
+											stroke-width="6" />
+										<path
+											fill="none"
+											stroke="#fbbf24"
+											stroke-linecap="round"
+											stroke-miterlimit="10"
+											stroke-width="24"
+											d="M192 61.7V12m0 360v-49.7m92.2-222.5l35-35M64.8 319.2l35.1-35.1m0-184.4l-35-35m254.5 254.5l-35.1-35.1M61.7 192H12m360 0h-49.7">
+											<animateTransform
+												additive="sum"
+												attributeName="transform"
+												dur="6s"
+												repeatCount="indefinite"
+												type="rotate"
+												values="0 192 192; 45 192 192" />
+										</path>
+									</symbol>
+								</defs>
+								<g clip-path="url(#meteoconsHorizonFill1)">
+									<use
+										width="384"
+										height="384"
+										href="#meteoconsHorizonFill2"
+										transform="translate(64 100)" />
+								</g>
+								<path
+									fill="none"
+									stroke="#374151"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="18"
+									d="M128 332h256" />
+							</symbol>
+							<use href="#ai:meteocons:horizon-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Horizon (App Logo)
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:horizon-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-partly-cloudy
+					</p>
+				</div>
+				<!-- Snow -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-snow-float h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:snow-fill">
+							<symbol id="ai:meteocons:snow-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsSnowFill0"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsSnowFill1"
+										x1="11.4"
+										x2="32.8"
+										y1="5.9"
+										y2="43.1"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#86c3db" />
+										<stop offset=".5" stop-color="#86c3db" />
+										<stop offset="1" stop-color="#5eafcf" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsSnowFill2"
+										x1="67.4"
+										x2="88.8"
+										y1="5.9"
+										y2="43.1"
+										href="#meteoconsSnowFill1" />
+									<linearGradient
+										id="meteoconsSnowFill3"
+										x1="123.4"
+										x2="144.8"
+										y1="5.9"
+										y2="43.1"
+										href="#meteoconsSnowFill1" />
+									<symbol id="meteoconsSnowFill4" viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsSnowFill0)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+									<symbol id="meteoconsSnowFill5" viewBox="0 0 156.2 49">
+										<g>
+											<path
+												fill="url(#meteoconsSnowFill1)"
+												stroke="#86c3db"
+												stroke-miterlimit="10"
+												d="m41.7 31l-5.8-3.3a13.7 13.7 0 0 0 0-6.5l5.8-3.2a4 4 0 0 0 1.5-5.5a4 4 0 0 0-5.6-1.5l-5.8 3.3a13.6 13.6 0 0 0-2.6-2a13.8 13.8 0 0 0-3-1.3V4.5a4 4 0 0 0-8.1 0v6.6a14.3 14.3 0 0 0-5.7 3.2L6.6 11A4 4 0 0 0 1 12.5A4 4 0 0 0 2.5 18l5.8 3.3a13.7 13.7 0 0 0 0 6.5L2.5 31A4 4 0 0 0 1 36.5a4 4 0 0 0 3.5 2a4 4 0 0 0 2-.5l5.8-3.3a13.6 13.6 0 0 0 2.6 2a13.8 13.8 0 0 0 3 1.2v6.6a4 4 0 0 0 8.2 0v-6.6a14.2 14.2 0 0 0 5.6-3.2l6 3.3a4 4 0 0 0 2 .5a4 4 0 0 0 3.4-2a4 4 0 0 0-1.4-5.5ZM19 29.7a6 6 0 0 1-2.3-8.2a6.1 6.1 0 0 1 5.3-3a6.2 6.2 0 0 1 3 .8a6 6 0 0 1 2.2 8.2a6.1 6.1 0 0 1-8.2 2.2Z"
+												opacity="0">
+												<animateTransform
+													additive="sum"
+													attributeName="transform"
+													dur="6s"
+													repeatCount="indefinite"
+													type="rotate"
+													values="0 24 24; 360 24 24" />
+												<animate
+													id="meteoconsSnowFill6"
+													attributeName="opacity"
+													begin="0s; t1.end+1s"
+													dur="2s"
+													keyTimes="0; .17; .83; 1"
+													values="0; 1; 1; 0" />
+											</path>
+											<animateTransform
+												id="meteoconsSnowFill7"
+												additive="sum"
+												attributeName="transform"
+												begin="0s; s1.end+1s"
+												dur="2s"
+												type="translate"
+												values="0 -36; 0 92;" />
+										</g>
+										<g>
+											<path
+												fill="url(#meteoconsSnowFill2)"
+												stroke="#86c3db"
+												stroke-miterlimit="10"
+												d="m97.7 31l-5.8-3.3a13.7 13.7 0 0 0 0-6.5l5.8-3.2a4 4 0 0 0 1.5-5.5a4 4 0 0 0-5.6-1.5l-5.8 3.3a13.6 13.6 0 0 0-2.6-2a13.8 13.8 0 0 0-3-1.3V4.5a4 4 0 0 0-8.1 0v6.6a14.3 14.3 0 0 0-5.7 3.2L62.6 11a4 4 0 0 0-5.6 1.5a4 4 0 0 0 1.5 5.5l5.8 3.3a13.7 13.7 0 0 0 0 6.5L58.5 31a4 4 0 0 0-1.5 5.5a4 4 0 0 0 3.5 2a4 4 0 0 0 2-.5l5.8-3.3a13.6 13.6 0 0 0 2.7 2a13.8 13.8 0 0 0 3 1.2v6.6a4 4 0 0 0 8 0v-6.6a14.2 14.2 0 0 0 5.7-3.2l6 3.3a4 4 0 0 0 2 .5a4 4 0 0 0 3.4-2a4 4 0 0 0-1.4-5.5ZM75 29.7a6 6 0 0 1-2.3-8.2a6.1 6.1 0 0 1 5.3-3a6.2 6.2 0 0 1 3 .8a6 6 0 0 1 2.2 8.2a6.1 6.1 0 0 1-8.2 2.2Z"
+												opacity="0">
+												<animateTransform
+													additive="sum"
+													attributeName="transform"
+													dur="6s"
+													repeatCount="indefinite"
+													type="rotate"
+													values="0 80 24; 360 80 24" />
+												<animate
+													id="meteoconsSnowFill8"
+													attributeName="opacity"
+													begin="-.83s; t2.end+1s"
+													dur="2s"
+													keyTimes="0; .17; .83; 1"
+													values="0; 1; 1; 0" />
+											</path>
+											<animateTransform
+												id="meteoconsSnowFill9"
+												additive="sum"
+												attributeName="transform"
+												begin="-.83s; s2.end+1s"
+												dur="2s"
+												type="translate"
+												values="0 -36; 0 92;" />
+										</g>
+										<g>
+											<path
+												fill="url(#meteoconsSnowFill3)"
+												stroke="#86c3db"
+												stroke-miterlimit="10"
+												d="m153.7 31l-5.8-3.3a13.7 13.7 0 0 0 0-6.5l5.8-3.2a4 4 0 0 0 1.5-5.5a4 4 0 0 0-5.6-1.5l-5.8 3.3a13.6 13.6 0 0 0-2.6-2a13.8 13.8 0 0 0-3-1.3V4.5a4 4 0 0 0-8.1 0v6.6a14.3 14.3 0 0 0-5.7 3.2l-5.8-3.3a4 4 0 0 0-5.6 1.5a4 4 0 0 0 1.5 5.5l5.8 3.3a13.7 13.7 0 0 0 0 6.5l-5.8 3.2a4 4 0 0 0-1.5 5.5a4 4 0 0 0 3.5 2a4 4 0 0 0 2-.5l5.8-3.3a13.6 13.6 0 0 0 2.7 2a13.8 13.8 0 0 0 3 1.2v6.6a4 4 0 0 0 8 0v-6.6a14.2 14.2 0 0 0 5.7-3.2l5.8 3.3a4 4 0 0 0 2 .5a4 4 0 0 0 3.5-2a4 4 0 0 0-1.3-5.5ZM131 29.7a6 6 0 0 1-2.3-8.2a6.1 6.1 0 0 1 5.3-3a6.2 6.2 0 0 1 3 .8a6 6 0 0 1 2.2 8.2a6.1 6.1 0 0 1-8.2 2.2Z"
+												opacity="0">
+												<animateTransform
+													additive="sum"
+													attributeName="transform"
+													dur="6s"
+													repeatCount="indefinite"
+													type="rotate"
+													values="0 136 24; 360 136 24" />
+												<animate
+													id="meteoconsSnowFilla"
+													attributeName="opacity"
+													begin=".83s; t3.end+1s"
+													dur="2s"
+													keyTimes="0; .17; .83; 1"
+													values="0; 1; 1; 0" />
+											</path>
+											<animateTransform
+												id="meteoconsSnowFillb"
+												additive="sum"
+												attributeName="transform"
+												begin=".83s; s3.end+1s"
+												dur="2s"
+												type="translate"
+												values="0 -36; 0 92;" />
+										</g>
+									</symbol>
+								</defs>
+								<use
+									width="350"
+									height="222"
+									href="#meteoconsSnowFill4"
+									transform="translate(81 145)" />
+								<use
+									width="156.2"
+									height="49"
+									href="#meteoconsSnowFill5"
+									transform="translate(177.9 337.5)" />
+							</symbol>
+							<use href="#ai:meteocons:snow-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Snow
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:snow-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-snow-float
+					</p>
+				</div>
+				<!-- Sleet -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-snow-fast h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:sleet-fill">
+							<symbol id="ai:meteocons:sleet-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsSleetFill0"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsSleetFill1"
+										x1="1399.3"
+										x2="1408.7"
+										y1="-1137.3"
+										y2="-1112.7"
+										gradientTransform="rotate(-9 8016.182 8229.021)"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#0b65ed" />
+										<stop offset=".5" stop-color="#0a5ad4" />
+										<stop offset="1" stop-color="#0950bc" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsSleetFill2"
+										x1="1454.6"
+										x2="1464"
+										y1="-1128.6"
+										y2="-1104"
+										href="#meteoconsSleetFill1" />
+									<linearGradient
+										id="meteoconsSleetFill3"
+										x1="1509.9"
+										x2="1519.3"
+										y1="-1119.8"
+										y2="-1095.2"
+										href="#meteoconsSleetFill1" />
+									<linearGradient
+										id="meteoconsSleetFill4"
+										x1="11.4"
+										x2="32.8"
+										y1="5.9"
+										y2="43.1"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#86c3db" />
+										<stop offset=".5" stop-color="#86c3db" />
+										<stop offset="1" stop-color="#5eafcf" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsSleetFill5"
+										x1="67.4"
+										x2="88.8"
+										y1="5.9"
+										y2="43.1"
+										href="#meteoconsSleetFill4" />
+									<linearGradient
+										id="meteoconsSleetFill6"
+										x1="123.4"
+										x2="144.8"
+										y1="5.9"
+										y2="43.1"
+										href="#meteoconsSleetFill4" />
+									<symbol id="meteoconsSleetFill7" viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsSleetFill0)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+									<symbol id="meteoconsSleetFill8" viewBox="0 0 156.2 49">
+										<g>
+											<path
+												fill="url(#meteoconsSleetFill4)"
+												stroke="#86c3db"
+												stroke-miterlimit="10"
+												d="m41.7 31l-5.8-3.3a13.7 13.7 0 0 0 0-6.5l5.8-3.2a4 4 0 0 0 1.5-5.5a4 4 0 0 0-5.6-1.5l-5.8 3.3a13.6 13.6 0 0 0-2.6-2a13.8 13.8 0 0 0-3-1.3V4.5a4 4 0 0 0-8.1 0v6.6a14.3 14.3 0 0 0-5.7 3.2L6.6 11A4 4 0 0 0 1 12.5A4 4 0 0 0 2.5 18l5.8 3.3a13.7 13.7 0 0 0 0 6.5L2.5 31A4 4 0 0 0 1 36.5a4 4 0 0 0 3.5 2a4 4 0 0 0 2-.5l5.8-3.3a13.6 13.6 0 0 0 2.6 2a13.8 13.8 0 0 0 3 1.2v6.6a4 4 0 0 0 8.2 0v-6.6a14.2 14.2 0 0 0 5.6-3.2l6 3.3a4 4 0 0 0 2 .5a4 4 0 0 0 3.4-2a4 4 0 0 0-1.4-5.5ZM19 29.7a6 6 0 0 1-2.3-8.2a6.1 6.1 0 0 1 5.3-3a6.2 6.2 0 0 1 3 .8a6 6 0 0 1 2.2 8.2a6.1 6.1 0 0 1-8.2 2.2Z"
+												opacity="0">
+												<animateTransform
+													additive="sum"
+													attributeName="transform"
+													dur="6s"
+													repeatCount="indefinite"
+													type="rotate"
+													values="0 24 24; 360 24 24" />
+												<animate
+													id="meteoconsSleetFill9"
+													attributeName="opacity"
+													begin="0s; t1.end+1s"
+													dur="2s"
+													keyTimes="0; .17; .83; 1"
+													values="0; 1; 1; 0" />
+											</path>
+											<animateTransform
+												id="meteoconsSleetFilla"
+												additive="sum"
+												attributeName="transform"
+												begin="0s; s1.end+1s"
+												dur="2s"
+												type="translate"
+												values="0 -36; 0 92;" />
+										</g>
+										<g>
+											<path
+												fill="url(#meteoconsSleetFill5)"
+												stroke="#86c3db"
+												stroke-miterlimit="10"
+												d="m97.7 31l-5.8-3.3a13.7 13.7 0 0 0 0-6.5l5.8-3.2a4 4 0 0 0 1.5-5.5a4 4 0 0 0-5.6-1.5l-5.8 3.3a13.6 13.6 0 0 0-2.6-2a13.8 13.8 0 0 0-3-1.3V4.5a4 4 0 0 0-8.1 0v6.6a14.3 14.3 0 0 0-5.7 3.2L62.6 11a4 4 0 0 0-5.6 1.5a4 4 0 0 0 1.5 5.5l5.8 3.3a13.7 13.7 0 0 0 0 6.5L58.5 31a4 4 0 0 0-1.5 5.5a4 4 0 0 0 3.5 2a4 4 0 0 0 2-.5l5.8-3.3a13.6 13.6 0 0 0 2.7 2a13.8 13.8 0 0 0 3 1.2v6.6a4 4 0 0 0 8 0v-6.6a14.2 14.2 0 0 0 5.7-3.2l6 3.3a4 4 0 0 0 2 .5a4 4 0 0 0 3.4-2a4 4 0 0 0-1.4-5.5ZM75 29.7a6 6 0 0 1-2.3-8.2a6.1 6.1 0 0 1 5.3-3a6.2 6.2 0 0 1 3 .8a6 6 0 0 1 2.2 8.2a6.1 6.1 0 0 1-8.2 2.2Z"
+												opacity="0">
+												<animateTransform
+													additive="sum"
+													attributeName="transform"
+													dur="6s"
+													repeatCount="indefinite"
+													type="rotate"
+													values="0 80 24; 360 80 24" />
+												<animate
+													id="meteoconsSleetFillb"
+													attributeName="opacity"
+													begin="-.83s; t2.end+1s"
+													dur="2s"
+													keyTimes="0; .17; .83; 1"
+													values="0; 1; 1; 0" />
+											</path>
+											<animateTransform
+												id="meteoconsSleetFillc"
+												additive="sum"
+												attributeName="transform"
+												begin="-.83s; s2.end+1s"
+												dur="2s"
+												type="translate"
+												values="0 -36; 0 92;" />
+										</g>
+										<g>
+											<path
+												fill="url(#meteoconsSleetFill6)"
+												stroke="#86c3db"
+												stroke-miterlimit="10"
+												d="m153.7 31l-5.8-3.3a13.7 13.7 0 0 0 0-6.5l5.8-3.2a4 4 0 0 0 1.5-5.5a4 4 0 0 0-5.6-1.5l-5.8 3.3a13.6 13.6 0 0 0-2.6-2a13.8 13.8 0 0 0-3-1.3V4.5a4 4 0 0 0-8.1 0v6.6a14.3 14.3 0 0 0-5.7 3.2l-5.8-3.3a4 4 0 0 0-5.6 1.5a4 4 0 0 0 1.5 5.5l5.8 3.3a13.7 13.7 0 0 0 0 6.5l-5.8 3.2a4 4 0 0 0-1.5 5.5a4 4 0 0 0 3.5 2a4 4 0 0 0 2-.5l5.8-3.3a13.6 13.6 0 0 0 2.7 2a13.8 13.8 0 0 0 3 1.2v6.6a4 4 0 0 0 8 0v-6.6a14.2 14.2 0 0 0 5.7-3.2l5.8 3.3a4 4 0 0 0 2 .5a4 4 0 0 0 3.5-2a4 4 0 0 0-1.3-5.5ZM131 29.7a6 6 0 0 1-2.3-8.2a6.1 6.1 0 0 1 5.3-3a6.2 6.2 0 0 1 3 .8a6 6 0 0 1 2.2 8.2a6.1 6.1 0 0 1-8.2 2.2Z"
+												opacity="0">
+												<animateTransform
+													additive="sum"
+													attributeName="transform"
+													dur="6s"
+													repeatCount="indefinite"
+													type="rotate"
+													values="0 136 24; 360 136 24" />
+												<animate
+													id="meteoconsSleetFilld"
+													attributeName="opacity"
+													begin=".83s; t3.end+1s"
+													dur="2s"
+													keyTimes="0; .17; .83; 1"
+													values="0; 1; 1; 0" />
+											</path>
+											<animateTransform
+												id="meteoconsSleetFille"
+												additive="sum"
+												attributeName="transform"
+												begin=".83s; s3.end+1s"
+												dur="2s"
+												type="translate"
+												values="0 -36; 0 92;" />
+										</g>
+									</symbol>
+									<symbol id="meteoconsSleetFillf" viewBox="0 0 156.2 49">
+										<use
+											width="156.2"
+											height="49"
+											href="#meteoconsSleetFill8" />
+										<path
+											fill="url(#meteoconsSleetFill1)"
+											stroke="#0a5ad4"
+											stroke-miterlimit="10"
+											d="M22.1 38.5a8 8 0 0 1-8-8v-12a8 8 0 0 1 16 0v12a8 8 0 0 1-8 8Z"
+											opacity="0">
+											<animateTransform
+												id="meteoconsSleetFillg"
+												additive="sum"
+												attributeName="transform"
+												begin="0s; x1.end+1s"
+												dur="1s"
+												keyTimes="0; .25; 1"
+												type="translate"
+												values="0 -32; 0 -32; 0 120;" />
+											<animate
+												id="meteoconsSleetFillh"
+												attributeName="opacity"
+												begin="0s; y1.end+1s"
+												dur="1s"
+												keyTimes="0; .25; 1"
+												values="0; 1; 0" />
+										</path>
+										<path
+											fill="url(#meteoconsSleetFill2)"
+											stroke="#0a5ad4"
+											stroke-miterlimit="10"
+											d="M78.1 38.5a8 8 0 0 1-8-8v-12a8 8 0 0 1 16 0v12a8 8 0 0 1-8 8Z"
+											opacity="0">
+											<animateTransform
+												id="meteoconsSleetFilli"
+												additive="sum"
+												attributeName="transform"
+												begin="1.34s; x2.end+1s"
+												dur="1s"
+												keyTimes="0; .25; 1"
+												type="translate"
+												values="0 -32; 0 -32; 0 120;" />
+											<animate
+												id="meteoconsSleetFillj"
+												attributeName="opacity"
+												begin="1.34s; y2.end+1s"
+												dur="1s"
+												keyTimes="0; .25; 1"
+												values="0; 1; 0" />
+										</path>
+										<path
+											fill="url(#meteoconsSleetFill3)"
+											stroke="#0a5ad4"
+											stroke-miterlimit="10"
+											d="M134.1 38.5a8 8 0 0 1-8-8v-12a8 8 0 0 1 16 0v12a8 8 0 0 1-8 8Z"
+											opacity="0">
+											<animateTransform
+												id="meteoconsSleetFillk"
+												additive="sum"
+												attributeName="transform"
+												begin=".67s; x3.end+1s"
+												dur="1s"
+												keyTimes="0; .25; 1"
+												type="translate"
+												values="0 -32; 0 -32; 0 120;" />
+											<animate
+												id="meteoconsSleetFilll"
+												attributeName="opacity"
+												begin=".67s; y3.end+1s"
+												dur="1s"
+												keyTimes="0; .25; 1"
+												values="0; 1; 0" />
+										</path>
+									</symbol>
+								</defs>
+								<use
+									width="350"
+									height="222"
+									href="#meteoconsSleetFill7"
+									transform="translate(81 145)" />
+								<use
+									width="156.2"
+									height="49"
+									href="#meteoconsSleetFillf"
+									transform="translate(177.9 337.5)" />
+							</symbol>
+							<use href="#ai:meteocons:sleet-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Sleet
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:sleet-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-snow-fast
+					</p>
+				</div>
+				<!-- Hail -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-hail-bounce h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:hail-fill">
+							<symbol id="ai:meteocons:hail-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsHailFill0"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsHailFill1"
+										x1="6.5"
+										x2="18.5"
+										y1="2.1"
+										y2="22.9"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#86c3db" />
+										<stop offset=".5" stop-color="#86c3db" />
+										<stop offset="1" stop-color="#5eafcf" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsHailFill2"
+										x1="62.5"
+										x2="74.5"
+										y1="2.1"
+										y2="22.9"
+										href="#meteoconsHailFill1" />
+									<linearGradient
+										id="meteoconsHailFill3"
+										x1="118.5"
+										x2="130.5"
+										y1="2.1"
+										y2="22.9"
+										href="#meteoconsHailFill1" />
+									<symbol id="meteoconsHailFill4" viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsHailFill0)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+									<symbol id="meteoconsHailFill5" viewBox="0 0 137 25">
+										<path
+											fill="url(#meteoconsHailFill1)"
+											stroke="#86c3db"
+											stroke-miterlimit="10"
+											d="M12.5.5a12 12 0 1 0 12 12a12 12 0 0 0-12-12Z"
+											opacity="0">
+											<animateTransform
+												id="meteoconsHailFill6"
+												additive="sum"
+												attributeName="transform"
+												begin="0s; x1.end+.42s"
+												dur=".58s"
+												keyTimes="0; .71; 1"
+												type="translate"
+												values="0 -46; 0 86; -18 74" />
+											<animate
+												id="meteoconsHailFill7"
+												attributeName="opacity"
+												begin="0s; y1.end+.42s"
+												dur=".58s"
+												keyTimes="0; .14; .71; 1"
+												values="0; 1; 1; 0" />
+										</path>
+										<path
+											fill="url(#meteoconsHailFill2)"
+											stroke="#86c3db"
+											stroke-miterlimit="10"
+											d="M68.5.5a12 12 0 1 0 12 12a12 12 0 0 0-12-12Z"
+											opacity="0">
+											<animateTransform
+												id="meteoconsHailFill8"
+												additive="sum"
+												attributeName="transform"
+												begin=".67s; x2.end+.42s"
+												dur=".58s"
+												keyTimes="0; .71; 1"
+												type="translate"
+												values="0 -46; 0 86; 0 74" />
+											<animate
+												id="meteoconsHailFill9"
+												attributeName="opacity"
+												begin=".67s; y2.end+.42s"
+												dur=".58s"
+												keyTimes="0; .14; .71; 1"
+												values="0; 1; 1; 0" />
+										</path>
+										<path
+											fill="url(#meteoconsHailFill3)"
+											stroke="#86c3db"
+											stroke-miterlimit="10"
+											d="M124.5.5a12 12 0 1 0 12 12a12 12 0 0 0-12-12Z"
+											opacity="0">
+											<animateTransform
+												id="meteoconsHailFilla"
+												additive="sum"
+												attributeName="transform"
+												begin=".33s; x3.end+.42s"
+												dur=".58s"
+												keyTimes="0; .71; 1"
+												type="translate"
+												values="0 -46; 0 86; 18 74" />
+											<animate
+												id="meteoconsHailFillb"
+												attributeName="opacity"
+												begin=".33s; y3.end+.42s"
+												dur=".58s"
+												keyTimes="0; .14; .71; 1"
+												values="0; 1; 1; 0" />
+										</path>
+									</symbol>
+								</defs>
+								<use
+									width="350"
+									height="222"
+									href="#meteoconsHailFill4"
+									transform="translate(81 145)" />
+								<use
+									width="137"
+									height="25"
+									href="#meteoconsHailFill5"
+									transform="translate(187.5 349.5)" />
+							</symbol>
+							<use href="#ai:meteocons:hail-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Hail
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:hail-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-hail-bounce
+					</p>
+				</div>
+				<!-- Fog -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-fog-swirl h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:fog-fill">
+							<symbol id="ai:meteocons:fog-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsFogFill0"
+										x1="99.5"
+										x2="232.6"
+										y1="30.7"
+										y2="261.4"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#f3f7fe" />
+										<stop offset=".5" stop-color="#f3f7fe" />
+										<stop offset="1" stop-color="#deeafb" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsFogFill1"
+										x1="96"
+										x2="168"
+										y1="-2.4"
+										y2="122.3"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#d4d7dd" />
+										<stop offset=".5" stop-color="#d4d7dd" />
+										<stop offset="1" stop-color="#bec1c6" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsFogFill2"
+										x2="168"
+										y1="-50.4"
+										y2="74.3"
+										href="#meteoconsFogFill1" />
+									<symbol id="meteoconsFogFill3" viewBox="0 0 350 222">
+										<path
+											fill="url(#meteoconsFogFill0)"
+											stroke="#e6effc"
+											stroke-miterlimit="10"
+											stroke-width="6"
+											d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+									</symbol>
+									<symbol id="meteoconsFogFill4" viewBox="0 0 264 72">
+										<path
+											fill="none"
+											stroke="url(#meteoconsFogFill1)"
+											stroke-linecap="round"
+											stroke-miterlimit="10"
+											stroke-width="24"
+											d="M12 60h240">
+											<animateTransform
+												additive="sum"
+												attributeName="transform"
+												dur="6s"
+												repeatCount="indefinite"
+												type="translate"
+												values="-24 0; 24 0; -24 0" />
+										</path>
+										<path
+											fill="none"
+											stroke="url(#meteoconsFogFill2)"
+											stroke-linecap="round"
+											stroke-miterlimit="10"
+											stroke-width="24"
+											d="M12 12h240">
+											<animateTransform
+												additive="sum"
+												attributeName="transform"
+												dur="6s"
+												repeatCount="indefinite"
+												type="translate"
+												values="24 0; -24 0; 24 0" />
+										</path>
+									</symbol>
+								</defs>
+								<use
+									width="350"
+									height="222"
+									href="#meteoconsFogFill3"
+									transform="translate(81 145)" />
+								<use
+									width="264"
+									height="72"
+									href="#meteoconsFogFill4"
+									transform="translate(124 402)" />
+							</symbol>
+							<use href="#ai:meteocons:fog-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Fog
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:fog-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-fog-swirl
+					</p>
+				</div>
+				<!-- Wind -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="animate-wind-sway h-20 w-20 cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:wind-fill">
+							<symbol id="ai:meteocons:wind-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsWindFill0"
+										x1="138.5"
+										x2="224.2"
+										y1="5.1"
+										y2="153.5"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#d4d7dd" />
+										<stop offset=".5" stop-color="#d4d7dd" />
+										<stop offset="1" stop-color="#bec1c6" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsWindFill1"
+										x1="77.7"
+										x2="169"
+										y1="96.2"
+										y2="254.4"
+										href="#meteoconsWindFill0" />
+									<symbol id="meteoconsWindFill2" viewBox="0 0 348 240">
+										<path
+											fill="none"
+											stroke="url(#meteoconsWindFill0)"
+											stroke-dasharray="148"
+											stroke-linecap="round"
+											stroke-miterlimit="10"
+											stroke-width="24"
+											d="M267.2 24.3A40 40 0 1 1 296 92H12">
+											<animate
+												attributeName="stroke-dashoffset"
+												dur="6s"
+												repeatCount="indefinite"
+												values="0; 2960" />
+										</path>
+										<path
+											fill="none"
+											stroke="url(#meteoconsWindFill1)"
+											stroke-dasharray="110"
+											stroke-linecap="round"
+											stroke-miterlimit="10"
+											stroke-width="24"
+											d="M151.2 215.7A40 40 0 1 0 180 148H12">
+											<animate
+												attributeName="stroke-dashoffset"
+												dur="6s"
+												repeatCount="indefinite"
+												values="0; 1540" />
+										</path>
+									</symbol>
+								</defs>
+								<use
+									width="348"
+									height="240"
+									href="#meteoconsWindFill2"
+									transform="translate(82 136)" />
+							</symbol>
+							<use href="#ai:meteocons:wind-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Wind
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:wind-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-wind-sway
+					</p>
+				</div>
+				<!-- Tornado -->
+				<div
+					class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+						<svg
+							width="1em"
+							height="1em"
+							class="h-20 w-20 animate-spin cursor-pointer text-white transition-all duration-300 hover:scale-110"
+							data-astro-cid-u2gxjkmk="true"
+							data-icon="meteocons:tornado-fill">
+							<symbol id="ai:meteocons:tornado-fill" viewBox="0 0 512 512">
+								<defs>
+									<linearGradient
+										id="meteoconsTornadoFill0"
+										x1="220"
+										x2="292"
+										y1="97.7"
+										y2="222.3"
+										gradientUnits="userSpaceOnUse">
+										<stop offset="0" stop-color="#d4d7dd" />
+										<stop offset=".5" stop-color="#d4d7dd" />
+										<stop offset="1" stop-color="#bec1c6" />
+									</linearGradient>
+									<linearGradient
+										id="meteoconsTornadoFill1"
+										x1="224"
+										x2="288"
+										y1="152.6"
+										y2="263.4"
+										href="#meteoconsTornadoFill0" />
+									<linearGradient
+										id="meteoconsTornadoFill2"
+										x1="229"
+										x2="283"
+										y1="209.2"
+										y2="302.8"
+										href="#meteoconsTornadoFill0" />
+									<linearGradient
+										id="meteoconsTornadoFill3"
+										x1="234"
+										x2="278"
+										y1="265.9"
+										y2="342.1"
+										href="#meteoconsTornadoFill0" />
+									<linearGradient
+										id="meteoconsTornadoFill4"
+										x1="242"
+										x2="270"
+										y1="327.8"
+										y2="376.3"
+										href="#meteoconsTornadoFill0" />
+								</defs>
+								<path
+									fill="none"
+									stroke="url(#meteoconsTornadoFill0)"
+									stroke-linecap="round"
+									stroke-miterlimit="10"
+									stroke-width="24"
+									d="M136 160h240">
+									<animateTransform
+										additive="sum"
+										attributeName="transform"
+										calcMode="spline"
+										dur="3s"
+										keySplines=".42, 0, .58, 1; .42, 0, .58, 1"
+										repeatCount="indefinite"
+										type="translate"
+										values="-12 0; 12 0; -12 0" />
+								</path>
+								<path
+									fill="none"
+									stroke="url(#meteoconsTornadoFill1)"
+									stroke-linecap="round"
+									stroke-miterlimit="10"
+									stroke-width="24"
+									d="M152 208h208">
+									<animateTransform
+										additive="sum"
+										attributeName="transform"
+										calcMode="spline"
+										dur="3s"
+										keySplines=".42, 0, .58, 1; .42, 0, .58, 1"
+										repeatCount="indefinite"
+										type="translate"
+										values="-24 0; 24 0; -24 0" />
+								</path>
+								<path
+									fill="none"
+									stroke="url(#meteoconsTornadoFill2)"
+									stroke-linecap="round"
+									stroke-miterlimit="10"
+									stroke-width="24"
+									d="M172 256h168">
+									<animateTransform
+										additive="sum"
+										attributeName="transform"
+										calcMode="spline"
+										dur="3s"
+										keySplines=".42, 0, .58, 1; .42, 0, .58, 1"
+										repeatCount="indefinite"
+										type="translate"
+										values="-36 0; 36 0; -36 0" />
+								</path>
+								<path
+									fill="none"
+									stroke="url(#meteoconsTornadoFill3)"
+									stroke-linecap="round"
+									stroke-miterlimit="10"
+									stroke-width="24"
+									d="M192 304h128">
+									<animateTransform
+										additive="sum"
+										attributeName="transform"
+										calcMode="spline"
+										dur="3s"
+										keySplines=".42, 0, .58, 1; .42, 0, .58, 1"
+										repeatCount="indefinite"
+										type="translate"
+										values="-48 0; 48 0; -48 0" />
+								</path>
+								<path
+									fill="none"
+									stroke="url(#meteoconsTornadoFill4)"
+									stroke-linecap="round"
+									stroke-miterlimit="10"
+									stroke-width="24"
+									d="M224 352h64">
+									<animateTransform
+										additive="sum"
+										attributeName="transform"
+										calcMode="spline"
+										dur="3s"
+										keySplines=".42, 0, .58, 1; .42, 0, .58, 1"
+										repeatCount="indefinite"
+										type="translate"
+										values="-60 0; 60 0; -60 0" />
+								</path>
+							</symbol>
+							<use href="#ai:meteocons:tornado-fill"></use>
+						</svg>
+					</div>
+					<h3
+						class="mb-2 text-lg font-semibold text-white"
+						data-astro-cid-u2gxjkmk>
+						Tornado
+					</h3>
+					<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+						meteocons:tornado-fill
+					</p>
+					<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+						animate-spin
+					</p>
+				</div>
+			</div>
+			<!-- Emoji Animations Section -->
+			<div class="mt-16" data-astro-cid-u2gxjkmk>
+				<div class="mb-8 text-center" data-astro-cid-u2gxjkmk>
+					<h2
+						class="mb-2 text-4xl font-bold text-white"
+						data-astro-cid-u2gxjkmk>
+						🎭 Emoji Weather Animations
+					</h2>
+					<p class="text-white/80" data-astro-cid-u2gxjkmk>
+						Animated emoji fallbacks used in the main weather app
+					</p>
+				</div>
+				<div
+					class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+					data-astro-cid-u2gxjkmk>
+					<!-- Clear Day Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="inline-block animate-bounce cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:clear-day-fill"
+								data-astro-cid-u2gxjkmk>
+								☀️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Clear Day
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							☀️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-bounce
+						</p>
+					</div>
+					<!-- Clear Night Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="inline-block animate-pulse cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:clear-night-fill"
+								data-astro-cid-u2gxjkmk>
+								🌙
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Clear Night
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							🌙 Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-pulse
+						</p>
+					</div>
+					<!-- Partly Cloudy Day Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-partly-cloudy inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:partly-cloudy-day-fill"
+								data-astro-cid-u2gxjkmk>
+								⛅
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Partly Cloudy Day
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							⛅ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-partly-cloudy
+						</p>
+					</div>
+					<!-- Partly Cloudy Night Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-partly-cloudy-slow inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:partly-cloudy-night-fill"
+								data-astro-cid-u2gxjkmk>
+								🌙
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Partly Cloudy Night
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							🌙 Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-partly-cloudy-slow
+						</p>
+					</div>
+					<!-- Cloudy Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="inline-block animate-pulse cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:cloudy-fill"
+								data-astro-cid-u2gxjkmk>
+								☁️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Cloudy
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							☁️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-pulse
+						</p>
+					</div>
+					<!-- Overcast Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="inline-block animate-pulse cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:overcast-fill"
+								data-astro-cid-u2gxjkmk>
+								☁️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Overcast
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							☁️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-pulse
+						</p>
+					</div>
+					<!-- Rain Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-rain-drop inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:rain-fill"
+								data-astro-cid-u2gxjkmk>
+								🌧️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Rain
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							🌧️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-rain-drop
+						</p>
+					</div>
+					<!-- Drizzle Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-rain-drop inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:drizzle-fill"
+								data-astro-cid-u2gxjkmk>
+								🌦️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Drizzle
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							🌦️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-rain-drop
+						</p>
+					</div>
+					<!-- Thunderstorms Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-thunder-pulse inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:thunderstorms-fill"
+								data-astro-cid-u2gxjkmk>
+								⛈️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Thunderstorms
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							⛈️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-thunder-pulse
+						</p>
+					</div>
+					<!-- Thunderstorms Alternative Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-thunder-pulse inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:thunderstorms-fill"
+								data-astro-cid-u2gxjkmk>
+								⛈️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Thunderstorms (Alternative)
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							⛈️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-thunder-pulse
+						</p>
+					</div>
+					<!-- Thunderstorms Day Rain Emoji (fallback) -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-thunder-pulse inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:thunderstorms-day-rain-fill"
+								data-astro-cid-u2gxjkmk>
+								⛈️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Thunderstorms Day Rain
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							⛈️ Emoji (fallback)
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-thunder-pulse
+						</p>
+					</div>
+					<!-- Thunderstorms Night Rain Emoji (fallback) -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-thunder-pulse inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:thunderstorms-night-rain-fill"
+								data-astro-cid-u2gxjkmk>
+								⛈️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Thunderstorms Night Rain
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							⛈️ Emoji (fallback)
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-thunder-pulse
+						</p>
+					</div>
+					<!-- Snow Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-snow-float inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:snow-fill"
+								data-astro-cid-u2gxjkmk>
+								🌨️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Snow
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							🌨️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-snow-float
+						</p>
+					</div>
+					<!-- Sleet Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-snow-fast inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:sleet-fill"
+								data-astro-cid-u2gxjkmk>
+								🌨️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Sleet
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							🌨️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-snow-fast
+						</p>
+					</div>
+					<!-- Hail Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-hail-bounce inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:hail-fill"
+								data-astro-cid-u2gxjkmk>
+								🌨️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Hail
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							🌨️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-hail-bounce
+						</p>
+					</div>
+					<!-- Fog Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-fog-swirl inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:fog-fill"
+								data-astro-cid-u2gxjkmk>
+								🌫️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Fog
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							🌫️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-fog-swirl
+						</p>
+					</div>
+					<!-- Wind Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="animate-wind-sway inline-block cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:wind-fill"
+								data-astro-cid-u2gxjkmk>
+								💨
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Wind
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							💨 Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-wind-sway
+						</p>
+					</div>
+					<!-- Tornado Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="inline-block animate-spin cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="meteocons:tornado-fill"
+								data-astro-cid-u2gxjkmk>
+								🌪️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Tornado
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							🌪️ Emoji
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-spin
+						</p>
+					</div>
+					<!-- Default Fallback Emoji -->
+					<div
+						class="rounded-xl bg-white/20 p-6 text-center backdrop-blur-md"
+						data-astro-cid-u2gxjkmk>
+						<div class="mb-4 flex justify-center" data-astro-cid-u2gxjkmk>
+							<span
+								class="inline-block animate-pulse cursor-pointer text-8xl transition-all duration-300 hover:scale-110"
+								title="default fallback"
+								data-astro-cid-u2gxjkmk>
+								☁️
+							</span>
+						</div>
+						<h3
+							class="mb-2 text-lg font-semibold text-white"
+							data-astro-cid-u2gxjkmk>
+							Default
+						</h3>
+						<p class="font-mono text-sm text-white/70" data-astro-cid-u2gxjkmk>
+							☁️ Emoji (fallback)
+						</p>
+						<p class="mt-1 text-xs text-white/60" data-astro-cid-u2gxjkmk>
+							animate-pulse
+						</p>
+					</div>
+				</div>
+			</div>
+			<!-- Footer -->
+			<div class="mt-12 text-center" data-astro-cid-u2gxjkmk>
+				<p class="text-sm text-white/60" data-astro-cid-u2gxjkmk>
+					💡 Hover over icons to see scale effect • Click to test interactivity
+				</p>
+				<p class="mt-2 text-xs text-white/40" data-astro-cid-u2gxjkmk>
+					All icons from Meteocons icon set + Emoji animations from main weather
+					app
+				</p>
+				<div
+					class="mt-4 rounded-lg bg-yellow-500/20 p-4 backdrop-blur-md"
+					data-astro-cid-u2gxjkmk>
+					<p class="text-sm text-yellow-100" data-astro-cid-u2gxjkmk>
+						⚠️
+						<strong data-astro-cid-u2gxjkmk>Note:</strong>
+						Some meteocons icons may not be available in this icon set.
+					</p>
+					<p class="mt-1 text-xs text-yellow-200" data-astro-cid-u2gxjkmk>
+						If you see missing icons, they might use different names or not
+						exist in the current meteocons package.
+					</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
