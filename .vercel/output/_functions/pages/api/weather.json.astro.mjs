@@ -89,7 +89,7 @@ const GET = async ({ url }) => {
       weatherResponse = await fetch(weatherUrl, {
         headers: {
           "User-Agent": "WeatherApp/1.0",
-          "Accept": "application/json"
+          Accept: "application/json"
         },
         signal: controller.signal
       });
@@ -159,39 +159,7 @@ const GET = async ({ url }) => {
       );
     }
     console.log("Processing weather data...");
-    let cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`;
-    try {
-      console.log("Attempting to get city name via geocoding...");
-      const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`;
-      console.log("Geocoding URL:", geocodeUrl);
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5e3);
-      const geocodeResponse = await fetch(geocodeUrl, {
-        headers: {
-          "User-Agent": "WeatherApp/1.0",
-          Accept: "application/json"
-        },
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-      if (geocodeResponse.ok) {
-        const geocodeData = await geocodeResponse.json();
-        console.log("Geocoding response received:", geocodeData);
-        const extractedCity = geocodeData.address?.city || geocodeData.address?.town || geocodeData.address?.village || geocodeData.display_name?.split(",")[0]?.trim();
-        if (extractedCity) {
-          cityName = extractedCity;
-          console.log("Extracted city name:", cityName);
-        } else {
-          console.log(
-            "No city name found in geocoding response, using coordinates"
-          );
-        }
-      } else {
-        console.warn(`Geocoding API returned status ${geocodeResponse.status}`);
-      }
-    } catch (geocodeError) {
-      console.warn("Geocoding failed:", geocodeError);
-    }
+    const cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`;
     const currentWeatherCode = weatherData.current?.weather_code ?? 0;
     const currentTemp = weatherData.current?.temperature_2m ?? 0;
     const currentWeather = weatherCodeToIcon[currentWeatherCode] || {
