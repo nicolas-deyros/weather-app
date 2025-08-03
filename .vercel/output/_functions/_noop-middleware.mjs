@@ -1,3 +1,3 @@
-const onRequest = (_, next) => next()
+const onRequest = (_, next) => next();
 
-export { onRequest }
+export { onRequest };

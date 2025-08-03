@@ -19,5 +19,10 @@
 		"selector-class-pattern": null,
 		"custom-property-pattern": null
 	},
-	"ignoreFiles": ["dist/**/*", ".astro/**/*", "node_modules/**/*"]
+	"ignoreFiles": [
+		"dist/**/*",
+		".vercel/**/*",
+		".astro/**/*",
+		"node_modules/**/*"
+	]
 }
