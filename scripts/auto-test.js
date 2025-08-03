@@ -2,8 +2,8 @@
 
 import { spawn } from 'child_process'
 import http from 'http'
-import { promisify } from 'util'
 import process from 'process'
+import { promisify } from 'util'
 
 const sleep = promisify(setTimeout)
 

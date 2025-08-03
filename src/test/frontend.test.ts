@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 
 describe('Frontend Integration Tests', () => {
 	const baseUrl = 'http://localhost:3001'
