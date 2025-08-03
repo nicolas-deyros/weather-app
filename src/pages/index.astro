@@ -8,40 +8,41 @@ import Location from '@components/page/Location.astro'
 const lat = Astro.url.searchParams.get('lat')
 const lon = Astro.url.searchParams.get('lon')
 
-// Fetch weather data
+// Fetch weather data - only during SSR if we have explicit coordinates
 let weatherData = null
 let error = null
 
-try {
-	const apiUrl = new URL('/api/weather.json', Astro.url.origin)
-	if (lat && lon) {
+// Only fetch during SSR if we have explicit lat/lon parameters (not default)
+if (lat && lon) {
+	try {
+		const apiUrl = new URL('/api/weather.json', Astro.url.origin)
 		apiUrl.searchParams.set('lat', lat)
 		apiUrl.searchParams.set('lon', lon)
-	}
 
-	const response = await fetch(apiUrl.href)
+		const response = await fetch(apiUrl.href)
 
-	if (response.ok) {
-		const responseText = await response.text()
-		try {
-			weatherData = JSON.parse(responseText)
-		} catch (parseError) {
-			console.error('Failed to parse weather response:', parseError)
-			console.error('Response text:', responseText)
-			error = `Invalid response format: ${parseError instanceof Error ? parseError.message : 'JSON parse error'}`
+		if (response.ok) {
+			const responseText = await response.text()
+			try {
+				weatherData = JSON.parse(responseText)
+			} catch (parseError) {
+				console.error('Failed to parse weather response:', parseError)
+				console.error('Response text:', responseText)
+				error = `Invalid response format: ${parseError instanceof Error ? parseError.message : 'JSON parse error'}`
+			}
+		} else {
+			// Try to get error details from response
+			try {
+				const errorData = await response.json()
+				error = `API Error (${response.status}): ${errorData.message || errorData.error || 'Unknown error'}`
+			} catch {
+				error = `API Error: HTTP ${response.status} ${response.statusText}`
+			}
 		}
-	} else {
-		// Try to get error details from response
-		try {
-			const errorData = await response.json()
-			error = `API Error (${response.status}): ${errorData.message || errorData.error || 'Unknown error'}`
-		} catch {
-			error = `API Error: HTTP ${response.status} ${response.statusText}`
-		}
+	} catch (e) {
+		console.error('Weather fetch error:', e)
+		error = `Network Error: ${e instanceof Error ? e.message : 'Connection failed'}`
 	}
-} catch (e) {
-	console.error('Weather fetch error:', e)
-	error = `Network Error: ${e instanceof Error ? e.message : 'Connection failed'}`
 }
 ---
 
@@ -436,6 +437,16 @@ try {
 
 			// Add visual feedback for link clicks
 			document.addEventListener('DOMContentLoaded', function () {
+				// Load default London weather if no coordinates are in URL and no weather data from SSR
+				const urlParams = new URLSearchParams(window.location.search)
+				const hasCoords = urlParams.has('lat') && urlParams.has('lon')
+				const hasWeatherData = document.querySelector('.weather-container')?.innerHTML.includes('📍')
+				
+				if (!hasCoords && !hasWeatherData) {
+					// Load default London weather
+					window.loadWeather(51.5074, -0.1278, 'London')
+				}
+				
 				// Initialize temperature unit based on user preference
 				const savedUnit = localStorage.getItem('temperatureUnit') || 'celsius'
 				if (window.switchToUnit) {
