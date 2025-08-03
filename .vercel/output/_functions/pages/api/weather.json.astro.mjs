@@ -84,9 +84,16 @@ const GET = async ({ url }) => {
     console.log("Fetching weather data from:", weatherUrl);
     let weatherResponse;
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 1e4);
       weatherResponse = await fetch(weatherUrl, {
-        headers: { "User-Agent": "WeatherApp/1.0" }
+        headers: {
+          "User-Agent": "WeatherApp/1.0",
+          "Accept": "application/json"
+        },
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
     } catch (fetchError) {
       console.error("Weather fetch failed:", fetchError);
       return new Response(
@@ -157,12 +164,16 @@ const GET = async ({ url }) => {
       console.log("Attempting to get city name via geocoding...");
       const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`;
       console.log("Geocoding URL:", geocodeUrl);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5e3);
       const geocodeResponse = await fetch(geocodeUrl, {
         headers: {
           "User-Agent": "WeatherApp/1.0",
           Accept: "application/json"
-        }
+        },
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
       if (geocodeResponse.ok) {
         const geocodeData = await geocodeResponse.json();
         console.log("Geocoding response received:", geocodeData);

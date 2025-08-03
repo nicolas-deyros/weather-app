@@ -120,12 +120,21 @@ export const GET: APIRoute = async ({ url }) => {
 
 		console.log('Fetching weather data from:', weatherUrl)
 
-		// Fetch weather data with simpler error handling
+		// Fetch weather data with robust error handling for production
 		let weatherResponse: Response
 		try {
+			const controller = new AbortController()
+			const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+
 			weatherResponse = await fetch(weatherUrl, {
-				headers: { 'User-Agent': 'WeatherApp/1.0' },
+				headers: {
+					'User-Agent': 'WeatherApp/1.0',
+					Accept: 'application/json',
+				},
+				signal: controller.signal,
 			})
+
+			clearTimeout(timeoutId)
 		} catch (fetchError) {
 			console.error('Weather fetch failed:', fetchError)
 			return new Response(
@@ -197,21 +206,29 @@ export const GET: APIRoute = async ({ url }) => {
 
 		console.log('Processing weather data...')
 
-		// Get city name - simplified approach
-		let cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`
+		// Get city name - simplified approach (disable geocoding for now)
+		const cityName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`
 
+		// TODO: Re-enable geocoding once main API is working
+		/*
 		// Try to get a better city name, but don't fail if it doesn't work
 		try {
 			console.log('Attempting to get city name via geocoding...')
 			const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`
 			console.log('Geocoding URL:', geocodeUrl)
 
+			const controller = new AbortController()
+			const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout for geocoding
+
 			const geocodeResponse = await fetch(geocodeUrl, {
 				headers: {
 					'User-Agent': 'WeatherApp/1.0',
 					Accept: 'application/json',
 				},
+				signal: controller.signal,
 			})
+
+			clearTimeout(timeoutId)
 
 			if (geocodeResponse.ok) {
 				const geocodeData = await geocodeResponse.json()
@@ -236,8 +253,9 @@ export const GET: APIRoute = async ({ url }) => {
 			}
 		} catch (geocodeError) {
 			console.warn('Geocoding failed:', geocodeError)
-			// Keep the coordinate-based name
+			// Keep the coordinate-based name - this is fine in production
 		}
+		*/
 
 		// Process current weather
 		const currentWeatherCode = weatherData.current?.weather_code ?? 0

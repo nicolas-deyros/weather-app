@@ -22,9 +22,9 @@ try {
 		'package.json',
 		'src/pages/index.astro',
 		'src/pages/api/weather.json.ts',
-		'src/test/frontend.test.ts',
-		'src/test/api.test.ts',
-		'src/test/utils.test.ts',
+		'test/frontend.test.ts',
+		'test/api.test.ts',
+		'test/utils.test.ts',
 	]
 
 	let allFilesExist = true

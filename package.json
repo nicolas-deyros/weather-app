@@ -10,15 +10,15 @@
 		"lint": "eslint . --ext .js,.ts,.astro,.jsx,.tsx --fix",
 		"lint:css": "stylelint \"src/**/*.css\" --fix",
 		"lint:all": "npm run lint && npm run lint:css",
-		"test": "vitest run src/test/utils.test.ts",
-		"test:unit": "vitest run src/test/utils.test.ts",
-		"test:integration": "start-server-and-test dev http://localhost:3001 \"vitest run src/test/api.test.ts src/test/frontend.test.ts\"",
-		"test:api": "start-server-and-test dev http://localhost:3001 \"vitest run src/test/api.test.ts\"",
-		"test:frontend": "start-server-and-test dev http://localhost:3001 \"vitest run src/test/frontend.test.ts\"",
-		"test:utils": "vitest run src/test/utils.test.ts",
-		"test:watch": "vitest --watch src/test/utils.test.ts",
+		"test": "vitest run test/utils.test.ts",
+		"test:unit": "vitest run test/utils.test.ts",
+		"test:integration": "start-server-and-test dev http://localhost:3001 \"vitest run test/api.test.ts test/frontend.test.ts\"",
+		"test:api": "start-server-and-test dev http://localhost:3001 \"vitest run test/api.test.ts\"",
+		"test:frontend": "start-server-and-test dev http://localhost:3001 \"vitest run test/frontend.test.ts\"",
+		"test:utils": "vitest run test/utils.test.ts",
+		"test:watch": "vitest --watch test/utils.test.ts",
 		"test:all": "npm run test:unit && npm run test:integration",
-		"test:coverage": "vitest --coverage src/test/utils.test.ts"
+		"test:coverage": "vitest --coverage test/utils.test.ts"
 	},
 	"lint-staged": {
 		"*.{js,ts,astro,jsx,tsx}": [
