@@ -89,7 +89,7 @@ const GET = async ({ url }) => {
     let weatherResponse;
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 1e4);
+      const timeoutId = setTimeout(() => controller.abort(), 8e3);
       weatherResponse = await fetch(weatherUrl, {
         headers: {
           "User-Agent": "WeatherApp/1.0",
