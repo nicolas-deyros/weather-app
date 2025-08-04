@@ -3,7 +3,6 @@ export const prerender = false
 import type { APIRoute } from 'astro'
 
 // Weather code to icon mapping based on Open-Meteo weather codes
-// https://open-meteo.com/en/docs/
 const weatherCodeToIcon: Record<number, { icon: string; description: string }> =
 	{
 		0: { icon: 'meteocons:clear-day-fill', description: 'Clear sky' },
@@ -119,40 +118,18 @@ export const GET: APIRoute = async ({ url }) => {
 
 		console.log(`Valid coordinates: ${latitude}, ${longitude}`)
 
-		// Build the Open-Meteo API URL (simplified)
+		// Build the Open-Meteo API URL
 		const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=4`
 
 		console.log('Fetching weather data from:', weatherUrl)
 
-		// Fetch weather data with robust error handling for production
-		let weatherResponse: Response
-		try {
-			const controller = new AbortController()
-			const timeoutId = setTimeout(() => controller.abort(), 8000) // 8-second timeout
-
-			weatherResponse = await fetch(weatherUrl, {
-				headers: {
-					'User-Agent': 'WeatherApp/1.0',
-					Accept: 'application/json',
-				},
-				signal: controller.signal,
-			})
-
-			clearTimeout(timeoutId)
-		} catch (fetchError) {
-			console.error('Weather fetch failed:', fetchError)
-			return new Response(
-				JSON.stringify({
-					error: 'Network error',
-					message: 'Failed to fetch weather data from Open-Meteo API',
-					code: '502',
-				}),
-				{
-					status: 502,
-					headers: { 'Content-Type': 'application/json' },
-				},
-			)
-		}
+		// Simplified fetch without AbortController (for Vercel compatibility)
+		const weatherResponse = await fetch(weatherUrl, {
+			headers: {
+				'User-Agent': 'WeatherApp/1.0',
+				Accept: 'application/json',
+			},
+		})
 
 		if (!weatherResponse.ok) {
 			console.error(`Weather API error: ${weatherResponse.status}`)
@@ -190,11 +167,7 @@ export const GET: APIRoute = async ({ url }) => {
 
 		// Validate essential data
 		if (!weatherData?.current || !weatherData?.daily) {
-			console.error('Missing essential weather data:', {
-				hasCurrentData: !!weatherData?.current,
-				hasDailyData: !!weatherData?.daily,
-				receivedData: weatherData,
-			})
+			console.error('Missing essential weather data')
 			return new Response(
 				JSON.stringify({
 					error: 'Incomplete data',
@@ -242,29 +215,22 @@ export const GET: APIRoute = async ({ url }) => {
 				}
 			}
 
-			// If no match found, try geocoding as fallback
+			// If no match found, try simple geocoding
 			if (cityName === `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`) {
 				try {
 					console.log('Attempting to get city name via geocoding...')
 					const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`
-					console.log('Geocoding URL:', geocodeUrl)
-
-					const controller = new AbortController()
-					const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout for geocoding
 
 					const geocodeResponse = await fetch(geocodeUrl, {
 						headers: {
 							'User-Agent': 'WeatherApp/1.0',
 							Accept: 'application/json',
 						},
-						signal: controller.signal,
 					})
-
-					clearTimeout(timeoutId)
 
 					if (geocodeResponse.ok) {
 						const geocodeData = await geocodeResponse.json()
-						console.log('Geocoding response received:', geocodeData)
+						console.log('Geocoding response received')
 
 						const extractedCity =
 							geocodeData.address?.city ||
@@ -275,19 +241,11 @@ export const GET: APIRoute = async ({ url }) => {
 						if (extractedCity) {
 							cityName = extractedCity
 							console.log('Extracted city name:', cityName)
-						} else {
-							console.log(
-								'No city name found in geocoding response, using coordinates',
-							)
 						}
-					} else {
-						console.warn(
-							`Geocoding API returned status ${geocodeResponse.status}`,
-						)
 					}
 				} catch (geocodeError) {
 					console.warn('Geocoding failed:', geocodeError)
-					// Keep the coordinate-based name - this is fine in production
+					// Keep the coordinate-based name
 				}
 			}
 		} else {
@@ -302,7 +260,7 @@ export const GET: APIRoute = async ({ url }) => {
 			description: 'Unknown',
 		}
 
-		// Process daily forecast - simplified
+		// Process daily forecast
 		const dailyForecast = []
 		try {
 			if (weatherData.daily?.time && Array.isArray(weatherData.daily.time)) {
@@ -373,7 +331,6 @@ export const GET: APIRoute = async ({ url }) => {
 			daily: dailyForecast,
 		}
 
-		// console.log('Returning successful response')
 		console.log('Returning successful response for city:', cityName)
 		return new Response(JSON.stringify(finalResponse), {
 			status: 200,
@@ -385,18 +342,17 @@ export const GET: APIRoute = async ({ url }) => {
 	} catch (error) {
 		console.error('Unexpected error in weather API:', error)
 
-		// Always return a valid JSON error response
-		const errorResponse = {
-			error: 'Server error',
-			message:
-				error instanceof Error ? error.message : 'An unexpected error occurred',
-			code: '500',
-			timestamp: new Date().toISOString(),
-		}
-
-		return new Response(JSON.stringify(errorResponse), {
-			status: 500,
-			headers: { 'Content-Type': 'application/json' },
-		})
+		// Simple error response for Vercel compatibility
+		return new Response(
+			JSON.stringify({
+				error: 'Server error',
+				message: 'An unexpected error occurred',
+				code: '500',
+			}),
+			{
+				status: 500,
+				headers: { 'Content-Type': 'application/json' },
+			},
+		)
 	}
 }
