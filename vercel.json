@@ -1,7 +1,7 @@
 {
 	"functions": {
 		"src/pages/api/weather.json.ts": {
-			"maxDuration": 10
+			"maxDuration": 15
 		}
 	},
 	"regions": ["iad1"]

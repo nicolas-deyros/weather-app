@@ -128,7 +128,7 @@ export const GET: APIRoute = async ({ url }) => {
 		let weatherResponse: Response
 		try {
 			const controller = new AbortController()
-			const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+			const timeoutId = setTimeout(() => controller.abort(), 8000) // 8-second timeout
 
 			weatherResponse = await fetch(weatherUrl, {
 				headers: {
