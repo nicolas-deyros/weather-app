@@ -89,3 +89,5 @@ export const GET: APIRoute = async ({ url }) => {
 		})
 	}
 }
+
+export const runtime = 'edge'
