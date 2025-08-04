@@ -1,9 +1,4 @@
 {
-	"functions": {
-		"src/pages/api/weather.json.ts": {
-			"maxDuration": 15
-		}
-	},
 	"buildCommand": "npm run build",
 	"framework": null,
 	"regions": ["iad1"]
