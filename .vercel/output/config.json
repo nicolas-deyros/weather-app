@@ -34,14 +34,6 @@
 		{
 			"src": "^/api/weather\\.json/?$",
 			"dest": "_render"
-		},
-		{
-			"src": "^/icons/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/$",
-			"dest": "_render"
 		}
 	]
 }
